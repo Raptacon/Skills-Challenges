@@ -1,0 +1,4 @@
+pyfrc == 2024.*
+pyntcore==2024.*
+robotpy[all]
+robotpy-halsim-gui
