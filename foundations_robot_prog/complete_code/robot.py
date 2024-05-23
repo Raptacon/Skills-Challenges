@@ -10,12 +10,12 @@ from subsystems.drivetrain import WestCoastDrivetrain
 
 class WestCoastRobot(commands2.TimedCommandRobot):
     def robotInit(self):
-        super.__init__()
+        super().__init__()
 
-        left_front_motor = phoenix5.TalonFX(30)
-        right_front_motor = phoenix5.TalonFX(20)
-        left_back_motor = phoenix5.TalonFX(31)
-        right_back_motor = phoenix5.TalonFX(21)
+        left_front_motor = phoenix5.WPI_TalonFX(30)
+        right_front_motor = phoenix5.WPI_TalonFX(20)
+        left_back_motor = phoenix5.WPI_TalonFX(31)
+        right_back_motor = phoenix5.WPI_TalonFX(21)
 
         left_drive_motors = wpilib.MotorControllerGroup(left_front_motor, left_back_motor)
         right_drive_motors = wpilib.MotorControllerGroup(right_front_motor, right_back_motor)
@@ -40,35 +40,35 @@ class WestCoastRobot(commands2.TimedCommandRobot):
     def teleopInit(self):
         self.drivetrain.setDefaultCommand(
             TankDrive(
-                lambda _: wpimath.applyDeadband(
+                lambda: wpimath.applyDeadband(
                     self.driver_controller.getRawAxis(self.driver_controller.Axis.kLeftY),
                     0.1,
                     1
                 ),
-                lambda _: wpimath.applyDeadband(
+                lambda: wpimath.applyDeadband(
                     self.driver_controller.getRawAxis(self.driver_controller.Axis.kLeftY),
-                    0.1,
-                    1
-                ),
-                -1 * self.driver_controller.Axis.kRightY,
-                self.drivetrain
-            )
-        )
-        self.drivetrain.setDefaultCommand(
-            ArcadeDrive(
-                lambda _: wpimath.applyDeadband(
-                    self.driver_controller.getRawAxis(self.driver_controller.Axis.kLeftY),
-                    0.1,
-                    1
-                ),
-                lambda _: wpimath.applyDeadband(
-                    self.driver_controller.getRawAxis(self.driver_controller.Axis.kRightX),
                     0.1,
                     1
                 ),
                 self.drivetrain
             )
         )
+        if False:
+            self.drivetrain.setDefaultCommand(
+                ArcadeDrive(
+                    lambda: wpimath.applyDeadband(
+                        self.driver_controller.getRawAxis(self.driver_controller.Axis.kLeftY),
+                        0.1,
+                        1
+                    ),
+                    lambda: wpimath.applyDeadband(
+                        self.driver_controller.getRawAxis(self.driver_controller.Axis.kRightX),
+                        0.1,
+                        1
+                    ),
+                    self.drivetrain
+                )
+            )
 
     def teleopPeriodic(self):
         pass

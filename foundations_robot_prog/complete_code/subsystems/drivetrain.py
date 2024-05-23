@@ -1,9 +1,10 @@
 import commands2
 import wpilib
+import wpilib.drive
 
 
 class WestCoastDrivetrain(commands2.SubsystemBase):
-    def init(self, left_motors, right_motors):
+    def __init__(self, left_motors, right_motors):
         self.left_motors = left_motors
         self.right_motors = right_motors
 
@@ -12,3 +13,9 @@ class WestCoastDrivetrain(commands2.SubsystemBase):
         self.right_motors.setInverted(True)
 
         self.drive_train = wpilib.drive.DifferentialDrive(self.left_motors, self.right_motors)
+
+    def tankDrive(self, left_voltage_perc, right_volage_perc):
+        return self.drive_train.tankDrive(left_voltage_perc, right_volage_perc)
+
+    def arcadeDrive(self, speed_perc, turn_angle_perc):
+        return self.drive_train.arcadeDrive(speed_perc, turn_angle_perc)

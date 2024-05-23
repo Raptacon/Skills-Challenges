@@ -12,7 +12,7 @@ class TankDrive(commands2.CommandBase):
         self.addRequirements(self.drivetrain)     
 
     def execute(self):
-        self.drivetrain.tankDrive(self.left_input_percentage, self.right_input_percentage)
+        self.drivetrain.tankDrive(self.left_input_percentage(), self.right_input_percentage())
     
     def end(self):
         self.drivetrain.tankDrive(0, 0)
