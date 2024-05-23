@@ -14,7 +14,7 @@ class ArcadeDrive(commands2.CommandBase):
     def execute(self):
         self.drivetrain.arcadeDrive(self.speed_percentage(), self.turn_angle_percentage())
     
-    def end(self):
+    def end(self, interrupted):
         self.drivetrain.arcadeDrive(0, 0)
     
     def isFinished(self):

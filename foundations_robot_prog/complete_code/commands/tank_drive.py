@@ -14,7 +14,7 @@ class TankDrive(commands2.CommandBase):
     def execute(self):
         self.drivetrain.tankDrive(self.left_input_percentage(), self.right_input_percentage())
     
-    def end(self):
+    def end(self, interrupted):
         self.drivetrain.tankDrive(0, 0)
     
     def isFinished(self):

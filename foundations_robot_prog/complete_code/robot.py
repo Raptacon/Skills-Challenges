@@ -38,22 +38,23 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         pass
 
     def teleopInit(self):
-        self.drivetrain.setDefaultCommand(
-            TankDrive(
-                lambda: wpimath.applyDeadband(
-                    self.driver_controller.getRawAxis(self.driver_controller.Axis.kLeftY),
-                    0.1,
-                    1
-                ),
-                lambda: wpimath.applyDeadband(
-                    self.driver_controller.getRawAxis(self.driver_controller.Axis.kLeftY),
-                    0.1,
-                    1
-                ),
-                self.drivetrain
-            )
-        )
         if False:
+            self.drivetrain.setDefaultCommand(
+                TankDrive(
+                    lambda: wpimath.applyDeadband(
+                        self.driver_controller.getRawAxis(self.driver_controller.Axis.kLeftY),
+                        0.1,
+                        1
+                    ),
+                    lambda: wpimath.applyDeadband(
+                        self.driver_controller.getRawAxis(self.driver_controller.Axis.kLeftY),
+                        0.1,
+                        1
+                    ),
+                    self.drivetrain
+                )
+            )
+        else:
             self.drivetrain.setDefaultCommand(
                 ArcadeDrive(
                     lambda: wpimath.applyDeadband(
