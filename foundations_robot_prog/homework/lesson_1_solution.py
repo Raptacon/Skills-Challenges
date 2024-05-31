@@ -45,7 +45,8 @@ print("-----------------")
 # this in our code. Can you declare a "motor quantity" variable and print it?
 
 print("--Your Code: Variable Declaration--")
-# <your code here>
+motor_quantity = 4
+print(motor_quantity)
 print("-----------------")
 
 # ***
@@ -76,7 +77,8 @@ print("-----------------")
 # FOR YOU: can you check if you have four motors? How about more than 6?
 
 print("--Your Code: Booleans--")
-# <your code here>
+print(motor_quantity == 4)
+print(motor_quantity > 6)
 print("-----------------")
 
 # ***
@@ -103,14 +105,18 @@ print("-----------------")
 # four new robots to it? Use print statements to see how the variable changes.
 
 print("--Your Code: Integers Part 1--")
-# <your code here>
+num_robots = 2
+print(num_robots)
+num_robots = num_robots + 4
+print(num_robots)
 print("-----------------")
 
 # Now say we want to give our robots away to other teams, two per team. Can you
 # calculate how many teams we can give these robots to?
 
 print("--Your Code: Integers Part 2--")
-# <your code here>
+teams_getting_robots = num_robots / 2
+print(teams_getting_robots)
 print("-----------------")
 
 # ***
@@ -131,7 +137,9 @@ print("-----------------")
 # angle, can you calculate this angle and store it in a new variable?
 
 print("--Your Code: Floats--")
-# <your code here>
+starting_position = 12.5
+setpoint_position = starting_position * 3
+print(setpoint_position)
 print("-----------------")
 
 # ***
@@ -149,7 +157,7 @@ print("-----------------")
 # in this robotics workshop?
 
 print("--Your Code: Strings--")
-# <your code here>
+print("I'm looking forward to making robots dance!")
 print("-----------------")
 
 # ***
@@ -176,7 +184,12 @@ print("-----------------")
 # Can you print the second element (index 1) of it?
 
 print("--Your Code: Lists--")
-# <your code here>
+my_variables = [
+    motor_quantity, num_robots, teams_getting_robots,
+    starting_position, setpoint_position
+]
+print(my_variables)
+print(my_variables[1])
 print("-----------------")
 
 # ***
@@ -205,7 +218,15 @@ print("-----------------")
 # using integers as keys? Can you print the value mapped to key 1?
 
 print("--Your Code: Dictionaries--")
-# <your code here>
+my_variables_dict = {
+    1: motor_quantity,
+    2: num_robots,
+    3: teams_getting_robots,
+    4: starting_position,
+    5: setpoint_position
+}
+print(my_variables_dict)
+print(my_variables_dict[1])
 print("-----------------")
 
 # ***
@@ -272,7 +293,11 @@ print("-----------------")
 # if the arm position is greater than 35 degrees?
 
 print("--Your Code: If-Else--")
-# <your code here>
+arm_speed = 0
+arm_position = 37.5
+if arm_position > 35:
+    arm_speed = -15
+print(arm_speed)
 print("-----------------")
 
 # ***
@@ -317,7 +342,7 @@ print("-----------------")
 # the robot experiences a change in its state
 
 # ***
-# FOR YOU: let's make our robot arm code better. Assume every loop
+# FOR YOU: let's make our robot arm code better using a while loop. Assume every loop
 # iteration equates to 1 second in robot time. Create a variable for
 # arm speed (set to 0 degrees per second) and another variable for
 # arm position (set to 37.5 degrees).
@@ -331,7 +356,15 @@ print("-----------------")
 # trash icon
 
 print("--Your Code: Loops--")
-# <your code here>
+arm_speed = 0
+arm_position = 37.5
+
+while arm_position > 12.5:
+    arm_speed = -15
+    arm_position = arm_position + arm_speed
+
+arm_speed = 0
+print(arm_position)
 print("-----------------")
 
 # ***
@@ -407,7 +440,7 @@ print("-----------------")
 # code within this function (be careful to ensure your indentation is correct).
 # Replace 37.5 with the current position argument, 12.5 with the goal position
 # argument, and -15 with the speed argument. At the end of the function, 
-# return the new current position.
+# return the new arm position.
 
 # To confirm your function works, call the function three separate times
 # with the following argument sets. Store each returned value in their own
@@ -424,7 +457,34 @@ print("-----------------")
 # trash icon
 
 print("--Your Code: Functions--")
-# <your code here>
+def rotate_mechanism(current_position, goal_position, speed):
+    arm_speed = 0
+    arm_position = current_position
+
+    while arm_position > goal_position:
+        arm_speed = speed
+        arm_position = arm_position + arm_speed
+
+    arm_speed = 0
+    
+    return arm_position
+
+
+def clean_rotate_mechanism(current_position, goal_position, speed):
+    while current_position > goal_position:
+        current_position = current_position + speed
+    
+    return current_position
+
+
+new_position = rotate_mechanism(37.5, 12.5, -15)
+print(new_position)
+new_position = rotate_mechanism(90, 10, -10)
+print(new_position)
+new_position = clean_rotate_mechanism(37.5, 12.5, -15)
+print(new_position)
+new_position = clean_rotate_mechanism(90, 10, -10)
+print(new_position)
 print("-----------------")
 
 # ***
@@ -455,7 +515,8 @@ class GrowingNumber():
     # The first "argument" to a typical method is "self." self allows us
     # to access the data and other methods within the class. When calling
     # these methods, we do not pass any data elements for self - in effect,
-    # the __init__ method below has zero real arguments
+    # the __init__ method below has zero real arguments. Note that __init__
+    # methods can have real arguments if we choose to create them
     def __init__(self):
         # self.growing_number is an attribute of this class. It behaves
         # similarly to a typical variable
@@ -506,9 +567,9 @@ print("-----------------")
 
 # Now, create a new method within the class to rotate the mechanism to the goal
 # position. Let this method take the goal position (in degrees) and the speed
-# (in degrees per second) as arguments. Here, use a while loop to continually
-# add the speed to the current position attribute until the current position
-# falls below the goal position. 
+# (in degrees per second) as arguments. Recreate the code you wrote in your
+# function, but be sure to use self.<your current position attibute> instead
+# of the standalone variable for the current position.
 
 # To confirm your class works, create a new object using the class and
 # store it in a variable. When creating this object, pass it 37.5 as the current
@@ -529,7 +590,22 @@ print("-----------------")
 # trash icon
 
 print("--Your Code: Classes--")
-# <your code here>
+
+class Mechanism():
+    def __init__(self, current_position):
+        self.current_position = current_position
+
+    def rotate(self, goal_position, speed):
+        while self.current_position > goal_position:
+            self.current_position = self.current_position + speed
+
+mechanism = Mechanism(37.5)
+print(mechanism.current_position)
+mechanism.rotate(25, -5.5)
+print(mechanism.current_position)
+mechanism.rotate(12.5, -2.5)
+print(mechanism.current_position)
+
 print("-----------------")
 
 # ***
