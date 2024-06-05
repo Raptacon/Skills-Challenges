@@ -14,7 +14,7 @@
 
 # You can run this code in your terminal by changing your working directory
 # to the folder containing this script and then running the following:
-# python lesson_1.py
+# python 01_variables_and_types.py
 
 # A more thorough intro to Python can be found at
 # https://python101.pythonlibrary.org/part_i.html
@@ -42,10 +42,12 @@ print("-----------------")
 
 # ***
 # FOR YOU: let's say we have four motors, and we want to be able to reference
-# this in our code. Can you declare a "motor quantity" variable and print it?
+# this in our code. Can you replace the "None" below to tell Python
+# we have four motors via the "motor_quantity" variable?
 
 print("--Your Code: Variable Declaration--")
-# <your code here>
+motor_quantity = None
+print(motor_quantity)
 print("-----------------")
 
 # ***
@@ -73,10 +75,15 @@ print(not (counter < 1))
 print("-----------------")
 
 # ***
-# FOR YOU: can you check if you have four motors? How about more than 6?
+# FOR YOU: can you check if you have four motors by replacing the first
+# "None" below with the appropriate value? How about checking for more than 6 motors
+# by replacing the second "None" and using the ">" operator?
 
 print("--Your Code: Booleans--")
-# <your code here>
+i_have_four_motors = motor_quantity == None
+i_have_above_six_motors = None
+print(i_have_four_motors)
+print(i_have_above_six_motors)
 print("-----------------")
 
 # ***
@@ -98,19 +105,27 @@ print("-----------------")
 
 # ***
 # FOR YOU: suppose we originally build two robots, and we later build
-# four more. Can you create a variable for the number of robots we have,
-# starting with two, and then modify the variable by adding the
-# four new robots to it? Use print statements to see how the variable changes.
+# four more. Can you replace the first two "None"s below to represent,
+# these values in Python? Can you then replace the third "None"
+# with the right Python variables and the "+" operator
+# to calculate the new number of robots?
 
 print("--Your Code: Integers Part 1--")
-# <your code here>
+number_of_robots = None
+print(number_of_robots)
+
+additional_robots = None
+number_of_robots = None
+print(number_of_robots)
 print("-----------------")
 
 # Now say we want to give our robots away to other teams, two per team. Can you
-# calculate how many teams we can give these robots to?
+# use your number of robots variable and a division operation to calcualte 
+# how many teams are getting robots?
 
 print("--Your Code: Integers Part 2--")
-# <your code here>
+number_of_teams_getting_robots = None
+print(number_of_teams_getting_robots)
 print("-----------------")
 
 # ***
@@ -126,12 +141,15 @@ print("-----------------")
 
 # ***
 # FOR YOU: suppose a robot arm sits 12.5 degrees above horizontal as its
-# starting position, can you create a new variable for this?
+# starting position, can you replace the appropriate "None" for this?
 # Then, suppose we want a set point for the arm that is three times this starting
-# angle, can you calculate this angle and store it in a new variable?
+# angle, can you calculate this angle using the starting angle variable and
+# a multiplication operator?
 
 print("--Your Code: Floats--")
-# <your code here>
+robot_arm_starting_angle = None
+new_set_point_angle = None
+print(new_set_point_angle)
 print("-----------------")
 
 # ***
@@ -145,8 +163,8 @@ print(my_robot_name)
 print("-----------------")
 
 # ***
-# FOR YOU: can you print what you're most looking forward to learning
-# in this robotics workshop?
+# FOR YOU: can you replace the "<your code here>" line completely and
+# print what you're most looking forward to learning in this robotics workshop?
 
 print("--Your Code: Strings--")
 # <your code here>
@@ -172,11 +190,19 @@ print(my_variables[2])
 print("-----------------")
 
 # ***
-# FOR YOU: can you put all of the variables you have made into a list?
-# Can you print the second element (index 1) of it?
+# FOR YOU: suppose we built three new robots in the offseason: 
+# "SpiderBot", "Dover Rover", and "Conquerer". Can you delete the "None"
+# from the names list below and fill it in with these robot names?
+# Then, can you change the "0" index below to access and print
+# the second name in the list? Note - the "0" index would access the
+# first element, the "4" index would access the fifth element, etc.
 
 print("--Your Code: Lists--")
-# <your code here>
+names_of_new_robots = [None]
+print(names_of_new_robots)
+
+third_robot_name = names_of_new_robots[0]
+print(third_robot_name)
 print("-----------------")
 
 # ***
@@ -201,11 +227,18 @@ print(my_variables_dict["my_robot_name"])
 print("-----------------")
 
 # ***
-# FOR YOU: can you put all of the variables you have made into a dicionary,
-# using integers as keys? Can you print the value mapped to key 1?
+# FOR YOU: you've made a lot of variables throughout this script.
+# Can you change the "key" Nones (the ones before the colon) to
+# integers 1, 2, and 3? Then, can you change the "value" Nones (the
+# ones after the colon) each with a variable of your choice?
 
 print("--Your Code: Dictionaries--")
-# <your code here>
+your_variables_in_a_dict = {
+    None: None,
+    None: None,
+    None: None
+}
+print(your_variables_in_a_dict)
 print("-----------------")
 
 # ***

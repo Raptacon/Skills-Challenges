@@ -70,7 +70,7 @@ print("-----------------")
 # use a while loop to continually add the speed to the current position
 # attribute until the current position falls below the goal position. 
 
-# To confirm your function works, call the function three separate times
+# To confirm your function works, call the function two separate times
 # with the following argument sets. Store each returned value in their own
 # variables and print each variable, like we showed in the example.
 # current position: 37.5; goal position: 12.5; speed: -15
