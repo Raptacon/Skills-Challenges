@@ -177,8 +177,8 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # For our joystick input, you only need to know two things for now (we'll
         # focus heavily on driver controllers later on):
         # -> the .getLeft* methods access the left joytick, .getRight* the right
-        # -> pushing all the way up on a joystick gives a Y value of 1, pushing
-        #    all the way down a Y value of -1, keeping in the middle a value of 0
+        # -> pushing all the way up on a joystick gives a Y value of -1, pushing
+        #    all the way down a Y value of 1, keeping in the middle a value of 0
 
         # You'll need two methods that will be called from our instance attributes:
 
