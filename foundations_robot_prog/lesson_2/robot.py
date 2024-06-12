@@ -3,7 +3,7 @@ import phoenix5
 import wpilib
 
 ####################################################################################
-# Welcome to Lesson 2! In this lesson, we're going to get hands-on with robot code.
+# Welcome to Lesson 2! In this lesson, we're going to get started with robot code.
 
 # To program an FRC robot, we'll be making extensive use of the WPILib Python
 # package. Packages are blocks of Python code that we can install on our system
@@ -23,13 +23,13 @@ import wpilib
 # you to read through the docstrings and comments explaining what each part is
 # doing. We'll be working on other parts of the class in future lessons.
 
-# Look for "FOR YOU" within the class - this signals that you have somthing to do 
+# Look for "FOR YOU" within the class - this signals that you have something to do 
 ####################################################################################
 
 
 class WestCoastRobot(commands2.TimedCommandRobot):
     """
-    We've created a "WestCoastRobot" class to expose all of our robot code to
+    We've created a "WestCoastRobot" class to express all of our robot code to
     WPILib. This class has a number of different methods, each representing
     different phases of booting up the robot and progressing through match gameplay.
 
@@ -79,7 +79,8 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # takes an arbitrary number of motors as arguments.
 
         # Create two motors using the correct ports, and collect them with a motor
-        # controller group. The motor controller group must be an instance attribute.
+        # controller group. The motor controller group must be an instance attribute
+        # by using self.<name> = <value> syntax.
 
         # <your code here>
 
@@ -87,13 +88,13 @@ class WestCoastRobot(commands2.TimedCommandRobot):
 
         # ***
         # FOR YOU: we need to set up some method of manually operating our
-        # motors. For now, we'll create an XboxController and later we'll use
+        # motors. Here we'll create an XboxController and later we'll use
         # one of its joysticks.
 
         # Here, you'll need the wpilib.XboxController class. It represents an
         # Xbox controller as an input device to the robot. It takes one argument -
         # a port number telling the driver station which input device to reference
-        # for instructions.
+        # for receiving instructions.
 
         # Create an instance attribute set to a created XboxController object.
         # Give the controller port 0.
