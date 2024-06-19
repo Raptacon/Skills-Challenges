@@ -82,7 +82,9 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # controller group. The motor controller group must be an instance attribute
         # by using self.<name> = <value> syntax.
 
-        # <your code here>
+        motorport1 = phoenix5.WPI_TalonFX(30)
+        motorport2 = phoenix5.WPI_TalonFX(31)
+        self.controllergroupright = wpilib.MotorControllerGroup(motorport1, motorport2)
 
         # ***
 
@@ -99,7 +101,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # Create an instance attribute set to a created XboxController object.
         # Give the controller port 0.
 
-        # <your code here>
+        self.xboxcontroller = wpilib.XboxController(0)
 
         # ***
 
@@ -195,10 +197,10 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # attribute, set the speed and direction of the motors using the up/down
         # (Y) value of the left joystick on the controller.
 
-        # <your code here>
-
+        self.controllergroupright.set(self.xboxcontroller.getLeftY())
+        
         # Delete the "pass" when you have some code written above
-        pass
+        
 
         # ***
 
