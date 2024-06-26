@@ -1,3 +1,4 @@
+certifi==2024.6.2
 pyfrc == 2024.*
 pyntcore==2024.*
 robotpy[all]
