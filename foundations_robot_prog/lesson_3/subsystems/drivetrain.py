@@ -147,8 +147,8 @@ class WestCoastDrivetrain(commands2.SubsystemBase):
 
         # Call the tankDrive method from your differential drive instance attribute,
         # passing it the voltage percentage values given in the parameters above.
-        # Your code should be analgous to the following:
-        # self.subsytem_operator.Operate(leftInput, rightInput)
+        # Your code should be analagous to the following:
+        # self.subsytem_operator.operate(leftInput, rightInput)
 
         # <your code here>
 
