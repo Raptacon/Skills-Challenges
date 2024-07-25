@@ -54,8 +54,9 @@
 import commands2
 
 
-class DiffDriveStraight(commands2.CommandBase):
+class DiffDriveStraight(commands2.Command):
     def __init__(self, drivetrain, speed):
+        super().__init__()
         self.drivetrain = drivetrain
         self.speed = speed
 
@@ -71,6 +72,7 @@ class DiffDriveStraight(commands2.CommandBase):
 
 class DiffDriveDonuts(commands2.Command):
     def __init__(self, drivetrain, speed):
+        super().__init__()
         self.drivetrain = drivetrain
         self.speed = speed
 

@@ -111,13 +111,9 @@ def drive_straight_routine(drivetrain, speed):
         # wait_some_time(),
         # some_composition(wait_some_time(), actionCommand(input1, -1 * input2))
 
-        commands2.cmd.deadline(
-            commands2.cmd.waitSeconds(1), aa.DiffDriveStraight(drivetrain, speed)
-        ),
+        aa.DiffDriveStraight(drivetrain, speed).withTimeout(1),
         commands2.cmd.waitSeconds(1),
-        commands2.cmd.deadline(
-            commands2.cmd.waitSeconds(1), aa.DiffDriveStraight(drivetrain, -1 * speed)
-        )
+        aa.DiffDriveStraight(drivetrain, -1 * speed).withTimeout(1)
 
         # ***
 
@@ -150,13 +146,9 @@ def drive_straight_routine(drivetrain, speed):
 
 def drive_donut_routine(drivetrain, speed):
     return commands2.cmd.sequence(
-        commands2.cmd.deadline(
-            commands2.cmd.waitSeconds(1), aa.DiffDriveDonuts(drivetrain, speed)
-        ),
+        aa.DiffDriveDonuts(drivetrain, speed).withTimeout(1),
         commands2.cmd.waitSeconds(1),
-        commands2.cmd.deadline(
-            commands2.cmd.waitSeconds(1), aa.DiffDriveDonuts(drivetrain, -1 * speed)
-        ),
+        aa.DiffDriveDonuts(drivetrain, -1 * speed).withTimeout(1)
     )
 
 # ***
