@@ -37,25 +37,17 @@ def drive_straight_routine(drivetrain, speed):
             and finally drives the robot back
     """
     return commands2.cmd.sequence(
-        commands2.cmd.deadline(
-            commands2.cmd.waitSeconds(1), aa.DiffDriveStraight(drivetrain, speed)
-        ),
+        aa.DiffDriveStraight(drivetrain, speed).withTimeout(1),
         commands2.cmd.waitSeconds(1),
-        commands2.cmd.deadline(
-            commands2.cmd.waitSeconds(1), aa.DiffDriveStraight(drivetrain, -1 * speed)
-        )
+        aa.DiffDriveStraight(drivetrain, -1 * speed).withTimeout(1)
     )
 
 
 def drive_donut_routine(drivetrain, speed):
     return commands2.cmd.sequence(
-        commands2.cmd.deadline(
-            commands2.cmd.waitSeconds(1), aa.DiffDriveDonuts(drivetrain, speed)
-        ),
+        aa.DiffDriveDonuts(drivetrain, speed).withTimeout(1),
         commands2.cmd.waitSeconds(1),
-        commands2.cmd.deadline(
-            commands2.cmd.waitSeconds(1), aa.DiffDriveDonuts(drivetrain, -1 * speed)
-        ),
+        aa.DiffDriveDonuts(drivetrain, -1 * speed).withTimeout(1)
     )
 
 

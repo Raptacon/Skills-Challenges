@@ -13,11 +13,13 @@
 # To do this, write code that meets the following requirements:
 # 1) Import the commands2 package
 # 2) Create a new class named "DiffDriveStraight" that inherits from
-#    commands2.CommandBase.
+#    commands2.Command.
 #    suggest the robot is driving straight.
 #       a) Write a constructor method that takes two arguments: the drivetrain
 #          subsystem, and the speed percentage at which the robot should drive.
-#               i) Store each argument as their own instance attributes
+#               i) Call the parent class's constructor by calling the
+#                  __init__() method from super()
+#               ii) Store each argument as their own instance attributes
 #       b) Override the "execute" method, taking no arguments
 #               i) Use the drivetrain instance attribute's .tankDrive() method
 #                  to drive the robot using the same speed for both sides. Pass
@@ -31,10 +33,12 @@
 #                  motor percentages for each side of the robot to be zero.  
 #       d) Override the "isFinished" method, taking no arguments, to return False    
 # 3) Create another new class called "DiffDriveDonuts" that inherits from
-#    commands2.CommandBase.
+#    commands2.Command.
 #       a) Write a constructor method that takes two arguments: the drivetrain
 #          subsystem, and the speed percentage at which the robot should drive.
-#               i) Store each argument as their own instance attributes
+#               i) Call the parent class's constructor by calling the
+#                  __init__() method from super()
+#               ii) Store each argument as their own instance attributes
 #       b) Override the "execute" method, taking no arguments
 #               i) Use the drivetrain instance attribute's .tankDrive() method
 #                  to drive the robot using the same speed for both sides. Pass

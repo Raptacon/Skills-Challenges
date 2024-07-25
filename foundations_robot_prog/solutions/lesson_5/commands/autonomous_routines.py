@@ -25,9 +25,6 @@
 # interface unless you have an explicit reason to use a class.
 
 # We're going to make usse of the following compositions here:
-# commands2.cmd.deadline(): runs a set of commands until a designated deadline
-# command completes. We'll use this and a wait command to run an action
-# for a specified duration.
 # commands2.cmd.sequence(): runs a given set of commands in the order they
 # are provided as arguments. Our sequence will be: drive forward -> wait ->
 # drive backward -> wait -> spin one way -> wait -> spin back.
@@ -86,18 +83,13 @@ def drive_straight_routine(drivetrain, speed):
 
         # Use command composition functions and the "drive straight" class you
         # wrote in the actions file to create comamnd objects for the
-        # three steps described above. To run a single drive straight step,
-        # you do a deadline composition with a wait command and your custom command.
+        # three steps described above.
         # To drive the robot backward, you'll need to multiply the speed given
         # in the args above by -1. Directly pass each composed command as separate
         # arguments to the sequence call - you do not need to assign them to
         # variables first.
 
         # You will need the following to do this:
-        # commands2.cmd.deadline(): takes a deadline command object as its first
-        # argument and takes one or more other command objects that will all run
-        # together. When the deadline command finishes, all commands in the
-        # composition finish.
 
         # commands2.cmd.waitSeconds(): creates a command object that does nothing
         # but runs for a specified number of seconds. Takes the duration in
@@ -107,9 +99,9 @@ def drive_straight_routine(drivetrain, speed):
         # in a straight direction.
 
         # The code will be analagous to the following:
-        # some_composition(wait_some_time(), actionCommand(input1, input2)),
+        # some_composition(wait_some_time(), actionCommand(input1, input2)).stopAfter(seconds),
         # wait_some_time(),
-        # some_composition(wait_some_time(), actionCommand(input1, -1 * input2))
+        # some_composition(wait_some_time(), actionCommand(input1, -1 * input2)).stopAfter(seconds)
 
         aa.DiffDriveStraight(drivetrain, speed).withTimeout(1),
         commands2.cmd.waitSeconds(1),
@@ -132,11 +124,8 @@ def drive_straight_routine(drivetrain, speed):
 # 2) Within this function, immediately return the result of a
 #    commands2.cmd.sequence() composition call. Pass arguments to this sequence
 #    call defined as follows:
-#       a) Using a commands2.cmd.deadline() call, compose a deadline 1-second wait
-#          command with your custom donut drive command. The wait command will need
-#          commands2.cmd.waitSeconds() with 1 passed as its argument (for 1 second).
-#          Your custom command will need to be passed the drivetrain and speed
-#          percentage given above as arguments to its constructor.
+#       a) Use your custom drive donut class to instantiate a command object,
+#          and immediately call withTimeout() on it, passing 1 second as the argument
 #      b) Use a commands2.cmd.waitSeconds() call to make a command that does nothing
 #         for 1 second.
 #      c) Repeat step a) for the third command, but multiply the speed percentage
