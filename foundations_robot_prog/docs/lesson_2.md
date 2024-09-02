@@ -10,11 +10,11 @@ Python software that uses WPILib starts with a robot.py file. Here, we write a c
 
 We've taken care of much of the boilerplate for setting up the class. This way, you can focus on writing logic for operating the robot. That said, we encourage you to read through the docstrings and comments explaining what each part is doing. We'll be working on other parts of the class in future lessons.
 
-Look for "FOR YOU (\<development_step_number_here\>)" within the code - this signals that you have something to do.
-
 ## Code Development Steps
 
-### 2.1 (robot.py)
+Clicking the step number header will open the file requiring code. Within the opened code file, look for "FOR YOU (\<development_step_number_here\>)" within the code - this signals that you have something to do.
+
+### [2.1](../lesson_2/robot.py)
 
 In Lesson 2, we'll focus on operating one side of a West Coast drivetrain. As you saw when we looked over the robot, we have two motors actuating the gears a given side - this gives our robot more power. It also means we can effectively treat the two motors as one motor. So, we'll start by representing our drive motors virtually.
 
@@ -26,7 +26,7 @@ To do this, you'll need two classes:
 
 Create two motors using the correct ports, and collect them with a motor controller group. The motor controller group must be an instance attribute by using self.\<name\> = \<value\> syntax.
 
-### 2.2 (robot.py)
+### [2.2](../lesson_2/robot.py)
 
 We need to set up some method of manually operating our motors. Here we'll create an XboxController and later we'll use one of its joysticks.
 
@@ -34,7 +34,7 @@ Here, you'll need the wpilib.XboxController class. It represents an Xbox control
 
 Create an instance attribute set to a created XboxController object. Give the controller port 0.
 
-### 2.3 (robot.py)
+### [2.3](../lesson_2/robot.py)
 
 We have our physical devices represented virtually, now we need to use them! We're going to actuate one side of our drivetrain by pressing up and down on a joystick.
 
