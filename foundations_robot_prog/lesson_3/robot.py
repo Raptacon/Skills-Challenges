@@ -31,7 +31,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         self.driver_controller = wpilib.XboxController(0)
 
         # ***
-        # FOR YOU (3.5): 
+        # FOR YOU (3.5)
 
         # <your code here>
 
