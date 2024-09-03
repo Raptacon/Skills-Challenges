@@ -1,7 +1,7 @@
 import commands2
 
 
-class TankDrive(commands2.CommandBase):
+class TankDrive(commands2.Command):
     """
     Operate a differential drive robot using tank drive. This involves
     specifying the speed of each side directly through the use of joysticks.
@@ -21,7 +21,7 @@ class TankDrive(commands2.CommandBase):
         Returns:
             None
         """
-        # Easy access to functionality from commands2.CommandBase
+        # Easy access to functionality from commands2.Command
         super().__init__()
 
         # Store arguments as instance attributes for use in methods

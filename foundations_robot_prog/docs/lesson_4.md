@@ -131,7 +131,7 @@ Now that you've seen every part of the commands framework and written a fair amo
 
 The requirements for this class are as follows:
 1. Import the commands2 package at the top of the code
-2. Create a new class that inherits from commands2.CommandBase
+2. Create a new class that inherits from commands2.Command
 3. Write a constructor method that takes three arguments: the voltage input percentage for the left side, the voltage input percentage for the right side, and the drivetrain subsystem.
     1. Store each argument as their own instance attributes
     2. Add the drivetrain subsytem as a requirement of the command instance

@@ -1,7 +1,7 @@
 import commands2
 
 
-class TankDrive(commands2.CommandBase):
+class TankDrive(commands2.Command):
     def __init__(self, left_input_percentage, right_input_percentage, drivetrain):
         super().__init__()
 

@@ -1,7 +1,7 @@
 import commands2
 
 
-class ArcadeDrive(commands2.CommandBase):
+class ArcadeDrive(commands2.Command):
     """
     Arcade drive is a type of differential drive where the driver gives a single
     robot speed and a turn angle instead of specifying the speed of each side.
@@ -32,7 +32,7 @@ class ArcadeDrive(commands2.CommandBase):
         is often a function that returns the value of the opearting input at the
         time when it is called.
         """
-        # We need this to do CommandBase method calls directly off of "self"
+        # We need this to do Command method calls directly off of "self"
         super().__init__()
 
         # ***
@@ -56,7 +56,7 @@ class ArcadeDrive(commands2.CommandBase):
     def execute(self):
         """
         Now we're going to start overriding methods that exist in the parent
-        CommandBase class. Overriding means that the method has been inherited
+        Command class. Overriding means that the method has been inherited
         into the child class (in our case, ArcadeDrive) and is available to use,
         but we want to change the behavior of it.
 
@@ -87,7 +87,7 @@ class ArcadeDrive(commands2.CommandBase):
         "interrupted" is True, then the command is being terminated because
         of an explicit cancellation or because of a failure. We don't use it
         in our version of the end method, but we still need to provide it
-        because any code calling an end method from an object of type CommandBase
+        because any code calling an end method from an object of type Command
         will pass it the Boolean as an argument. If we don't provide the parameter,
         "end" will raise an error. This is an important aspect of inheritance
         and method overrides.

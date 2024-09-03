@@ -1,7 +1,7 @@
 import commands2
 
 
-class ArcadeDrive(commands2.CommandBase):
+class ArcadeDrive(commands2.Command):
     def __init__(self, speed_percentage, turn_angle_percentage, drivetrain):
         super().__init__()
 
