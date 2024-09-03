@@ -36,39 +36,14 @@ class ArcadeDrive(commands2.CommandBase):
         super().__init__()
 
         # ***
-        # FOR YOU: the first step is to create instance attributes to store
-        # each of the input parameters for later use, similar to what we did
-        # for the subsystem. One key but possibly confusing point here is
-        # that everything in Python is considered an object, even functions.
-        # This means that we can save our callable functions to instance
-        # attributes just like any other object.
-
-        # Create instance attributes for each of the three input parameters
-        # above. The code should be analagous to the following:
-        # self.some_input = some_input
-        # self.other_input = other_input
-        # self.subsystem_to_use = subsystem_to_use
+        # FOR YOU (4.2)
 
         # <your code here>
 
         # ***
 
         # ***
-        # FOR YOU: Now, we need to assign the drivetrain subsystem
-        # to the command so the robot code executor knows to run this
-        # command on the drivetrain. By knowing the subsystems that every
-        # command uses, the robot executor can prevent multiple commands
-        # trying to use the same subsystem at the same time.
-
-        # You'll need the following method to write this code:
-        # self.addRequirements(): takes one or more subsytems as arguments,
-        # telling the robot exector that this command requires the given
-        # subsytems to perform its action
-
-        # Add the instance attribute for the drivetrain subsystem as a
-        # requirement for this command. Your code should be analagous to the
-        # following:
-        # self.myCommandNeeds(self.needed_subsystem)
+        # FOR YOU (4.3)
 
         # <your code here>
 
@@ -90,25 +65,7 @@ class ArcadeDrive(commands2.CommandBase):
         """
 
         # ***
-        # FOR YOU: let's tell the robot what it should do when running arcade
-        # drive. We're going to use the specific arcade drive interface we wrote
-        # in the drivetrain subsystem and pass it the speed and turn angle
-        # percentages. Both percentages have domain [-1, 1] - the drivetrain
-        # interface has more information on how these translate to moving the
-        # robot.
-
-        # You'll need the following method:
-        # <your_drivetrain_instance_attribute>.arcadeDrive(): operates the
-        # drivetrain using speed and turn variables. Takes two arguments, the first
-        # being the percentage of max robot speed of domain [-1, 1], the second
-        # being the percentage of max turn rate of domain [-1, 1].
-
-        # Use the arcadeDrive interface and your instance attributes for 
-        # speed percentage and turn percentage to operate the drivetrain.
-        # Remember that the percentages are callable functions, not floats, but
-        # arcadeDrive will expect floats as arguments. The code will be analagous
-        # to the following:
-        # self.subsystem.operate(self.some_input(), self.other_input())
+        # FOR YOU (4.4)
 
         # <your code here>
 
@@ -132,19 +89,7 @@ class ArcadeDrive(commands2.CommandBase):
         and method overrides.
         """
         # ***
-        # FOR YOU: we're going to tell the drivetrain motors to stop whenever this
-        # end method is called. To do that, we'll set the speed and turn percentages
-        # to both be zero.
-
-        # You'll need the following method:
-        # <your_drivetrain_instance_attribute>.arcadeDrive(): operates the
-        # drivetrain using speed and turn variables. Takes two arguments, the first
-        # being the percentage of max robot speed of domain [-1, 1], the second
-        # being the percentage of max turn rate of domain [-1, 1].
-
-        # Pass zeros as arguments to the arcade drive call to tell the drive motors \
-        # to stop. The code will be analagous to the following:
-        # self.subsystem.operate(stop_value, stop_value)
+        # FOR YOU (4.5)
 
         # <your code here>
 

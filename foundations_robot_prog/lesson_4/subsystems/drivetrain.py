@@ -64,20 +64,7 @@ class WestCoastDrivetrain(commands2.SubsystemBase):
         to the left.
         """
         # ***
-        # FOR YOU: similar to what we did with tank drive, we're going to use
-        # a method provided by the DifferentialDrive instance attribute to do
-        # arcade drive. This saves us from manually figuring out how to translate
-        # speed and rotation into motor values for each side of the robot.
-
-        # You'll use the following method:
-        # <your_diff_drive_instance_attribute>.arcadeDrive(): takes speed and
-        # turn percentages, as described in the above docstring, to operate
-        # the drivetrain.
-
-        # Call the .arcadeDrive() method from your differential drive instance
-        # attribute, passing it the speed and turn percentage values given in
-        # the parameters above. The code will be analagous to the following:
-        # self.subsytem_operator.operate(speed_input, turn_input)
+        # FOR YOU (4.1)
 
         # <your code here>
 
