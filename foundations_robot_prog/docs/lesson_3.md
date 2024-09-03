@@ -27,7 +27,7 @@ self.more_motors = group_of_more_motors
 
 Now we need to ensure that pressing the left and right joysticks in the same direction results in each side of the drivetrain propelling the robot same direction. The motors face opposite to one another - you can imagine two arrows that each extrudes separately from the shaft of a motor out beyond the side of the chassis. Those arrows would point in opposite directions. This means that a clockwise rotation of the right motors would result in forward motion, while a clockwise rotation of the left motors would result in backward motion. Take a look at the robot to confirm this. We want the same joystick value to correspond to the same motion direction for both sides of the drivetrain, which means we need to invert the spin for one side of motors.
 
-Positive voltage percentage values correspond to clockwise spin, while negative voltage percentage values correspond to counterclockwise spin. Keep in mind that pushing up on a joystick results in our motor getting negative voltage percentage values, and we want pushing up to result in forward motion.
+Positive output percentage values correspond to clockwise spin, while negative output percentage values correspond to counterclockwise spin. Keep in mind that pushing up on a joystick results in our motor getting negative output percentage values, and we want pushing up to result in forward motion.
 
 Looking at the robot and thinking about the relationship between joystick inputs and motor spin direction, invert the spin of the motors on one side of the drivetrain. You'll need the following method to do this:
 
@@ -57,15 +57,15 @@ self.subsystem_operator = Operator(self.some_motors, self.more_motors)
 
 ### [3.4](../lesson_3/subsystems/drivetrain.py)
 
-Instead of manually sending the voltage values to each of their respective motor groups, we're going to use a method provided by the DifferentialDrive class to do this for us. Generally, if an open source package provides the capabilities we're looking for with a clean but appropriately configurable interface, then we should use what the package provides.
+Instead of manually sending the output values to each of their respective motor groups, we're going to use a method provided by the DifferentialDrive class to do this for us. Generally, if an open source package provides the capabilities we're looking for with a clean but appropriately configurable interface, then we should use what the package provides.
 
 The DifferentialDrive class also provides other specific interfaces for operating the motors, making it a useful abstraction of different drive systems for two-sided drivetrains like ours. We'll have you use another popular interface, arcade drive, in the next lesson.
 
 Here, you will use the following method to do tank drive:
 
-- \<attribute_for_diff_drive\>.tankDrive(): takes left and right motor voltage percentage values, as described in the above docstring, to operate the two sides of the drivetrain.
+- \<attribute_for_diff_drive\>.tankDrive(): takes left and right motor output percentage values, as described in the above docstring, to operate the two sides of the drivetrain.
 
-Call the tankDrive method from your differential drive instance attribute, passing it the voltage percentage values given in the parameters above.
+Call the tankDrive method from your differential drive instance attribute, passing it the output percentage values given in the parameters above.
 
 Your code should be analagous to the following:
 
@@ -89,7 +89,7 @@ Last lesson we used one joystick to operate one side of the robot - now, we'll u
 
 You'll need three methods to operate the robot using tank drive:
 
-- \<your_drivetrain_attribute\>.tankDrive(): passes motor voltage percentage values (1 = 100%, -1 = 100% in opposite direction) to each side of the robot directly in order to drive.
+- \<your_drivetrain_attribute\>.tankDrive(): passes motor output percentage values (1 = 100%, -1 = 100% in opposite direction) to each side of the robot directly in order to drive.
 
 - \<your_controller_attribute\>.getLeftY(): retrieves how far the left joystick has been pressed up/down as a numeric value between -1 and 1.
 

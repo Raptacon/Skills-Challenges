@@ -8,7 +8,7 @@ class WestCoastDrivetrain(commands2.SubsystemBase):
     We've created a "WestCoastDrivetrain" subsystem class to house our drive motor
     groups for each side of the robot and allow us to readily use these motors
     to drive. In a competition-ready version of this class, we would also track
-    data on how far the motors have travelled, as well as the voltage value of the motors
+    data on how far the motors have travelled, as well as the output value of the motors
     over time for diagnostic purposes.
     
     The methods written within a drivetrain class typically serve one of two purposes:
@@ -56,18 +56,18 @@ class WestCoastDrivetrain(commands2.SubsystemBase):
         # Delete the "pass" below once you've written some code
         pass
 
-    def tankDrive(self, left_voltage_perc, right_voltage_perc):
+    def tankDrive(self, left_output_perc, right_output_perc):
         """
         The tankDrive method brings the differential drive's tank drive capabilities
         to our subsystem. Tank drive means that we directly tell the drivetrain how
         fast we want each side of the drivetrain to go. This extends the work we did
         telling a single motor how fast we wanted it to go using the joystick.
 
-        This method has two paramters: left_voltage_perc is expected to be a float
+        This method has two paramters: left_output_perc is expected to be a float
         in the domain [-1, 1] that gives the percentage of the left-side motors'
-        maximum voltage to apply. 1 equates to 100% of the maximum, while -1 equates
-        to 100% of the maximum in the opposite direction. right_voltage_perc is the
-        same as left_voltage_perc but for the right side motors.
+        maximum output to apply. 1 equates to 100% of the maximum, while -1 equates
+        to 100% of the maximum in the opposite direction. right_output_perc is the
+        same as left_output_perc but for the right side motors.
         """
         # ***
         # FOR YOU (3.4)

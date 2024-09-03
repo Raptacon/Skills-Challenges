@@ -38,7 +38,7 @@ Create an instance attribute set to a created XboxController object. Give the co
 
 We have our physical devices represented virtually, now we need to use them! We're going to actuate one side of our drivetrain by pressing up and down on a joystick.
 
-We control a motor programmatically by giving the motor a percentage of its maximum voltage, as well as a direction in the form of a sign (+/-). At maximum voltage, the motor goes at full speed; at 50% of the max voltage, it goes at half speed. Percentages are given using a float between -1 and 1, with 1 being 100% and -1 being 100% in the opposite direction.
+We control a motor programmatically by giving the motor a percentage of its maximum output, as well as a direction in the form of a sign (+/-). At maximum output, the motor goes at full speed; at 50% of the max output, it goes at half speed. Percentages are given using a float between -1 and 1, with 1 being 100% and -1 being 100% in the opposite direction.
 
 For our joystick input, you only need to know two things for now (we'll focus heavily on driver controllers later on):
 
@@ -47,7 +47,7 @@ For our joystick input, you only need to know two things for now (we'll focus he
 
 You'll need two methods that will be called from our instance attributes:
 
-- <b>wpilib.MotorControllerGroup().set()</b>: tells the robot what percentage of maximum voltage to give to each motor in the collection. Takes one argument with a value between -1 and 1
+- <b>wpilib.MotorControllerGroup().set()</b>: tells the robot what percentage of maximum output to give to each motor in the collection. Takes one argument with a value between -1 and 1
 
 - <b>wpilib.XboxController().getLeftY()</b>: retrieves how far the left joystick has been pressed up/down as a numeric value between -1 and 1, as described above
 

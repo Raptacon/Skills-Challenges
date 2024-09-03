@@ -29,22 +29,22 @@ class WestCoastDrivetrain(commands2.SubsystemBase):
         # Enable differential drive functionality within the subsystem
         self.drive_train = wpilib.drive.DifferentialDrive(self.left_motors, self.right_motors)
 
-    def tankDrive(self, left_voltage_perc, right_voltage_perc):
+    def tankDrive(self, left_output_perc, right_output_perc):
         """
         Operate the drivetrain using tank drive, meaning that the speeds for
         each side of the drivetrain are explicitly specified using human input.
 
         Args:
-            left_voltage_perc: float with domain [-1, 1] setting percentage of
-                max voltage to send to the left drive motors
-            right_voltage_perc: float with domain [-1, 1] setting percentage of
-                max voltage to send to the right drive motors
+            left_output_perc: float with domain [-1, 1] setting percentage of
+                max output to send to the left drive motors
+            right_output_perc: float with domain [-1, 1] setting percentage of
+                max output to send to the right drive motors
 
         Returns:
             None
         """
         # Operate the robot using tank drive
-        self.drive_train.tankDrive(left_voltage_perc, right_voltage_perc)
+        self.drive_train.tankDrive(left_output_perc, right_output_perc)
 
     def arcadeDrive(self, speed_percentage, turn_angle_percentage):
         """

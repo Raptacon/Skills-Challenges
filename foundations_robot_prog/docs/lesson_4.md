@@ -132,13 +132,13 @@ Now that you've seen every part of the commands framework and written a fair amo
 The requirements for this class are as follows:
 1. Import the commands2 package at the top of the code
 2. Create a new class that inherits from commands2.Command
-3. Write a constructor method that takes three arguments: the voltage input percentage for the left side, the voltage input percentage for the right side, and the drivetrain subsystem.
+3. Write a constructor method that takes three arguments: the output percentage for the left side, the output input percentage for the right side, and the drivetrain subsystem.
     1. Store each argument as their own instance attributes
     2. Add the drivetrain subsytem as a requirement of the command instance
 4. Override the "execute" method, taking no arguments
     1. Use the drivetrain subsystem's .tankDrive() method to drive the robot using tank drive. Pass the called left input percentage and right input percentage as arguments. Remember, with commands these inputs are callable functions that need to be called to get the current float values
 5. Override the "end" method, taking an argument called "interrupted"
-    1. Use the drivetrain subsystem's .tankDrive() method to set the voltage percentages for each side of the robot to be zero.
+    1. Use the drivetrain subsystem's .tankDrive() method to set the output percentages for each side of the robot to be zero.
 6. Override the "isFinished" method, taking no arguments, to return False
 
 Your code will be very analagous to the ArcadeDrive command class we wrote earlier. Use it as a guide and figure out where to change things to implement tank drive in place of arcade drive.
@@ -151,7 +151,7 @@ You'll need the following:
 
 - \<driver_controller_instance_attribute\>.y().onTrue(): calls the "y" method on the Xbox controller to return a trigger for a new command. The trigger's "onTrue" method specifies what command should be triggered when the trigger state is set to True (in this case, when the Y button is returning True). .onTruce() takes one argument, an instantiated command to run.
 
-- \<your_custom_tank_drive_class\>: custom command class that tells the robot executor to use tank drive to operate the drivetrain. Takes three arguments: a callable function returning the left voltage percentage, a callable function returning the right voltage percentage, and the drivetrain subsystem.
+- \<your_custom_tank_drive_class\>: custom command class that tells the robot executor to use tank drive to operate the drivetrain. Takes three arguments: a callable function returning the left output percentage, a callable function returning the right output percentage, and the drivetrain subsystem.
 
 Run an instantiated TankDrive command when the Y button has been pressed on the driver's controller. Pass callable left Y joystick and right Y joystick values as the frist two arguments to TankDrive and the drivetrain instance attribute as the third argument to TankDrive.
 

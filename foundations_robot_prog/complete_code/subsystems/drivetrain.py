@@ -14,8 +14,8 @@ class WestCoastDrivetrain(commands2.SubsystemBase):
 
         self.drive_train = wpilib.drive.DifferentialDrive(self.left_motors, self.right_motors)
 
-    def tankDrive(self, left_voltage_perc, right_volage_perc):
-        return self.drive_train.tankDrive(left_voltage_perc, right_volage_perc)
+    def tankDrive(self, left_output_perc, right_output_perc):
+        return self.drive_train.tankDrive(left_output_perc, right_output_perc)
 
     def arcadeDrive(self, speed_perc, turn_angle_perc):
         return self.drive_train.arcadeDrive(speed_perc, turn_angle_perc)
