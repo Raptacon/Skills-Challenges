@@ -30,7 +30,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         sensors, and much more!
 
         When creating instance attributes, we'll use self.<attribute_name>
-        syntax. This lets us create data elements within a specific object.
+        syntax, like self.a_specific_dog. This lets us create data elements within a specific object.
         """
         # This lets us cleanly refer to the functionality in the timed robot class
         super().__init__()
