@@ -20,9 +20,9 @@ In Challenge Step 1, we'll focus on operating one side of a West Coast drivetrai
 
 To do this, you'll need two classes:
 
-- <b>phoenix5.WPI_TalonFX</b>: this class represents one Talon motor on the robot. It takes a CAN bus port as an argument for its constructor, telling the robot where on the CAN network it should send instructions for operating the motor. Look at the motors to see what ports we should use.
+- phoenix5.WPI_TalonFX: this class represents one Talon motor on the robot. It takes a CAN bus port as an argument for its constructor, telling the robot where on the CAN network it should send instructions for operating the motor. Look at the motors to see what ports we should use.
 
-- <b>wpilib.MotorControllerGroup</b>: this collects multiple motors together and forwards the instructions it receives to all of those motors. We want the drive motors on the same side to operate exactly the same. The constructor takes an arbitrary number of motors as arguments.
+- wpilib.MotorControllerGroup: this collects multiple motors together and forwards the instructions it receives to all of those motors. We want the drive motors on the same side to operate exactly the same. The constructor takes an arbitrary number of motors as arguments.
 
 Create two motors using the correct ports, and collect them with a motor controller group. The motor controller group must be an instance attribute by using self.\<name\> = \<value\> syntax.
 
@@ -47,8 +47,8 @@ For our joystick input, you only need to know two things for now (we'll focus he
 
 You'll need two methods that will be called from our instance attributes:
 
-- <b>wpilib.MotorControllerGroup().set()</b>: tells the robot what percentage of maximum output to give to each motor in the collection. Takes one argument with a value between -1 and 1
+- \<your_motor_controller_group_attribute\>.set(): tells the robot what percentage of maximum output to give to each motor in the collection. Takes one argument with a value between -1 and 1
 
-- <b>wpilib.XboxController().getLeftY()</b>: retrieves how far the left joystick has been pressed up/down as a numeric value between -1 and 1, as described above
+- \<your_driver_controller_attribute\>.getLeftY(): retrieves how far the left joystick has been pressed up/down as a numeric value between -1 and 1, as described above
 
 Using your motor group instance attribute and Xbox controller instance attribute, set the speed and direction of the motors using the up/down (Y) value of the left joystick on the controller.
