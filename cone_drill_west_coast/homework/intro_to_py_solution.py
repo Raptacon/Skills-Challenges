@@ -1,5 +1,5 @@
 ########################################
-# LESSON 1 HOMEWORK:
+# INTRO TO PYTHON HOMEWORK:
 # PYTHON BASICS
 ########################################
 
