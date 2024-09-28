@@ -14,7 +14,11 @@ We've taken care of much of the boilerplate for setting up the class. This way, 
 
 Clicking the step number header will open the file requiring code. Within the opened code file, look for "FOR YOU (\<development_step_number_here\>)" within the code - this signals that you have something to do.
 
+The description provides a high-level overview of what we're working on. The requirements specify what you need to do to complete the section. The analagous code structure gives a sense of what your code should look like.
+
 ### [1.1](../challenge_step_1/robot.py)
+
+#### Description
 
 In Challenge Step 1, we'll focus on operating one side of a West Coast drivetrain. As you saw when we looked over the robot, we have two motors actuating the gears a given side - this gives our robot more power. It also means we can effectively treat the two motors as one motor. So, we'll start by representing our drive motors virtually.
 
@@ -24,7 +28,9 @@ To do this, you'll need two classes:
 
 - wpilib.MotorControllerGroup: this collects multiple motors together and forwards the instructions it receives to all of those motors. We want the drive motors on the same side to operate exactly the same. The constructor takes an arbitrary number of motors as arguments.
 
-Create two motors using the correct ports, and collect them with a motor controller group. The motor controller group must be an instance attribute by using self.\<name\> = \<value\> syntax.
+#### Requirements
+
+1. Create two motors using the correct ports, and collect them with a motor controller group. The motor controller group must be an instance attribute - you can do this by using self.\<name\> = \<value\> syntax.
 
 ### [1.2](../challenge_step_1/robot.py)
 
