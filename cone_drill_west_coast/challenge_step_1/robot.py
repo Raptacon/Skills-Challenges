@@ -38,14 +38,18 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # ***
         # FOR YOU (1.1)
 
-        # <your code here>
+        self.motor_1 = phoenix5.WPI_TalonFX(30)
+        self.motor_2 = phoenix5.WPI_TalonFX(31)
+
+        self.motors = wpilib.MotorControllerGroup(self.motor_1, self.motor_2)
 
         # ***
 
         # ***
         # FOR YOU (1.2)
 
-        # <your code here>
+        
+        self.XboxController = wpilib.XboxController(0)
 
         # ***
 
@@ -112,10 +116,11 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # ***
         # FOR YOU (1.3)
 
-        # <your code here>
+        joystick_value = self.XboxController.getLeftY()
+        self.motors.set(joystick_value)
 
-        # Delete the "pass" when you have some code written above
-        pass
+
+        
 
         # ***
 
