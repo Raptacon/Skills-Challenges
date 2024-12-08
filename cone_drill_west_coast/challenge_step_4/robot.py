@@ -4,21 +4,18 @@ import wpilib
 
 from commands.autonomous_routines import (
     rescale_motor_output,
-    drive_straight_routine
+    drive_straight_routine,
+    # ***
+    # FOR YOU: (4.7) requirement 4, (4.9) requirement 3
+
+    # <your code here>
+
+    # ***
 )
 from commands.tank_drive import TankDrive
 from subsystems.drivetrain import WestCoastDrivetrain
 
-# ***
-# FOR YOU: once you've completed blocks 2 and/or 3 in
-# commands/autonomous_routines.py, import your routine functions here.
-# The code will be analogous to the following:
-
 # from folder.file_name_no_extention import (function1, function2)
-
-# <your code here>
-
-# ***
 
 
 class WestCoastRobot(commands2.TimedCommandRobot):

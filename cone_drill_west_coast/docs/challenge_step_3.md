@@ -33,7 +33,7 @@ Similar to what we did with tank drive, we're going to use a method provided by 
 2. Call the arcade drive method from your differential drive instance attribute. Note that this is the arcade drive method for DifferentialDrive, <em>not</em> for WestCoastDrivetrain.
 3. In the same line of code as requirement (2), pass as arguments to that method the speed and turn percentage values given in the parameters described in the preexisting assets.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.actor.do_something(first_parameter, second_parameter)
@@ -53,7 +53,7 @@ One key but possibly confusing point here is that everything in Python is consid
 
 1. Create separate instance attributes for each of the three input parameters of the constructor.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.first_thing = first_thing
@@ -77,7 +77,7 @@ In WPILib lingo, we say that a command "requires" one or more subsystems in orde
 
 1. Identify which instance attribute contains the drivetrain subsystem, and add it as a requirement for the ArcadeDrive command.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.require_something(self.thing_required)
@@ -100,7 +100,7 @@ To do this, we're going to use the specific arcade drive interface we wrote in s
 
 1. Use the arcade drive interface and your instance attributes for speed percentage and turn percentage to operate the drivetrain. Remember that the percentages are callable functions, not floats, but .arcadeDrive() will expect floats as arguments.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.actor.do_something(self.first_updating_thing(), self.second_updating_thing())
@@ -122,7 +122,7 @@ For arcade drive, we're going to tell the drivetrain motors to completely stop w
 
 1. Call arcade drive from the drivetrain instance attribute, passing the method zeros as its speed and turn angle arguments to tell the drive motors to stop.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.actor.do_something(stop_value, stop_value)
@@ -147,7 +147,7 @@ To instantiate the command, we're going to make use of lambda functions. Functio
 1. Set a variable to be an instantiated arcade drive command. The constructor of the command takes callable left Y joystick and right X joystick values as its first two arguments and the drivetrain instance attribute as its third argument.
 2. Set the default command of the drivetrain instance attribute to be the command object you created in requirement (1).
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 some_command = SomeCommand(
@@ -166,6 +166,9 @@ Now that you've seen every part of the commands framework and written a fair amo
 
 #### Preexisting Assets
 
+- commands2: WPILib package that provides code assets for the commands framework
+- commands2.Command: base class for building new custom commands
+
 #### Requirements
 
 1. Import the commands2 package at the top of the code
@@ -179,44 +182,53 @@ Now that you've seen every part of the commands framework and written a fair amo
     1. Use the drivetrain subsystem's .tankDrive() method to set the output percentages for each side of the robot to be zero.
 6. Override the "isFinished" method, taking no arguments, to return False
 
-#### Analagous Code
+#### Analogous Code
 
-Your code will be very analagous to the ArcadeDrive command class we wrote earlier. Use it as a guide and figure out where to change things to implement tank drive in place of arcade drive.
+Your code will be very analogous to the ArcadeDrive command class we wrote earlier. Use it as a guide and figure out where to change things to implement tank drive in place of arcade drive.
 
 ### [3.8](../challenge_step_3/robot.py)
 
 #### Description
 
-At this point, we have a tank drive class written, but we are currently not using it in our robot code. We need to import our custom class into this file, allowing us to use it in our robot class. This is similar to what we do with third-party libraries, except here we do it with our own code.
+At this point, you've written a tank drive command class, but we are currently not using it in our robot code. We need to import our custom class into this file, allowing us to use it in our robot class. This is similar to what we do with third-party libraries, except here we do it with our own code.
 
-Import your tank drive class from the tank drive file in the commands folder.
+#### Preexisting Assets
 
-The code will be analagous to the following:
+- commands.tank_drive.\<name_of_your_tank_drive_command_class\>: custom command class that implements tank drive for a DifferentialDrive subsystem 
+
+#### Requirements
+
+1. Import only your tank drive class from the tank drive file in the commands folder.
+
+#### Analogous Code
 
 ```
-from folder.file import MyClass
+from some_folder.some_file import SomeClass
 ```
 
 ### [3.9](../challenge_step_3/robot.py)
 
-Now, we'll run the custom tank drive command class that you wrote when the Y button is pressed on the controller. Buttons are considered digital inputs, where a press results in a True Boolean while no press results in a False Boolean for the button.
+Now, we'll run the custom tank drive command that you wrote in substep 3.7 when the Y button is pressed on the controller. Buttons are considered digital inputs, where a press results in a True Boolean while no press results in a False Boolean for the button.
 
-You'll need the following:
+#### Preexisting Assets
 
-- \<driver_controller_instance_attribute\>.y().onTrue(): calls the "y" method on the Xbox controller to return a trigger for a new command. The trigger's "onTrue" method specifies what command should be triggered when the trigger state is set to True (in this case, when the Y button is returning True). .onTruce() takes one argument, an instantiated command to run.
+- \<driver_controller_instance_attribute\>.y().onTrue(): calls the "y" method on the Xbox controller to return a trigger for a new command. The trigger's "onTrue" method specifies what command should be triggered when the trigger state is set to True (in this case, when the Y button is returning True). .onTrue() takes one argument, an instantiated command to run.
 
-- \<your_custom_tank_drive_class\>: custom command class that tells the robot executor to use tank drive to operate the drivetrain. Takes three arguments: a callable function returning the left output percentage, a callable function returning the right output percentage, and the drivetrain subsystem.
+- \<your_custom_tank_drive_class\>: custom command class, imported in substep 3.8, that tells the robot executor to use tank drive to operate the drivetrain. Takes three arguments: a callable function returning the left output percentage, a callable function returning the right output percentage, and the drivetrain subsystem.
 
-Run an instantiated TankDrive command when the Y button has been pressed on the driver's controller. Pass callable left Y joystick and right Y joystick values as the first two arguments to TankDrive and the drivetrain instance attribute as the third argument to TankDrive.
+#### Requirements
 
-The code will be analagous to the following:
+1. Scroll up to the WestCoastRobot.robotInit() definition. Identify the Xbox driver controller instance attribute and drivetrain instance attribute. Scroll back down to to the .teleopPeriodic() method, which we'll fill in over the remaining requirements.
+2. Set a variable to be an instantiated tank drive command. In that command's constructor, pass callable left Y joystick and right Y joystick values as its first two arguments the drivetrain instance attribute as its third argument.
+3. Run that tank drive command when the Y button has been pressed on the driver's controller. 
+
+#### Analogous Code
 
 ```
-self.input_device.button().whenTrue(
-    Command(
-        lambda: self.input_device.getLeftVertical(),
-        lambda: self.input_device.getRightVertical(),
-        self.subsystem
-    )
+some_command = SomeCommand(
+    lambda: self.accessor.get_some_value(),
+    lambda: self.accessor.get_other_value(),
+    self.required_thing
 )
+self.some_thing.do_something(some_command)
 ```

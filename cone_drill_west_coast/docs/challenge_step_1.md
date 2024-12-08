@@ -31,7 +31,7 @@ In Challenge Step 1, we'll focus on operating one side of a West Coast drivetrai
 
 1. Create two motors using the correct ports, and collect them with a motor controller group. The motor controller group must be an instance attribute - you can do this by using self.\<name\> = \<value\> syntax.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.one_thing = ThingClass(one_thing_port)
@@ -53,7 +53,7 @@ We need to set up some method of manually operating our motors. Here we'll creat
 
 1. Create an instance attribute set to a created XboxController object. Give the controller port 0.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.thing = ThingConstructor(thing_port)
@@ -82,7 +82,7 @@ For our joystick input, you only need to know two things for now (we'll focus he
 
 1. Using your motor group instance attribute and Xbox controller instance attribute, set the speed and direction of the motors using the up/down (Y) value of the left joystick on the controller.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.physical_things.do_something(self.device_thing.retrieve_something())

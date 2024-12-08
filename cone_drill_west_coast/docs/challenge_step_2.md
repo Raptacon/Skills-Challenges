@@ -27,7 +27,7 @@ The first step in setting up the drivetrain subsystem is to store the motors as 
 
 1. Create instance attributes for each motor controller group and set each one equal to its respective parameter (left_motors, right_motors).
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.one_thing = given_one_thing
@@ -55,7 +55,7 @@ On motors, positive output percentage values correspond to clockwise spin, while
 1. Look at the robot and think about the relationship between joystick inputs and motor spin direction. Determine which motor needs to be inverted so pushing the joysticks in the same direction results in the robot moving in that direction
 2. Invert the spin of the motors on one side of the drivetrain (the side determined appopriate in requirement (1))
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.thing.do_something(a_boolean)
@@ -79,7 +79,7 @@ The precise pathing of the robot can be calculated using kinematics, which is th
 
 1. Create a drive train instance attribute set to a constructed DifferentialDrive object. Pass the motor group instance attributes you created in substep (2.1) as arguments.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.actor = SomeActor(self.one_thing, self.other_thing)
@@ -105,7 +105,7 @@ The generic DifferentialDrive class also provides other specific interfaces for 
 1. Call the tank drive method from your differential drive instance attribute. Note that this is the tank drive method for DifferentialDrive, <em>not</em> for WestCoastDrivetrain.
 2. In the same line of code as requirement (1), pass as arguments to that method the output percentage values given in the parameters described in the preexisting assets.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.actor.do_something(first_parameter, second_parameter)
@@ -126,7 +126,7 @@ Now that we completed the WestCoastDrivetrain class, we'll create a drivetrain i
 1. Create an instance attribute, giving a constructed WestCoastDrivetrain object as its value.
 2. In the same line of code as requirement (1), pass as arguments to the constructor the two motor groups for the two sides of the robot.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 self.drive_thing = DriveThing(self.some_thing, self.other_thing)
@@ -154,7 +154,7 @@ Remember - pressing all the way up on a joystick gives a Y value of -1, while pr
 2. Scroll back down to the defined teleopPeriodic() method. Begin filling it in by retrieving the Y values from both the left and right joysticks. These are accessible using the Xbox driver controller instance attribute.
 3. Finish filling in teleopPeriodic() by calling your drivetrain instance attribute's tank drive method, passing it the left and right joystick Y values from requirement (2) as arguments.
 
-#### Analagous Code
+#### Analogous Code
 
 ```
 some_value = self.value_accessor.get_some_value()

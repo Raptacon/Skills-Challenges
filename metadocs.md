@@ -10,4 +10,4 @@
 - <b>Description:</b> provides a high-level overview of what we're working on
 - <b>Preexising assets:</b> provides the existing modules, classes, methods, or functions you'll need to complete this step
 - <b>Requirements:</b> specifies what you need to do to complete the section
-- <b>Analagous code:</b> provides a sense of what your code should look like. Note that this is <em>not</em> the exact code you'll write, just an example of the structure it should resemble
+- <b>Analogous code:</b> provides a sense of what your code should look like. Note that this is <em>not</em> the exact code you'll write, just an example of the structure it should resemble
