@@ -7,7 +7,7 @@ from subsystems.drivetrain import WestCoastDrivetrain
 
 
 # ***
-# FOR YOU (3.6)
+# FOR YOU (3.8)
 
 # <your code here>
 
@@ -80,7 +80,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         to perform a specific maneuver.
         """
         # ***
-        # FOR YOU (3.7)
+        # FOR YOU (3.6)
 
         # <your code here>
 
