@@ -111,7 +111,7 @@ class SwerveModuleMk4SparkMaxFalconCanCoder:
             .setFeedbackSensor(rev.ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
             .pid(*RobotConfig.swerve_steer_pid)
             .positionWrappingEnabled(True)
-            .positionWrappingInputRange(0, 360)
+            .positionWrappingInputRange(0, 2.0 * math.pi)
         )
 
         (
@@ -167,5 +167,5 @@ class SwerveModuleMk4SparkMaxFalconCanCoder:
     def set_state(self, state: SwerveModuleState) -> None:
         """
         """
-        self.steer_motor_pid.setReference(state.angle.radians, rev.SparkBase.ControlType.kPosition)
-        self.drive_motor_pid.setReference(state.speed, rev.SparkBase.ControlType.kVelocity)
+        self.steer_motor_pid.setReference(state.angle.radians, rev.SparkBase.ControlType.kPosition, 0)
+        self.drive_motor_pid.setReference(state.speed, rev.SparkBase.ControlType.kVelocity, 0)
