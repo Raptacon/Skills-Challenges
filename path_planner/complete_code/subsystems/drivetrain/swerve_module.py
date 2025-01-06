@@ -150,12 +150,18 @@ class SwerveModuleMk4SparkMaxFalconCanCoder:
 
         self.drive_motor.setInverted(invert_drive)
 
-        # Baseline encoders
+        # Baseline relative encoders
+        self.baseline_relative_encoders()
+
+    def baseline_relative_encoders(self) -> None:
+        """
+        """
         self.drive_motor_encoder.setPosition(0)
         current_absolute_rotation = self.absolute_encoder.get_absolute_position(refresh=True)
         if not current_absolute_rotation.status.is_ok():
-            raise RuntimeError("Failed to retrieve starting absolute encoder position")
+            raise RuntimeError("Failed to retrieve starting absolute encoder position baselining relative encoders")
         self.steer_motor_encoder.setPosition((current_absolute_rotation.value_as_double * 2.0 * math.pi) % (2.0 * math.pi))
+
 
     def current_position(self) -> SwerveModulePosition:
         """
