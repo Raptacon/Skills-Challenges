@@ -59,12 +59,12 @@ class SwerveDrivetrain(Subsystem):
     def current_heading(self) -> Rotation2d:
         """
         """
-        return Rotation2d.fromDegrees(self.imu.getFusedHeading())
+        return Rotation2d.fromDegrees(self.gyroscope.getFusedHeading() - self.heading_offset)
 
     def reset_heading(self) -> Rotation2d:
         """
         """
-        self.headingOffset = self.imu.getFusedHeading()
+        self.heading_offset = self.gyroscope.getFusedHeading()
 
     def drive(
         self,
@@ -92,6 +92,11 @@ class SwerveDrivetrain(Subsystem):
         """
         """
         return tuple([swerve_module.current_position() for swerve_module in self.swerve_modules])
+
+    def current_pose(self) -> Pose2d:
+        """
+        """
+        return self.pose_estimator.getEstimatedPosition()
 
     def update_pose_estimator(self) -> None:
         """
