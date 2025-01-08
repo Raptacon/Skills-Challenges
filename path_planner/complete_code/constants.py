@@ -48,6 +48,8 @@ class SwerveModuleMk4iConsts:
     kSteerCurrentLimit: float = 20.0
     kTicksPerRotation: int = 2048 # Falcon 500
     kCanStatusFrameHz: int = 10
+    quadratureMeasurementRateMs: int = 10
+    quadratureAverageDepth: int = 2
 
 
 class SwerveModuleMk4iL1Consts(SwerveModuleMk4iConsts):

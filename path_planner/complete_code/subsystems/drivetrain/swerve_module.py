@@ -116,8 +116,8 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
         (
             steer_motor_config.encoder
-            .quadratureMeasurementPeriod(10)
-            .quadratureAverageDepth(2)
+            .quadratureMeasurementPeriod(self.constants.quadratureMeasurementRateMs)
+            .quadratureAverageDepth(self.constants.quadratureAverageDepth)
             .positionConversionFactor(self.constants.steerPositionConversionFactor)
             .velocityConversionFactor(self.constants.steerVelocityConversionFactor)
         )
