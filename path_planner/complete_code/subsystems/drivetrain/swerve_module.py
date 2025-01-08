@@ -111,7 +111,7 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
             .setFeedbackSensor(rev.ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
             .pid(*RobotConfig.swerve_steer_pid)
             .positionWrappingEnabled(True)
-            .positionWrappingInputRange(0, 2.0 * math.pi)
+            .positionWrappingInputRange(0, 360.0)
         )
 
         (
@@ -162,17 +162,17 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         current_absolute_rotation = self.absolute_encoder.get_absolute_position(refresh=True)
         if not current_absolute_rotation.status.is_ok():
             raise RuntimeError("Failed to retrieve starting absolute encoder position baselining relative encoders")
-        self.steer_motor_encoder.setPosition((current_absolute_rotation.value_as_double * 2.0 * math.pi) % (2.0 * math.pi))
+        self.steer_motor_encoder.setPosition((current_absolute_rotation.value_as_double * 360.0) % (360.0))
 
     def current_position(self) -> SwerveModulePosition:
         """
         """
         drive_position = self.drive_motor_encoder.getPosition()
-        steer_position = Rotation2d.fromDegrees(math.degrees(self.steer_motor_encoder.getPosition()))
+        steer_position = Rotation2d.fromDegrees(self.steer_motor_encoder.getPosition())
         return SwerveModulePosition(drive_position, steer_position)
 
     def set_state(self, state: SwerveModuleState) -> None:
         """
         """
-        self.steer_motor_pid.setReference(state.angle.radians, rev.SparkBase.ControlType.kPosition, 0)
+        self.steer_motor_pid.setReference(state.angle.degrees, rev.SparkBase.ControlType.kPosition, 0)
         self.drive_motor_pid.setReference(state.speed, rev.SparkBase.ControlType.kVelocity, 0)

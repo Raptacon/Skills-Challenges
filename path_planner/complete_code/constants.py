@@ -60,7 +60,7 @@ class SwerveModuleMk4iL1Consts(SwerveModuleMk4iConsts):
     
     drivePositionConversionFactor : float = (math.pi * wheelDiameter) / (driveGearRatio * SwerveModuleMk4iConsts.kTicksPerRotation)
     driveVelocityConversionFactor: float = drivePositionConversionFactor / 60.0
-    steerPositionConversionFactor: float = (2.0 * math.pi) / (steerGearRatio * SwerveModuleMk4iConsts.kTicksPerRotation)
+    steerPositionConversionFactor: float = 360 / (steerGearRatio * SwerveModuleMk4iConsts.kTicksPerRotation)
     steerVelocityConversionFactor: float = steerPositionConversionFactor / 60.0
 
     moduleType: str = "Mk4i_L1"
@@ -76,7 +76,7 @@ class SwerveModuleMk4iL2Consts(SwerveModuleMk4iConsts):
 
     drivePositionConversionFactor : float = (math.pi * wheelDiameter) / (driveGearRatio * SwerveModuleMk4iConsts.kTicksPerRotation)
     driveVelocityConversionFactor: float = drivePositionConversionFactor / 60.0
-    steerPositionConversionFactor: float = (2.0 * math.pi) / (steerGearRatio * SwerveModuleMk4iConsts.kTicksPerRotation)
+    steerPositionConversionFactor: float = 360 / (steerGearRatio * SwerveModuleMk4iConsts.kTicksPerRotation)
     steerVelocityConversionFactor: float = steerPositionConversionFactor / 60.0
 
     moduleType: str = "Mk4i_L2"
