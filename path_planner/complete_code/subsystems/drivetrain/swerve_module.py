@@ -28,7 +28,7 @@ Constants used from https://github.com/SwerveDriveSpecialties/swerve-lib/tree/de
 """
 
 
-class SwerveModuleMk4SparkMaxFalconCanCoder:
+class SwerveModuleMk4iSparkMaxFalconCanCoder:
     """
     Module for Mk4i with 2 brushless Falcon 500s and a CANcoder swerve drive
     """
@@ -103,7 +103,7 @@ class SwerveModuleMk4SparkMaxFalconCanCoder:
             )
 
         # Steer motor configuration
-        configureSparkMaxCanRates(steer_motor_config)
+        configureSparkMaxCanRates(steer_motor_config, drive_motor_flag=False)
         steer_motor_config.setIdleMode(rev.SparkBase.IdleMode.kCoast)
 
         (
@@ -116,6 +116,8 @@ class SwerveModuleMk4SparkMaxFalconCanCoder:
 
         (
             steer_motor_config.encoder
+            .quadratureMeasurementPeriod(10)
+            .quadratureAverageDepth(2)
             .positionConversionFactor(self.constants.steerPositionConversionFactor)
             .velocityConversionFactor(self.constants.steerVelocityConversionFactor)
         )
@@ -128,7 +130,7 @@ class SwerveModuleMk4SparkMaxFalconCanCoder:
         self.steer_motor.setInverted(invert_steer)
 
         # Drive motor configuration
-        configureSparkMaxCanRates(drive_motor_config)
+        configureSparkMaxCanRates(drive_motor_config, drive_motor_flag=True)
         drive_motor_config.setIdleMode(rev.SparkBase.IdleMode.kBrake)
 
         (
@@ -161,7 +163,6 @@ class SwerveModuleMk4SparkMaxFalconCanCoder:
         if not current_absolute_rotation.status.is_ok():
             raise RuntimeError("Failed to retrieve starting absolute encoder position baselining relative encoders")
         self.steer_motor_encoder.setPosition((current_absolute_rotation.value_as_double * 2.0 * math.pi) % (2.0 * math.pi))
-
 
     def current_position(self) -> SwerveModulePosition:
         """

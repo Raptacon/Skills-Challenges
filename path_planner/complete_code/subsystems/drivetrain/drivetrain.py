@@ -4,7 +4,7 @@ from typing import Tuple
 # Internal imports
 from config import RobotConfig
 from constants import SwerveDriveConsts
-from .swerve_module import SwerveModuleMk4SparkMaxFalconCanCoder
+from .swerve_module import SwerveModuleMk4iSparkMaxFalconCanCoder
 
 # Third-party imports
 import navx
@@ -24,19 +24,19 @@ class SwerveDrivetrain(Subsystem):
 
         # must do in front-left, front-right, back-left, back-right order
         self.swerve_modules = [
-            SwerveModuleMk4SparkMaxFalconCanCoder(
+            SwerveModuleMk4iSparkMaxFalconCanCoder(
                 "frontLeft", (self.constants.moduleFrontLeftX, self.constants.moduleFrontLeftY),
                 RobotConfig.swerve_module_channels[0], encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[0]
             ),
-            SwerveModuleMk4SparkMaxFalconCanCoder(
+            SwerveModuleMk4iSparkMaxFalconCanCoder(
                 "frontRight", (self.constants.moduleFrontRightX, self.constants.moduleFrontRightY),
                 RobotConfig.swerve_module_channels[1], encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[1]
             ),
-            SwerveModuleMk4SparkMaxFalconCanCoder(
+            SwerveModuleMk4iSparkMaxFalconCanCoder(
                 "backLeft", (self.constants.moduleBackLeftX, self.constants.moduleBackLeftY),
                 RobotConfig.swerve_module_channels[2], encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[2]
             ),
-            SwerveModuleMk4SparkMaxFalconCanCoder(
+            SwerveModuleMk4iSparkMaxFalconCanCoder(
                 "backRight", (self.constants.moduleBackRightX, self.constants.moduleBackRightY),
                 RobotConfig.swerve_module_channels[3], encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[3]
             )

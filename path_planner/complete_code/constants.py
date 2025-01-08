@@ -11,12 +11,13 @@ import math
 
 
 class SparkMaxConstants:
-    faultRateMs: int = 50,
-    motorTelmRateMs: int = 50,
-    motorPosRateMs: int = 50,
-    analogRateMs: int = 1833,
-    altEncoderRateMs: int = 1050,
-    dutyCycleEncRateMs: int = 2150,
+    faultRateMs: int = 50
+    motorPosRateMs: int = 20
+    appliedOutputRateMs: int = 10
+    motorTelmRateMs: int = 50
+    analogRateMs: int = 1833
+    altEncoderRateMs: int = 1050
+    dutyCycleEncRateMs: int = 2150
     dutyCycleEncVelRateMs: int = 3150
 
 
@@ -39,43 +40,43 @@ class SwerveDriveConsts:
 
 
 class SwerveModuleMk4iConsts:
-    """ https://github.com/SwerveDriveSpecialties/swerve-lib/blob/develop/src/main/java/com/swervedrivespecialties/swervelib/ctre/Falcon500DriveControllerFactoryBuilder.java """
+    """
+    https://github.com/SwerveDriveSpecialties/swerve-lib/blob/develop/src/main/java/com/swervedrivespecialties/swervelib/ctre/Falcon500DriveControllerFactoryBuilder.java
+    """
     kNominalVoltage: float = 12.0
     kDriveCurrentLimit: float = 20.0
     kSteerCurrentLimit: float = 20.0
-    kTicksPerRotation: int = 1
+    kTicksPerRotation: int = 2048 # Falcon 500
     kCanStatusFrameHz: int = 10
 
 
 class SwerveModuleMk4iL1Consts(SwerveModuleMk4iConsts):
     """
-    https://github.com/SwerveDriveSpecialties/swerve-lib/blob/f6f4de65808d468ed01cc5ca39bf322383838fcd/src/main/java/com/swervedrivespecialties/swervelib/SdsModuleConfigurations.java#L19
-    Order: wheelDiameter, driveDreuction, driveInverted, steerReduction, steerInverted
+    https://docs.yagsl.com/configuring-yagsl/standard-conversion-factors
     """
     wheelDiameter: float = 0.10033
-    driveReduction: float = (14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0)
-    steerReduction: float = (15.0 / 32.0) * (10.0 / 60.0)
+    driveGearRatio: float = 8.14
+    steerGearRatio: float = 150 / 7
     
-    drivePositionConversionFactor : float = math.pi * wheelDiameter * driveReduction / SwerveModuleMk4iConsts.kTicksPerRotation
-    driveVelocityConversionFactor: float = drivePositionConversionFactor * 10.0
-    steerPositionConversionFactor: float = 2.0 * math.pi / SwerveModuleMk4iConsts.kTicksPerRotation * steerReduction
-    steerVelocityConversionFactor: float = steerPositionConversionFactor * 10.0
+    drivePositionConversionFactor : float = (math.pi * wheelDiameter) / (driveGearRatio * SwerveModuleMk4iConsts.kTicksPerRotation)
+    driveVelocityConversionFactor: float = drivePositionConversionFactor / 60.0
+    steerPositionConversionFactor: float = (2.0 * math.pi) / (steerGearRatio * SwerveModuleMk4iConsts.kTicksPerRotation)
+    steerVelocityConversionFactor: float = steerPositionConversionFactor / 60.0
 
-    moduleType: str = "Mk4L1"
+    moduleType: str = "Mk4i_L1"
 
 
 class SwerveModuleMk4iL2Consts(SwerveModuleMk4iConsts):
     """
-    https://github.com/SwerveDriveSpecialties/swerve-lib/blob/f6f4de65808d468ed01cc5ca39bf322383838fcd/src/main/java/com/swervedrivespecialties/swervelib/SdsModuleConfigurations.java#L19
-    Order: wheelDiameter, driveDreuction, driveInverted, steerReduction, steerInverted
+    https://docs.yagsl.com/configuring-yagsl/standard-conversion-factors
     """
     wheelDiameter: float = 0.10033
-    driveReduction: float = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0)
-    steerReduction: float = (14.0 / 50.0) * (10.0 / 60.0)
+    driveGearRatio: float = 6.75
+    steerGearRatio: float = 150 / 7
 
-    drivePositionConversionFactor : float = math.pi * wheelDiameter * driveReduction / SwerveModuleMk4iConsts.kTicksPerRotation
-    driveVelocityConversionFactor: float = drivePositionConversionFactor * 10.0
-    steerPositionConversionFactor: float = 2.0 * math.pi / SwerveModuleMk4iConsts.kTicksPerRotation * steerReduction
-    steerVelocityConversionFactor: float = steerPositionConversionFactor * 10.0
+    drivePositionConversionFactor : float = (math.pi * wheelDiameter) / (driveGearRatio * SwerveModuleMk4iConsts.kTicksPerRotation)
+    driveVelocityConversionFactor: float = drivePositionConversionFactor / 60.0
+    steerPositionConversionFactor: float = (2.0 * math.pi) / (steerGearRatio * SwerveModuleMk4iConsts.kTicksPerRotation)
+    steerVelocityConversionFactor: float = steerPositionConversionFactor / 60.0
 
-    moduleType: str = "Mk4I_L2"
+    moduleType: str = "Mk4i_L2"

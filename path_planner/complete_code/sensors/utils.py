@@ -7,20 +7,29 @@ import rev
 
 def configureSparkMaxCanRates(
     config: rev.SparkMaxConfig,
+    drive_motor_flag: bool,
     faultRateMs: int = SparkMaxConstants.faultRateMs,
-    motorTelmRateMs: int = SparkMaxConstants.motorTelmRateMs,
     motorPosRateMs: int = SparkMaxConstants.motorPosRateMs,
-    analogRateMs: int = SparkMaxConstants.analogRateMs,
-    altEncoderRateMs: int = SparkMaxConstants.altEncoderRateMs,
-    dutyCycleEncRateMs: int = SparkMaxConstants.dutyCycleEncRateMs,
-    dutyCycleEncVelRateMs: int = SparkMaxConstants.dutyCycleEncVelRateMs
+    appliedOutputRateMs: int = SparkMaxConstants.appliedOutputRateMs
 ) -> None:
     """
     """
-    config.signals.faultsPeriodMs(faultRateMs)
-    config.signals.primaryEncoderPositionPeriodMs(motorPosRateMs)
-    config.signals.analogPositionPeriodMs(analogRateMs)
-    config.signals.motorTemperaturePeriodMs(motorTelmRateMs)
-    config.signals.absoluteEncoderPositionPeriodMs(dutyCycleEncRateMs)
-    config.signals.absoluteEncoderVelocityPeriodMs(dutyCycleEncVelRateMs)
-    config.signals.externalOrAltEncoderPosition(altEncoderRateMs)
+    (
+        config.signals
+        # Fixed settings
+        .absoluteEncoderPositionAlwaysOn(False)
+        .absoluteEncoderVelocityAlwaysOn(False)
+        .analogPositionAlwaysOn(False)
+        .analogVelocityAlwaysOn(False)
+        .analogVoltageAlwaysOn(False)
+        .externalOrAltEncoderPositionAlwaysOn(False)
+        .externalOrAltEncoderVelocityAlwaysOn(False)
+        .primaryEncoderPositionAlwaysOn(True)
+        .IAccumulationAlwaysOn(False)
+
+        # Input settings
+        .primaryEncoderVelocityAlwaysOn(drive_motor_flag)
+        .primaryEncoderPositionPeriodMs(motorPosRateMs)
+        .appliedOutputPeriodMs(appliedOutputRateMs)
+        .faultsPeriodMs(faultRateMs)
+    )
