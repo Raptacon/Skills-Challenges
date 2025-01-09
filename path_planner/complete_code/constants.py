@@ -27,13 +27,13 @@ class SparkMaxConstants:
 
 
 class SwerveDriveConsts:
-    moduleFrontLeftX: float = -0.3302
+    moduleFrontLeftX: float = 0.3302
     moduleFrontLeftY: float = 0.3556
     moduleFrontRightX: float = 0.3302
-    moduleFrontRightY: float = 0.3556
+    moduleFrontRightY: float = -0.3556
     moduleBackLeftX: float = -0.3302
-    moduleBackLeftY: float = -0.3556
-    moduleBackRightX: float = 0.3302
+    moduleBackLeftY: float = 0.3556
+    moduleBackRightX: float = -0.3302
     moduleBackRightY: float = -0.3556
 
     maxTranslationMPS: float = 4.14528

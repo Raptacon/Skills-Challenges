@@ -102,6 +102,8 @@ class SwerveDrivetrain(Subsystem):
         """
         """
         self.pose_estimator.update(self.current_heading(), self.current_module_positions())
+        for swerve_module in self.swerve_modules:
+            swerve_module.update_telemetry()
 
     def reset_pose_estimator(self, current_pose: Pose2d = Pose2d(*RobotConfig.default_start_pose)) -> None:
         """

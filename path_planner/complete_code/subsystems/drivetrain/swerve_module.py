@@ -9,7 +9,7 @@ from constants import SwerveModuleMk4iConsts, SwerveModuleMk4iL2Consts
 from sensors.utils import configureSparkMaxCanRates
 
 # Third-party imports
-import ntcore
+from ntcore import NetworkTableInstance
 import phoenix6
 import rev
 from wpimath.kinematics import SwerveModulePosition, SwerveModuleState
@@ -56,6 +56,7 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         """
         # Overall instantiation
         self.constants = swerve_level_constants
+        setattr(self.constants, "encoder_calibration", encoder_calibration)
         self.name = name
         self.drivetrain_location = Translation2d(*drivetrain_location)
 
@@ -64,6 +65,9 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
             "steer_motor": channel_base + 1,
             "absolute_encoder": channel_base + 2
         }
+
+        # Telemetry setup
+        self.setup_smartdashboard(self.constants.moduleType + f"_{channel_base}")
 
         # Physical device instantiation
         self.drive_motor = rev.SparkMax(self.id_lookup["drive_motor"] , rev.SparkLowLevel.MotorType.kBrushless)
@@ -131,7 +135,11 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
         # Drive motor configuration
         configureSparkMaxCanRates(drive_motor_config, drive_motor_flag=True)
-        drive_motor_config.setIdleMode(rev.SparkBase.IdleMode.kBrake)
+        (
+            drive_motor_config
+            .setIdleMode(rev.SparkBase.IdleMode.kBrake)
+            .voltageCompensation(self.constants.kNominalVoltage)
+        )
 
         (
             drive_motor_config.closedLoop
@@ -155,6 +163,70 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         # Baseline relative encoders
         self.baseline_relative_encoders()
 
+    def setup_smartdashboard(self, module_name: str) -> None:
+        """
+        """
+        self.raw_absolute_angle_publisher = (
+            NetworkTableInstance
+            .getDefault()
+            .getTable("SmartDashboard")
+            .getDoubleTopic(f"swerve/modules/{module_name}/Raw Absolute Encoder").publish()
+        )
+        self.adj_absolute_angle_publisher = (
+            NetworkTableInstance
+            .getDefault()
+            .getTable("SmartDashboard")
+            .getDoubleTopic(f"swerve/modules/{module_name}/Adjusted Absolute Encoder").publish()
+        )
+        self.abs_encoder_issue_publisher = (
+            NetworkTableInstance
+            .getDefault()
+            .getTable("SmartDashboard")
+            .getBooleanTopic(f"swerve/modules/{module_name}/Absolute Encoder Read Issue").publish()
+        )
+        self.raw_angle_publisher = (
+            NetworkTableInstance
+            .getDefault()
+            .getTable("SmartDashboard")
+            .getDoubleTopic(f"swerve/modules/{module_name}/Raw Angle Encoder").publish()
+        )
+        self.raw_drive_encoder_publisher = (
+            NetworkTableInstance
+            .getDefault()
+            .getTable("SmartDashboard")
+            .getDoubleTopic(f"swerve/modules/{module_name}/Raw Drive Encoder").publish()
+        )
+        self.raw_drive_velocity_pubisher = (
+            NetworkTableInstance
+            .getDefault()
+            .getTable("SmartDashboard")
+            .getDoubleTopic(f"swerve/modules/{module_name}/Raw Drive Velocity").publish()
+        )
+        self.raw_drive_setpoint_encoder_publisher = (
+            NetworkTableInstance
+            .getDefault()
+            .getTable("SmartDashboard")
+            .getDoubleTopic(f"swerve/modules/{module_name}/Speed Setpoint").publish()
+        )
+        self.angle_setpoint_encoder_publisher = (
+            NetworkTableInstance
+            .getDefault()
+            .getTable("SmartDashboard")
+            .getDoubleTopic(f"swerve/modules/{module_name}/Angle Setpoint").publish()
+        )
+
+    def update_telemetry(self) -> None:
+        """
+        """
+        abs_encoder_value = self.absolute_encoder.get_absolute_position(refresh=True)
+        self.abs_encoder_issue_publisher.set(abs_encoder_value.status.is_ok())
+        if abs_encoder_value.status.is_ok():
+            self.raw_absolute_angle_publisher.set(abs_encoder_value.value_as_double - self.constants.encoder_calibration)
+            self.adj_absolute_angle_publisher.set(abs_encoder_value.value_as_double)
+        self.raw_angle_publisher.set(self.steer_motor_encoder.getPosition())
+        self.raw_drive_encoder_publisher.set(self.drive_motor_encoder.getPosition())
+        self.raw_drive_velocity_pubisher.set(self.drive_motor_encoder.getVelocity())
+
     def baseline_relative_encoders(self) -> None:
         """
         """
@@ -174,5 +246,6 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
     def set_state(self, state: SwerveModuleState) -> None:
         """
         """
-        self.steer_motor_pid.setReference(state.angle.degrees, rev.SparkBase.ControlType.kPosition, 0)
-        self.drive_motor_pid.setReference(state.speed, rev.SparkBase.ControlType.kVelocity, 0)
+        optimal_state = state.optimize(Rotation2d.fromDegrees(self.steer_motor_encoder.getPosition()))
+        self.steer_motor_pid.setReference(optimal_state.angle.degrees, rev.SparkBase.ControlType.kPosition, 0)
+        self.drive_motor_pid.setReference(optimal_state.speed, rev.SparkBase.ControlType.kVelocity, 0)
