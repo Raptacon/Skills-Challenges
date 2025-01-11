@@ -9,8 +9,9 @@ class RobotConfig:
     swerve_module_channels: Tuple[int] = (50, 53, 56, 59)
     # TODO: JD if swerve_model_channelse need movement, move these cals too
     swerve_abs_encoder_calibrations: Tuple[float] = (
-        83.496 / 360.0, 356.396 / 360.0, 50.098 / 360.0, 69.785 / 360.0
+        276.1524 / 360.0, 352.96884 / 360.0, 323.1738 / 360.0, 289.77552 / 360.0
     )
+    # 83.496 356.396 50.098 69.785
     swerve_steer_pid: Tuple[float] = (0.3, 1, 0)
     # TODO: JD tune drive PID
     swerve_drive_pid: Tuple[float] = (0.0020645, 0, 0)

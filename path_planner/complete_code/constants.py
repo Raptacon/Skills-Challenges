@@ -47,7 +47,7 @@ class SwerveModuleMk4iConsts:
     kNominalVoltage: float = 12.0
     kDriveCurrentLimit: float = 20.0
     kSteerCurrentLimit: float = 20.0
-    kTicksPerRotation: int = 2048 # Falcon 500
+    kTicksPerRotation: int = 1 #2048 # Falcon 500
     kCanStatusFrameHz: int = 10
     quadratureMeasurementRateMs: int = 10
     quadratureAverageDepth: int = 2
