@@ -84,15 +84,15 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         drive_motor_config = rev.SparkMaxConfig()
         steer_motor_config = rev.SparkMaxConfig()
 
-        absolute_encoder_configurator = phoenix6.configs.CANcoderConfigurator(self.id_lookup["absolute_encoder"])
-        absolute_encoder_config = phoenix6.configs.CANcoderConfiguration()
-
         # Absolute encoder configuration
-        absolute_encoder_configurator = phoenix6.configs.CANcoderConfigurator(self.id_lookup["absolute_encoder"])
+        absolute_encoder_configurator = self.absolute_encoder.configurator
         absolute_encoder_config = phoenix6.configs.CANcoderConfiguration()
-        absolute_encoder_config.magnet_sensor.absolute_sensor_discontinuity_point = 1
-        absolute_encoder_config.magnet_sensor.magnet_offset = encoder_calibration
-        absolute_encoder_config.magnet_sensor.sensor_direction = 1
+        (
+            absolute_encoder_config.magnet_sensor
+                .with_absolute_sensor_discontinuity_point(1)
+                .with_magnet_offset(encoder_calibration)
+                .with_sensor_direction(phoenix6.signals.SensorDirectionValue.COUNTER_CLOCKWISE_POSITIVE)
+        )
 
         status = absolute_encoder_configurator.apply(absolute_encoder_config, 0.25)
         if not status.is_ok():
@@ -108,7 +108,7 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
         # Steer motor configuration
         configureSparkMaxCanRates(steer_motor_config, drive_motor_flag=False)
-        steer_motor_config.setIdleMode(rev.SparkBase.IdleMode.kCoast)
+        steer_motor_config.setIdleMode(rev.SparkBaseConfig.IdleMode.kCoast)
 
         (
             steer_motor_config.closedLoop
@@ -137,7 +137,7 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         configureSparkMaxCanRates(drive_motor_config, drive_motor_flag=True)
         (
             drive_motor_config
-            .setIdleMode(rev.SparkBase.IdleMode.kBrake)
+            .setIdleMode(rev.SparkBaseConfig.IdleMode.kBrake)
             .voltageCompensation(self.constants.kNominalVoltage)
         )
 
@@ -218,6 +218,8 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
     def update_telemetry(self) -> None:
         """
         """
+        # TODO: JD move to telemetry
+        # TODO: JD worth looking at putting some of these in cache?
         abs_encoder_value = self.absolute_encoder.get_absolute_position(refresh=True)
         self.abs_encoder_issue_publisher.set(abs_encoder_value.status.is_ok())
         if abs_encoder_value.status.is_ok():

@@ -10,14 +10,19 @@ from .swerve_module import SwerveModuleMk4iSparkMaxFalconCanCoder
 import navx
 from commands2 import Subsystem
 from wpimath.estimator import SwerveDrive4PoseEstimator
-from wpimath.geometry import Pose2d, Rotation2d
+from wpimath.geometry import Pose2d, Rotation2d, Translation2d
 from wpimath.kinematics import ChassisSpeeds, SwerveDrive4Kinematics, SwerveModulePosition
 
 
 class SwerveDrivetrain(Subsystem):
     """
     """
-    def __init__(self, starting_pose: Pose2d = Pose2d(*RobotConfig.default_start_pose)) -> None:
+    def __init__(
+        self,
+        starting_pose: Pose2d = Pose2d(
+            Translation2d(*RobotConfig.default_start_pose[0:2]),
+            Rotation2d(RobotConfig.default_start_pose[2])
+        )) -> None:
         """
         """
         self.constants = SwerveDriveConsts()
@@ -47,7 +52,7 @@ class SwerveDrivetrain(Subsystem):
         )
 
         self.gyroscope = navx.AHRS.create_spi()
-        self.heading_offset = 0
+        self.heading_offset = self.constants.startingHeadingOffset
 
         self.pose_estimator = SwerveDrive4PoseEstimator(
             self.drive_kinematics,
@@ -59,7 +64,7 @@ class SwerveDrivetrain(Subsystem):
     def current_heading(self) -> Rotation2d:
         """
         """
-        return Rotation2d.fromDegrees(self.gyroscope.getFusedHeading() - self.heading_offset)
+        return Rotation2d.fromDegrees((self.gyroscope.getFusedHeading() - self.heading_offset) % 360.0)
 
     def reset_heading(self) -> Rotation2d:
         """

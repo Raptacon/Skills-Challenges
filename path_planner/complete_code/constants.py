@@ -37,6 +37,7 @@ class SwerveDriveConsts:
     moduleBackRightY: float = -0.3556
 
     maxTranslationMPS: float = 4.14528
+    startingHeadingOffset: float = -90
 
 
 class SwerveModuleMk4iConsts:

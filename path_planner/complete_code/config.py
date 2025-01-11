@@ -3,7 +3,7 @@ from typing import Tuple
 
 
 class RobotConfig:
-    default_start_pose: Tuple[float] = (0.0, 0.0)
+    default_start_pose: Tuple[float] = (0.0, 0.0, 0.0)
     # TODO: JD check that these modules are given in correct order
     # Give in front-left, front-right, back-left, back-right order
     swerve_module_channels: Tuple[int] = (50, 53, 56, 59)

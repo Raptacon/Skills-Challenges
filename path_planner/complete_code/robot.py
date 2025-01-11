@@ -1,9 +1,10 @@
 import commands2
+from subsystems.drivetrain.drivetrain import SwerveDrivetrain
 
 
 class PathPlannerRobot(commands2.TimedCommandRobot):
     def robotInit(self):
-        pass
+        self.drivetrain = SwerveDrivetrain()
 
     def robotPeriodic(self):
         commands2.CommandScheduler.getInstance().run()
