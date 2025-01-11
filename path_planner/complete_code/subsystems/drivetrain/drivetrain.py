@@ -7,6 +7,7 @@ from constants import SwerveDriveConsts
 from .swerve_module import SwerveModuleMk4iSparkMaxFalconCanCoder
 
 # Third-party imports
+from wpilib import SmartDashboard
 import navx
 from commands2 import Subsystem
 from wpimath.estimator import SwerveDrive4PoseEstimator
@@ -31,19 +32,19 @@ class SwerveDrivetrain(Subsystem):
         self.swerve_modules = [
             SwerveModuleMk4iSparkMaxFalconCanCoder(
                 "frontLeft", (self.constants.moduleFrontLeftX, self.constants.moduleFrontLeftY),
-                RobotConfig.swerve_module_channels[0], encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[0]
+                RobotConfig.swerve_module_channels[0], invert_steer=True, invert_drive=True, encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[0]
             ),
             SwerveModuleMk4iSparkMaxFalconCanCoder(
                 "frontRight", (self.constants.moduleFrontRightX, self.constants.moduleFrontRightY),
-                RobotConfig.swerve_module_channels[1], encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[1]
+                RobotConfig.swerve_module_channels[1], invert_steer=True, invert_drive=True, encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[1]
             ),
             SwerveModuleMk4iSparkMaxFalconCanCoder(
                 "backLeft", (self.constants.moduleBackLeftX, self.constants.moduleBackLeftY),
-                RobotConfig.swerve_module_channels[2], encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[2]
+                RobotConfig.swerve_module_channels[2], invert_steer=True, invert_drive=True, encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[2]
             ),
             SwerveModuleMk4iSparkMaxFalconCanCoder(
                 "backRight", (self.constants.moduleBackRightX, self.constants.moduleBackRightY),
-                RobotConfig.swerve_module_channels[3], encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[3]
+                RobotConfig.swerve_module_channels[3], invert_steer=True, invert_drive=True, encoder_calibration=RobotConfig.swerve_abs_encoder_calibrations[3]
             )
         ]
 
@@ -64,7 +65,7 @@ class SwerveDrivetrain(Subsystem):
     def current_heading(self) -> Rotation2d:
         """
         """
-        return Rotation2d.fromDegrees((self.gyroscope.getFusedHeading() - self.heading_offset) % 360.0)
+        return Rotation2d.fromDegrees(360.0 - ((self.gyroscope.getFusedHeading() - self.heading_offset) % 360.0))
 
     def reset_heading(self) -> Rotation2d:
         """
@@ -109,6 +110,7 @@ class SwerveDrivetrain(Subsystem):
         self.pose_estimator.update(self.current_heading(), self.current_module_positions())
         for swerve_module in self.swerve_modules:
             swerve_module.update_telemetry()
+        SmartDashboard.putNumber("Drivetrain Raw IMU Yaw", self.current_heading().degrees())
 
     def reset_pose_estimator(self, current_pose: Pose2d = Pose2d(*RobotConfig.default_start_pose)) -> None:
         """
@@ -118,4 +120,4 @@ class SwerveDrivetrain(Subsystem):
     def periodic(self) -> None:
         """
         """
-        self.update_pose_estimator()
+        #self.update_pose_estimator()

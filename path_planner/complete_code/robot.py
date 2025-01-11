@@ -8,6 +8,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
 
     def robotPeriodic(self):
         commands2.CommandScheduler.getInstance().run()
+        self.drivetrain.update_pose_estimator()
 
     def disabledInit(self):
         pass

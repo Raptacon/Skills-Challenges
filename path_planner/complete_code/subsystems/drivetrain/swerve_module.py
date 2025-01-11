@@ -12,6 +12,7 @@ from sensors.utils import configureSparkMaxCanRates
 from ntcore import NetworkTableInstance
 import phoenix6
 import rev
+from wpilib import SmartDashboard
 from wpimath.kinematics import SwerveModulePosition, SwerveModuleState
 from wpimath.geometry import Rotation2d, Translation2d
 
@@ -67,7 +68,7 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         }
 
         # Telemetry setup
-        self.setup_smartdashboard(self.constants.moduleType + f"_{channel_base}")
+        self.setup_smartdashboard(self.name)
 
         # Physical device instantiation
         self.drive_motor = rev.SparkMax(self.id_lookup["drive_motor"] , rev.SparkLowLevel.MotorType.kBrushless)
@@ -221,13 +222,22 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         # TODO: JD move to telemetry
         # TODO: JD worth looking at putting some of these in cache?
         abs_encoder_value = self.absolute_encoder.get_absolute_position(refresh=True)
-        self.abs_encoder_issue_publisher.set(abs_encoder_value.status.is_ok())
-        if abs_encoder_value.status.is_ok():
-            self.raw_absolute_angle_publisher.set(abs_encoder_value.value_as_double - self.constants.encoder_calibration)
-            self.adj_absolute_angle_publisher.set(abs_encoder_value.value_as_double)
-        self.raw_angle_publisher.set(self.steer_motor_encoder.getPosition())
-        self.raw_drive_encoder_publisher.set(self.drive_motor_encoder.getPosition())
-        self.raw_drive_velocity_pubisher.set(self.drive_motor_encoder.getVelocity())
+
+        SmartDashboard.putNumber(f"{self.name} Drive Value", self.drive_motor_encoder.getPosition())
+        SmartDashboard.putNumber(f"{self.name} Adjusted Absolute Encoder Value", abs_encoder_value.value_as_double - self.constants.encoder_calibration)
+        SmartDashboard.putNumber(f"{self.name} Raw Angle Value", self.steer_motor_encoder.getPosition())
+        SmartDashboard.putBoolean(f"{self.name} Absolute Encoder Issue Publisher", not abs_encoder_value.status.is_ok())
+        SmartDashboard.putNumber(f"{self.name} Raw Absolute Encoder Publisher", abs_encoder_value.value_as_double)
+        SmartDashboard.putNumber(f"{self.name} Raw Drive Velocity Publisher", self.drive_motor_encoder.getVelocity())
+
+        # abs_encoder_value = self.absolute_encoder.get_absolute_position(refresh=True)
+        # self.abs_encoder_issue_publisher.set(not abs_encoder_value.status.is_ok())
+        # if abs_encoder_value.status.is_ok():
+        #     self.raw_absolute_angle_publisher.set(abs_encoder_value.value_as_double - self.constants.encoder_calibration)
+        #     self.adj_absolute_angle_publisher.set(abs_encoder_value.value_as_double)
+        # self.raw_angle_publisher.set(self.steer_motor_encoder.getPosition())
+        # self.raw_drive_encoder_publisher.set(self.drive_motor_encoder.getPosition())
+        # self.raw_drive_velocity_pubisher.set(self.drive_motor_encoder.getVelocity())
 
     def baseline_relative_encoders(self) -> None:
         """
