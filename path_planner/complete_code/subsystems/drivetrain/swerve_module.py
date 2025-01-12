@@ -109,7 +109,16 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
         # Steer motor configuration
         configureSparkMaxCanRates(steer_motor_config, drive_motor_flag=False)
-        steer_motor_config.setIdleMode(rev.SparkBaseConfig.IdleMode.kCoast)
+        (
+            steer_motor_config
+            .inverted(invert_steer)
+            .setIdleMode(rev.SparkBaseConfig.IdleMode.kCoast)
+            .voltageCompensation(self.constants.kNominalVoltage)
+            .smartCurrentLimit(self.constants.kSteerCurrentLimit)
+            .closedLoopRampRate(self.constants.kRampRate)
+            .openLoopRampRate(self.constants.kRampRate)
+            
+        )
 
         (
             steer_motor_config.closedLoop
@@ -132,14 +141,16 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
             rev.SparkBase.PersistMode.kPersistParameters
         )
 
-        self.steer_motor.setInverted(invert_steer)
-
         # Drive motor configuration
         configureSparkMaxCanRates(drive_motor_config, drive_motor_flag=True)
         (
             drive_motor_config
+            .inverted(invert_drive)
             .setIdleMode(rev.SparkBaseConfig.IdleMode.kBrake)
             .voltageCompensation(self.constants.kNominalVoltage)
+            .smartCurrentLimit(self.constants.kDriveCurrentLimit)
+            .closedLoopRampRate(self.constants.kRampRate)
+            .openLoopRampRate(self.constants.kRampRate)
         )
 
         (
@@ -158,8 +169,6 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
             drive_motor_config, rev.SparkBase.ResetMode.kNoResetSafeParameters,
             rev.SparkBase.PersistMode.kPersistParameters
         )
-
-        self.drive_motor.setInverted(invert_drive)
 
         # Baseline relative encoders
         self.baseline_relative_encoders()
@@ -258,6 +267,6 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
     def set_state(self, state: SwerveModuleState) -> None:
         """
         """
-        optimal_state = state.optimize(Rotation2d.fromDegrees(self.steer_motor_encoder.getPosition()))
-        self.steer_motor_pid.setReference(optimal_state.angle.degrees, rev.SparkBase.ControlType.kPosition, 0)
-        self.drive_motor_pid.setReference(optimal_state.speed, rev.SparkBase.ControlType.kVelocity, 0)
+        state.optimize(Rotation2d.fromDegrees(self.steer_motor_encoder.getPosition()))
+        self.steer_motor_pid.setReference(state.angle.degrees(), rev.SparkLowLevel.ControlType.kPosition, rev.ClosedLoopSlot.kSlot0)
+        self.drive_motor_pid.setReference(state.speed, rev.SparkLowLevel.ControlType.kVelocity, rev.ClosedLoopSlot.kSlot0)

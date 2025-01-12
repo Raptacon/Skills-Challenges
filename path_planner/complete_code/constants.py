@@ -37,7 +37,7 @@ class SwerveDriveConsts:
     moduleBackRightY: float = -0.3556
 
     maxTranslationMPS: float = 4.14528
-    startingHeadingOffset: float = -90
+    maxAngularDPS: float = math.degrees(maxTranslationMPS / math.hypot(moduleFrontLeftY, moduleFrontLeftX))
 
 
 class SwerveModuleMk4iConsts:
@@ -45,9 +45,10 @@ class SwerveModuleMk4iConsts:
     https://github.com/SwerveDriveSpecialties/swerve-lib/blob/develop/src/main/java/com/swervedrivespecialties/swervelib/ctre/Falcon500DriveControllerFactoryBuilder.java
     """
     kNominalVoltage: float = 12.0
-    kDriveCurrentLimit: float = 20.0
-    kSteerCurrentLimit: float = 20.0
-    kTicksPerRotation: int = 1 #2048 # Falcon 500
+    kDriveCurrentLimit: int = 40
+    kSteerCurrentLimit: int = 20
+    kRampRate: float = 0.25
+    kTicksPerRotation: int = 1
     kCanStatusFrameHz: int = 10
     quadratureMeasurementRateMs: int = 10
     quadratureAverageDepth: int = 2

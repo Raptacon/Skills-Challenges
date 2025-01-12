@@ -53,7 +53,7 @@ class SwerveDrivetrain(Subsystem):
         )
 
         self.gyroscope = navx.AHRS.create_spi()
-        self.heading_offset = self.constants.startingHeadingOffset
+        self.heading_offset = 0
 
         self.pose_estimator = SwerveDrive4PoseEstimator(
             self.drive_kinematics,
@@ -62,15 +62,18 @@ class SwerveDrivetrain(Subsystem):
             starting_pose
         )
 
+        self.reset_heading()
+
     def current_heading(self) -> Rotation2d:
         """
         """
         return Rotation2d.fromDegrees(360.0 - ((self.gyroscope.getFusedHeading() - self.heading_offset) % 360.0))
 
-    def reset_heading(self) -> Rotation2d:
+    def reset_heading(self) -> None:
         """
         """
         self.heading_offset = self.gyroscope.getFusedHeading()
+        self.reset_pose_estimator(Pose2d(self.current_pose().translation(), Rotation2d()))
 
     def drive(
         self,
@@ -116,8 +119,15 @@ class SwerveDrivetrain(Subsystem):
         """
         """
         self.pose_estimator.resetPosition(self.current_heading(), self.current_module_positions(), current_pose)
+        self.stop_driving()
+
+    def stop_driving(self) -> None:
+        """
+        """
+        robot_relative_speeds = ChassisSpeeds.fromRobotRelativeSpeeds(ChassisSpeeds(0, 0, 0), self.current_heading())
+        self.drive_kinematics.toSwerveModuleStates(robot_relative_speeds)
 
     def periodic(self) -> None:
         """
         """
-        #self.update_pose_estimator()
+        self.update_pose_estimator()
