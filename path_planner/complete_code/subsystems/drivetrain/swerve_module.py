@@ -268,5 +268,10 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         """
         """
         state.optimize(Rotation2d.fromDegrees(self.steer_motor_encoder.getPosition()))
-        self.steer_motor_pid.setReference(state.angle.degrees(), rev.SparkLowLevel.ControlType.kPosition, rev.ClosedLoopSlot.kSlot0)
-        self.drive_motor_pid.setReference(state.speed, rev.SparkLowLevel.ControlType.kVelocity, rev.ClosedLoopSlot.kSlot0)
+        state_degrees = state.angle.degrees()
+        state_speed = state.speed
+        self.steer_motor_pid.setReference(
+            state_degrees % 360.0 if not (abs(state_degrees) < 1e-3) else 0.0,
+            rev.SparkLowLevel.ControlType.kPosition, rev.ClosedLoopSlot.kSlot0
+        )
+        self.drive_motor_pid.setReference(state_speed, rev.SparkLowLevel.ControlType.kVelocity, rev.ClosedLoopSlot.kSlot0)

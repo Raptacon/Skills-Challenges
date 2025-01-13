@@ -11,7 +11,6 @@ class RobotConfig:
     )
     # 83.496 356.396 50.098 69.785
     #swerve_steer_pid: Tuple[float] = (0.3, 1, 0)
-    swerve_steer_pid: Tuple[float] = (0, 0, 0)
+    swerve_steer_pid: Tuple[float] = (0.01, 0, 0)
     # TODO: JD tune drive PID
-    #swerve_drive_pid: Tuple[float] = (0.0020645, 0, 0)
-    swerve_drive_pid: Tuple[float] = (0, 0, 0)
+    swerve_drive_pid: Tuple[float] = (0.0020645, 0, 0)
