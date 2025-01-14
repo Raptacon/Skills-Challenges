@@ -7,10 +7,10 @@ class RobotConfig:
     # Give in front-left, front-right, back-left, back-right order
     swerve_module_channels: Tuple[int] = (50, 53, 56, 59)
     swerve_abs_encoder_calibrations: Tuple[float] = (
-        276.1524 / 360.0, 352.96884 / 360.0, 323.1738 / 360.0, 289.77552 / 360.0
+        258.92568 / 360.0, 189.14076 / 360.0, 213.2226 / 360.0, 250.83972 / 360.0
     )
-    # 83.496 356.396 50.098 69.785
-    #swerve_steer_pid: Tuple[float] = (0.3, 1, 0)
     swerve_steer_pid: Tuple[float] = (0.01, 0, 0)
+    #swerve_steer_pid: Tuple[float] = (0.001, 0, 0)
     # TODO: JD tune drive PID
-    swerve_drive_pid: Tuple[float] = (0.0020645, 0, 0)
+    swerve_drive_pid: Tuple[float] = (0.4, 0, 0.1)
+    #swerve_drive_pid: Tuple[float] = (0.0020645, 0, 0)
