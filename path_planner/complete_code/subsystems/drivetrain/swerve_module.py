@@ -156,7 +156,7 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         (
             drive_motor_config.closedLoop
             .setFeedbackSensor(rev.ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
-            .pid(*RobotConfig.swerve_drive_pid)
+            .pidf(*RobotConfig.swerve_drive_pid)
         )
 
         (

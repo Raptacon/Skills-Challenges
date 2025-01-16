@@ -19,6 +19,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
 
     def disabledInit(self):
         self.drivetrain.stop_driving()
+        self.drivetrain.reset_pose_estimator()
 
     def disabledPeriodic(self):
         pass

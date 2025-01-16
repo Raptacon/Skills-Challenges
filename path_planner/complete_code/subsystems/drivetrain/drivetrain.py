@@ -114,6 +114,9 @@ class SwerveDrivetrain(Subsystem):
         for swerve_module in self.swerve_modules:
             swerve_module.update_telemetry()
         SmartDashboard.putNumber("Drivetrain Raw IMU Yaw", self.current_heading().degrees())
+        SmartDashboard.putNumber("Odometry: X Pose", self.current_pose().X())
+        SmartDashboard.putNumber("Odometry: Y Pose", self.current_pose().Y())
+        SmartDashboard.putNumber("Odometry: Angle Pose", self.current_pose().rotation().degrees())
 
     def reset_pose_estimator(self, current_pose: Pose2d = Pose2d(*RobotConfig.default_start_pose)) -> None:
         """
@@ -125,7 +128,10 @@ class SwerveDrivetrain(Subsystem):
         """
         """
         robot_relative_speeds = ChassisSpeeds.fromRobotRelativeSpeeds(ChassisSpeeds(0, 0, 0), self.current_heading())
-        self.drive_kinematics.toSwerveModuleStates(robot_relative_speeds)
+        module_states = self.drive_kinematics.toSwerveModuleStates(robot_relative_speeds)
+
+        for i, module_state in enumerate(module_states):
+            self.swerve_modules[i].set_state(module_state)
 
     def periodic(self) -> None:
         """
