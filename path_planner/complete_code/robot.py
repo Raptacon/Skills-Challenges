@@ -30,7 +30,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
 
     def autonomousInit(self):
         path = PathPlannerPath.fromPathFile("1_1D_circular")
-        AutoBuilder.followPath(path)
+        self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
 
     def autonomousPeriodic(self):
         pass
