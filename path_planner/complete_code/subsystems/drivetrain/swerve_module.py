@@ -4,7 +4,7 @@ import logging as log
 from typing import Tuple
 
 # Internal imports
-from config import RobotConfig
+from config import OperatorRobotConfig
 from constants import SwerveModuleMk4iConsts, SwerveModuleMk4iL2Consts
 from sensors.utils import configureSparkMaxCanRates
 
@@ -123,7 +123,7 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         (
             steer_motor_config.closedLoop
             .setFeedbackSensor(rev.ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
-            .pid(*RobotConfig.swerve_steer_pid)
+            .pid(*OperatorRobotConfig.swerve_steer_pid)
             .positionWrappingEnabled(True)
             .positionWrappingInputRange(0, 360.0)
         )
@@ -156,7 +156,7 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         (
             drive_motor_config.closedLoop
             .setFeedbackSensor(rev.ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
-            .pidf(*RobotConfig.swerve_drive_pid)
+            .pidf(*OperatorRobotConfig.swerve_drive_pid)
         )
 
         (
@@ -263,6 +263,13 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         drive_position = self.drive_motor_encoder.getPosition()
         steer_position = Rotation2d.fromDegrees(self.steer_motor_encoder.getPosition())
         return SwerveModulePosition(drive_position, steer_position)
+
+    def current_state(self) -> SwerveModuleState:
+        """
+        """
+        current_velocity = self.drive_motor_encoder.getVelocity()
+        current_angle = Rotation2d.fromDegrees(self.steer_motor_encoder.getPosition())
+        return SwerveModuleState(current_velocity, current_angle)
 
     def set_state(self, state: SwerveModuleState) -> None:
         """

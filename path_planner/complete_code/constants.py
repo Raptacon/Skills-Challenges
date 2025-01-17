@@ -6,6 +6,16 @@ Collection of numeric constants that define physical properties of the robot
 import math
 
 #############################
+# ROBOT ###################
+#############################
+
+
+class RobotConstants:
+    massKG: float = 74.088
+    MOI: float = 6.883
+
+
+#############################
 # SENSORS ###################
 #############################
 
@@ -26,7 +36,7 @@ class SparkMaxConstants:
 #############################
 
 
-class SwerveDriveConsts:
+class SwerveDriveConsts(RobotConstants):
     moduleFrontLeftX: float = 0.3302
     moduleFrontLeftY: float = 0.3556
     moduleFrontRightX: float = 0.3302
@@ -40,7 +50,7 @@ class SwerveDriveConsts:
     maxAngularDPS: float = math.degrees(maxTranslationMPS / math.hypot(moduleFrontLeftY, moduleFrontLeftX))
 
 
-class SwerveModuleMk4iConsts:
+class SwerveModuleMk4iConsts(SwerveDriveConsts):
     """
     https://github.com/SwerveDriveSpecialties/swerve-lib/blob/develop/src/main/java/com/swervedrivespecialties/swervelib/ctre/Falcon500DriveControllerFactoryBuilder.java
     """
@@ -52,6 +62,8 @@ class SwerveModuleMk4iConsts:
     kCanStatusFrameHz: int = 10
     quadratureMeasurementRateMs: int = 10
     quadratureAverageDepth: int = 2
+    numDriveMotors: int = 1
+    motorType: str = "NEO" # should be an option in wpimath.system.plant.DCMotor
 
 
 class SwerveModuleMk4iL1Consts(SwerveModuleMk4iConsts):
@@ -75,6 +87,7 @@ class SwerveModuleMk4iL2Consts(SwerveModuleMk4iConsts):
     https://docs.yagsl.com/configuring-yagsl/standard-conversion-factors
     """
     wheelDiameter: float = 0.10033
+    wheelCOF: float = 1.0
     driveGearRatio: float = 6.75
     steerGearRatio: float = 150 / 7
 

@@ -1,9 +1,13 @@
+# Internal imports
+from commands.default_swerve_drive import DefaultDrive
+from subsystems.drivetrain.drivetrain import SwerveDrivetrain
+
+# Third-party imports
 import commands2
 import wpilib
 import wpimath
-
-from commands.default_swerve_drive import DefaultDrive
-from subsystems.drivetrain.drivetrain import SwerveDrivetrain
+from pathplannerlib.path import PathPlannerPath
+from pathplannerlib.auto import AutoBuilder
 
 
 class PathPlannerRobot(commands2.TimedCommandRobot):
@@ -25,7 +29,8 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         pass
 
     def autonomousInit(self):
-        pass
+        path = PathPlannerPath.fromPathFile("1_1D_circular")
+        AutoBuilder.followPath(path)
 
     def autonomousPeriodic(self):
         pass
