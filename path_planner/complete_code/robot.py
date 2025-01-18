@@ -7,7 +7,7 @@ import commands2
 import wpilib
 import wpimath
 from pathplannerlib.path import PathPlannerPath
-from pathplannerlib.auto import AutoBuilder
+from pathplannerlib.auto import AutoBuilder, PathPlannerAuto
 
 
 class PathPlannerRobot(commands2.TimedCommandRobot):
@@ -29,8 +29,9 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         pass
 
     def autonomousInit(self):
-        path = PathPlannerPath.fromPathFile("1_1D_circular")
+        path = PathPlannerPath.fromPathFile("3_angular_only")
         self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
+        #self.drivetrain.setDefaultCommand(PathPlannerAuto('test_auto'))
 
     def autonomousPeriodic(self):
         pass
