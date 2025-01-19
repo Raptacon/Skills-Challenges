@@ -167,8 +167,10 @@ class SwerveDrivetrain(Subsystem):
         """
         for swerve_module in self.swerve_modules:
             swerve_module.set_motor_stop_mode(to_drive=to_drive, to_break=to_break)
+            swerve_module.apply_motor_config(to_drive=to_drive)
             if all_motor_override:
                 swerve_module.set_motor_stop_mode(to_drive=not to_drive, to_break=to_break)
+                swerve_module.apply_motor_config(to_drive=not to_drive)
 
     def flip_to_red_alliance(self) -> bool:
         """

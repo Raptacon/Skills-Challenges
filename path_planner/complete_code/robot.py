@@ -18,8 +18,11 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
     def robotInit(self):
         self.drivetrain = SwerveDrivetrain()
         self.driver_controller = wpilib.XboxController(0)
-        Trigger(self.isDisabled()).debounce(3).onTrue(
-            self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False, all_motor_override=True)
+        Trigger(self.isDisabled).debounce(3).onTrue(
+            commands2.cmd.runOnce(
+                self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False, all_motor_override=True),
+                self.drivetrain
+            )
         )
 
     def robotPeriodic(self):
@@ -33,8 +36,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         pass
 
     def autonomousInit(self):
-        self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True)
-        self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=True)
+        self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True)
         path = PathPlannerPath.fromPathFile("3_angular_only")
         #self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
         self.drivetrain.setDefaultCommand(PathPlannerAuto('test_auto'))
