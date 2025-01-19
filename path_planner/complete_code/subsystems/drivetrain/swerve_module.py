@@ -82,8 +82,8 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         self.steer_motor_pid = self.steer_motor.getClosedLoopController()
 
         # Configuration setup
-        drive_motor_config = rev.SparkMaxConfig()
-        steer_motor_config = rev.SparkMaxConfig()
+        self.drive_motor_config = rev.SparkMaxConfig()
+        self.steer_motor_config = rev.SparkMaxConfig()
 
         # Absolute encoder configuration
         absolute_encoder_configurator = self.absolute_encoder.configurator
@@ -108,20 +108,38 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
             )
 
         # Steer motor configuration
-        configureSparkMaxCanRates(steer_motor_config, drive_motor_flag=False)
+        self.instantiate_steer_config(invert_steer)
+        self.steer_motor.configure(
+            self.steer_motor_config, rev.SparkBase.ResetMode.kNoResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters
+        )
+
+        # Drive motor configuration
+        self.instantiate_drive_config(invert_drive)
+        self.drive_motor.configure(
+            self.drive_motor_config, rev.SparkBase.ResetMode.kNoResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters
+        )
+
+        # Baseline relative encoders
+        self.baseline_relative_encoders()
+
+    def instantiate_steer_config(self, invert: bool) -> None:
+        """
+        """
+        configureSparkMaxCanRates(self.steer_motor_config, drive_motor_flag=False)
         (
-            steer_motor_config
-            .inverted(invert_steer)
+            self.steer_motor_config
+            .inverted(invert)
             .setIdleMode(rev.SparkBaseConfig.IdleMode.kCoast)
             .voltageCompensation(self.constants.kNominalVoltage)
             .smartCurrentLimit(self.constants.kSteerCurrentLimit)
             .closedLoopRampRate(self.constants.kRampRate)
             .openLoopRampRate(self.constants.kRampRate)
-            
         )
 
         (
-            steer_motor_config.closedLoop
+            self.steer_motor_config.closedLoop
             .setFeedbackSensor(rev.ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
             .pid(*OperatorRobotConfig.swerve_steer_pid)
             .positionWrappingEnabled(True)
@@ -129,23 +147,20 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         )
 
         (
-            steer_motor_config.encoder
+            self.steer_motor_config.encoder
             .quadratureMeasurementPeriod(self.constants.quadratureMeasurementRateMs)
             .quadratureAverageDepth(self.constants.quadratureAverageDepth)
             .positionConversionFactor(self.constants.steerPositionConversionFactor)
             .velocityConversionFactor(self.constants.steerVelocityConversionFactor)
         )
 
-        self.steer_motor.configure(
-            steer_motor_config, rev.SparkBase.ResetMode.kNoResetSafeParameters,
-            rev.SparkBase.PersistMode.kPersistParameters
-        )
-
-        # Drive motor configuration
-        configureSparkMaxCanRates(drive_motor_config, drive_motor_flag=True)
+    def instantiate_drive_config(self, invert: bool) -> None:
+        """
+        """
+        configureSparkMaxCanRates(self.drive_motor_config, drive_motor_flag=True)
         (
-            drive_motor_config
-            .inverted(invert_drive)
+            self.drive_motor_config
+            .inverted(invert)
             .setIdleMode(rev.SparkBaseConfig.IdleMode.kBrake)
             .voltageCompensation(self.constants.kNominalVoltage)
             .smartCurrentLimit(self.constants.kDriveCurrentLimit)
@@ -154,24 +169,17 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         )
 
         (
-            drive_motor_config.closedLoop
+            self.drive_motor_config.closedLoop
             .setFeedbackSensor(rev.ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
             .pidf(*OperatorRobotConfig.swerve_drive_pid)
         )
 
         (
-            drive_motor_config.encoder
+            self.drive_motor_config.encoder
             .positionConversionFactor(self.constants.drivePositionConversionFactor)
             .velocityConversionFactor(self.constants.driveVelocityConversionFactor)
         )
 
-        self.drive_motor.configure(
-            drive_motor_config, rev.SparkBase.ResetMode.kNoResetSafeParameters,
-            rev.SparkBase.PersistMode.kPersistParameters
-        )
-
-        # Baseline relative encoders
-        self.baseline_relative_encoders()
 
     def setup_smartdashboard(self, module_name: str) -> None:
         """
@@ -282,3 +290,16 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
             rev.SparkLowLevel.ControlType.kPosition, rev.ClosedLoopSlot.kSlot0
         )
         self.drive_motor_pid.setReference(state_speed, rev.SparkLowLevel.ControlType.kVelocity, rev.ClosedLoopSlot.kSlot0)
+
+    def set_motor_stop_mode(self, to_drive: bool, to_break: bool) -> None:
+        """
+        """
+        motor_to_set = self.steer_motor_config
+        if to_drive:
+            motor_to_set = self.drive_motor_config
+
+        stop_mode = rev.SparkBaseConfig.IdleMode.kCoast
+        if to_break:
+            stop_mode = rev.SparkBaseConfig.IdleMode.kBrake
+
+        motor_to_set.setIdleMode(stop_mode)
