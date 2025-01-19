@@ -1,0 +1,19 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "10_slalom_perpen"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "swerve_motion",
+  "choreoAuto": false
+}

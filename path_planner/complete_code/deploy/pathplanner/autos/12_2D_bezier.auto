@@ -1,0 +1,19 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "12_2D_bezier"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "swerve_path",
+  "choreoAuto": false
+}

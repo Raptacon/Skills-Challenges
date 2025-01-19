@@ -18,6 +18,9 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
     def robotInit(self):
         self.drivetrain = SwerveDrivetrain()
         self.driver_controller = wpilib.XboxController(0)
+        self.auto_chooser = AutoBuilder.buildAutoChooser()
+        wpilib.SmartDashboard.putData("Select auto routine", self.auto_chooser)
+
         Trigger(self.isDisabled).debounce(3).onTrue(
             commands2.cmd.runOnce(
                 self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False, all_motor_override=True),
@@ -37,9 +40,11 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
 
     def autonomousInit(self):
         self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True)
-        path = PathPlannerPath.fromPathFile("3_angular_only")
+        #path = PathPlannerPath.fromPathFile("3_angular_only")
         #self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
-        self.drivetrain.setDefaultCommand(PathPlannerAuto('test_auto'))
+        auto_routine = self.auto_chooser.getSelected()
+        if auto_routine:
+            auto_routine.schedule()
 
     def autonomousPeriodic(self):
         pass
