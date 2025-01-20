@@ -9,7 +9,7 @@ from pathplannerlib.config import ModuleConfig, RobotConfig
 
 
 class OperatorRobotConfig:
-    default_start_pose: Tuple[float] = (11.0, 1.0, 180.0) #(2.0, 7.0, 0.0) #(11.0, 1.0, 0.0)
+    default_start_pose: Tuple[float] = (14.535, 1.0, 180.0) #(2.0, 7.0, 0.0) #(14.535, 1.0, 180.0)
     # Give in front-left, front-right, back-left, back-right order
     swerve_module_channels: Tuple[int] = (50, 53, 56, 59)
     swerve_abs_encoder_calibrations: Tuple[float] = (
