@@ -2,6 +2,11 @@
 from commands.default_swerve_drive import DefaultDrive
 from subsystems.drivetrain.drivetrain import SwerveDrivetrain
 
+from commands.shortyIntake import Intake
+from subsystems.sparkyIntake import SparkyIntake
+from subsystems.sparkyIntakePivot import IntakePivot
+from subsystems.sparkyIntakePivotController import pivotController
+
 # Third-party imports
 import commands2
 import wpilib
@@ -18,6 +23,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
     def robotInit(self):
         self.drivetrain = SwerveDrivetrain()
         self.driver_controller = wpilib.XboxController(0)
+        self.mechController = wpilib.XboxController(1)
         self.auto_chooser = AutoBuilder.buildAutoChooser()
         wpilib.SmartDashboard.putData("Select auto routine", self.auto_chooser)
 
@@ -27,6 +33,10 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
                 self.drivetrain
             )
         )
+        self.intake = SparkyIntake()
+        self.pivot = IntakePivot()
+        self.intakePivotController = pivotController()
+        self.intakePivotController.setIntakeRotationSubsystem(self.pivot)
 
     def robotPeriodic(self):
         commands2.CommandScheduler.getInstance().run()
@@ -61,6 +71,13 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
                 False
             )
         )
+        self.intake.setDefaultCommand(Intake(
+            self.intake,
+            self.intakePivotController,
+            lambda: wpimath.applyDeadband(self.mechController.getLeftTriggerAxis(), 0.05),
+            lambda: self.mechController.getRightBumper(),
+            lambda: self.mechController.getAButtonPressed(),
+        ))
 
     def teleopPeriodic(self):
         pass
