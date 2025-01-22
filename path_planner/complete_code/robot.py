@@ -49,7 +49,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         pass
 
     def autonomousInit(self):
-        self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True)
+        #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True)
         #path = PathPlannerPath.fromPathFile("3_angular_only")
         #self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
         auto_routine = self.auto_chooser.getSelected()
@@ -60,8 +60,8 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         pass
 
     def teleopInit(self):
-        self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True)
-        self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False)
+        #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True)
+        #self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False)
         self.drivetrain.setDefaultCommand(
             DefaultDrive(
                 self.drivetrain,
