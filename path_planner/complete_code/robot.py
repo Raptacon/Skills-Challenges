@@ -23,7 +23,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
 
         Trigger(self.isDisabled).debounce(3).onTrue(
             commands2.cmd.runOnce(
-                self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False, all_motor_override=True),
+                self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=True, all_motor_override=True),
                 self.drivetrain
             )
         )
@@ -33,25 +33,29 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
 
     def disabledInit(self):
         self.drivetrain.stop_driving()
-        self.drivetrain.reset_pose_estimator()
+        #self.drivetrain.reset_pose_estimator(self.drivetrain.current_pose())
 
     def disabledPeriodic(self):
         pass
 
     def autonomousInit(self):
-        self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True)
+        #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True)
         #path = PathPlannerPath.fromPathFile("3_angular_only")
         #self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
-        auto_routine = self.auto_chooser.getSelected()
-        if auto_routine:
-            auto_routine.schedule()
+
+        self.drivetrain.setDefaultCommand(PathPlannerAuto('1M_1D_translation'))
+
+
+        # auto_routine = self.auto_chooser.getSelected()
+        # if auto_routine:
+        #     auto_routine.schedule()
 
     def autonomousPeriodic(self):
         pass
 
     def teleopInit(self):
-        self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True)
-        self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False)
+        #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True)
+        #self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False)
         self.drivetrain.setDefaultCommand(
             DefaultDrive(
                 self.drivetrain,

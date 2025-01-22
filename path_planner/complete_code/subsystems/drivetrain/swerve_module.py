@@ -272,28 +272,59 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
             raise RuntimeError("Failed to retrieve starting absolute encoder position baselining relative encoders")
         self.steer_motor_encoder.setPosition((current_absolute_rotation.value_as_double * 360.0) % (360.0))
 
+    def current_raw_absolute_encoder_value(self) -> float:
+        """
+        """
+        abs_value = self.absolute_encoder.get_absolute_position(refresh=True)
+        if abs_value.status.is_ok():
+            return abs_value.value_as_double
+        return None
+
+    def current_raw_absolute_steer_position(self) -> float:
+        """
+        """
+        # TODO: JD see if want to use absolute encoder at all here
+        # steer_position = self.current_raw_absolute_encoder_value()
+        # if steer_position:
+        #     steer_position = steer_position * 360 # TODO: JD is this already what we want? Or need to reverse offset? #(steer_position - self.constants.encoder_calibration) * 360.0
+        # else:
+        #     steer_position = self.steer_motor_encoder.getPosition()
+        steer_position = self.steer_motor_encoder.getPosition()
+        steer_position = steer_position % 360
+        return steer_position
+
     def current_position(self) -> SwerveModulePosition:
         """
         """
         drive_position = self.drive_motor_encoder.getPosition()
-        steer_position = Rotation2d.fromDegrees(self.steer_motor_encoder.getPosition())
+        steer_position = Rotation2d.fromDegrees(self.current_raw_absolute_steer_position())
         return SwerveModulePosition(drive_position, steer_position)
 
     def current_state(self) -> SwerveModuleState:
         """
         """
         current_velocity = self.drive_motor_encoder.getVelocity()
-        current_angle = Rotation2d.fromDegrees(self.steer_motor_encoder.getPosition())
+        current_angle = Rotation2d.fromDegrees(self.current_raw_absolute_steer_position())
         return SwerveModuleState(current_velocity, current_angle)
+
+    def cosine_scaling(self, )
 
     def set_state(self, state: SwerveModuleState) -> None:
         """
         """
-        state.optimize(Rotation2d.fromDegrees(self.steer_motor_encoder.getPosition()))
+        encoder_rotation = Rotation2d.fromDegrees(self.current_raw_absolute_steer_position())
+        state.optimize(encoder_rotation)
         state_degrees = state.angle.degrees()
         state_speed = state.speed
+
+        # TODO: JD try cosine scaling
+        # cosine_scaler = (state.angle - encoder_rotation).cos()
+        # if cosine_scaler < 0.0:
+        #     cosine_scaler = 1
+        # state_speed *= cosine_scaler
+
         self.steer_motor_pid.setReference(
-            state_degrees % 360.0 if not (abs(state_degrees) < 1e-3) else 0.0,
+            state_degrees, # TODO: JD see if works without -> if not (abs(state_degrees) < 1e-3) else 0.0,
             rev.SparkLowLevel.ControlType.kPosition, rev.ClosedLoopSlot.kSlot0
         )
         self.drive_motor_pid.setReference(state_speed, rev.SparkLowLevel.ControlType.kVelocity, rev.ClosedLoopSlot.kSlot0)
