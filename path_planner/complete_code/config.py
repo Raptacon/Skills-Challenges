@@ -6,7 +6,7 @@ from constants import SwerveDriveConsts
 
 # Third-party imports
 from pathplannerlib.config import ModuleConfig, RobotConfig
-
+from wpimath.geometry import Transform3d, Translation3d, Rotation3d
 
 class OperatorRobotConfig:
     default_start_pose: Tuple[float] = (2, 7, 0.0) #(2.0, 7.0, 0.0) #(14.535, 1.0, 180.0)
@@ -19,3 +19,9 @@ class OperatorRobotConfig:
     swerve_drive_pid: Tuple[float] = (0.1, 0, 0.1, 1 / 473)
     pathplanner_translation_pid: Tuple[float] = (5.0, 0.0, 0.0)
     pathplanner_rotation_pid: Tuple[float] = (5.0, 0.0, 0.0)
+
+    robotToCam = Transform3d(
+        Translation3d(0.5, 0.0, 0.5),
+        Rotation3d.fromDegrees(0.0, -30.0, 0.0),
+    )
+

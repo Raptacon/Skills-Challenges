@@ -1,6 +1,7 @@
 # Internal imports
 from commands.default_swerve_drive import DefaultDrive
 from subsystems.drivetrain.drivetrain import SwerveDrivetrain
+from vision import Vision
 
 # Third-party imports
 import commands2
@@ -18,8 +19,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
     def robotInit(self):
         self.drivetrain = SwerveDrivetrain()
         self.driver_controller = wpilib.XboxController(0)
-        self.auto_chooser = AutoBuilder.buildAutoChooser()
-        wpilib.SmartDashboard.putData("Select auto routine", self.auto_chooser)
+        self.vision = Vision(self.drivetrain)
 
         Trigger(self.isDisabled).debounce(3).onTrue(
             commands2.cmd.runOnce(
@@ -30,6 +30,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
 
     def robotPeriodic(self):
         commands2.CommandScheduler.getInstance().run()
+        self.vision.getCamEstimate()
 
     def disabledInit(self):
         self.drivetrain.stop_driving()

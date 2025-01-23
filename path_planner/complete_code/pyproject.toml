@@ -13,4 +13,6 @@ robotpy_version = "2025.2.1.0"
 robotpy_extras = ["all"]
 
 # Other pip packages to install
-requires = []
+requires = [
+    "photonlibpy"
+]

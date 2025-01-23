@@ -15,7 +15,7 @@ from pathplannerlib.auto import AutoBuilder
 from pathplannerlib.controller import PPHolonomicDriveController
 from pathplannerlib.config import ModuleConfig, RobotConfig, PIDConstants
 from wpimath.estimator import SwerveDrive4PoseEstimator
-from wpimath.geometry import Pose2d, Rotation2d, Rotation3d, Translation2d
+from wpimath.geometry import Pose2d, Rotation2d, Rotation3d, Translation2d, Pose3d
 from wpimath.kinematics import ChassisSpeeds, SwerveDrive4Kinematics, SwerveModulePosition
 
 
@@ -144,6 +144,9 @@ class SwerveDrivetrain(Subsystem):
 
         for i, module_state in enumerate(module_states):
             self.swerve_modules[i].set_state(module_state)
+
+    def addVisionPoseEstimate(self, pose: Pose3d, timestamp: float) -> None:
+        self.pose_estimator.addVisionMeasurement(pose, timestamp)
 
     def update_pose_estimator(self) -> None:
         """
