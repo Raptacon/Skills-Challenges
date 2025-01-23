@@ -14,7 +14,7 @@ class pivotController(commands2.SubsystemBase):
             self.getIntakeRotation().pivotMotor.set(-0.2)
             if(self.getIntakeRotation().getLimit()):
                 self.calibrated = True
-                self.getIntakeRotation().encoderOffset = self.getIntakeRotation().encoder.getAbsolutePosition()
+                self.getIntakeRotation().encoderOffset = self.getIntakeRotation().encoder.get()
 
     def setIntakeRotationSubsystem(self, RotationSubsystem):
         self.intakeRotationSS = RotationSubsystem

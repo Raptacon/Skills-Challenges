@@ -83,7 +83,15 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         pass
 
     def testInit(self):
-        pass
+        self.intake.setDefaultCommand(Intake(
+            self.intake,
+            self.intakePivotController,
+            lambda: wpimath.applyDeadband(self.mechController.getLeftTriggerAxis(), 0.05),
+            lambda: self.mechController.getRightBumper(),
+            lambda: self.mechController.getAButtonPressed(),
+        ))
+        wpilib.SmartDashboard.putNumber("Pivot Angle:", 0.5)
 
     def testPeriodic(self):
-        pass
+        pivotAngle = wpilib.SmartDashboard.getNumber("Pivot Angle:", 0.5) # noqa: E117,F841
+        self.intakePivotController.setManipulator(pivotAngle)
