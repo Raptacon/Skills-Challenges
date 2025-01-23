@@ -307,8 +307,6 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         current_angle = Rotation2d.fromDegrees(self.current_raw_absolute_steer_position())
         return SwerveModuleState(current_velocity, current_angle)
 
-    def cosine_scaling(self, )
-
     def set_state(self, state: SwerveModuleState) -> None:
         """
         """
