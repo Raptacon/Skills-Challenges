@@ -247,12 +247,12 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         # TODO: JD worth looking at putting some of these in cache?
         abs_encoder_value = self.absolute_encoder.get_absolute_position(refresh=True)
 
-        SmartDashboard.putNumber(f"{self.name} Drive Value", self.drive_motor_encoder.getPosition())
-        SmartDashboard.putNumber(f"{self.name} Adjusted Absolute Encoder Value", abs_encoder_value.value_as_double - self.constants.encoder_calibration)
-        SmartDashboard.putNumber(f"{self.name} Raw Angle Value", self.steer_motor_encoder.getPosition())
-        SmartDashboard.putBoolean(f"{self.name} Absolute Encoder Issue Publisher", not abs_encoder_value.status.is_ok())
-        SmartDashboard.putNumber(f"{self.name} Raw Absolute Encoder Publisher", abs_encoder_value.value_as_double)
-        SmartDashboard.putNumber(f"{self.name} Raw Drive Velocity Publisher", self.drive_motor_encoder.getVelocity())
+        # SmartDashboard.putNumber(f"{self.name} Drive Value", self.drive_motor_encoder.getPosition())
+        # SmartDashboard.putNumber(f"{self.name} Adjusted Absolute Encoder Value", abs_encoder_value.value_as_double - self.constants.encoder_calibration)
+        # SmartDashboard.putNumber(f"{self.name} Raw Angle Value", self.steer_motor_encoder.getPosition())
+        # SmartDashboard.putBoolean(f"{self.name} Absolute Encoder Issue Publisher", not abs_encoder_value.status.is_ok())
+        # SmartDashboard.putNumber(f"{self.name} Raw Absolute Encoder Publisher", abs_encoder_value.value_as_double)
+        # SmartDashboard.putNumber(f"{self.name} Raw Drive Velocity Publisher", self.drive_motor_encoder.getVelocity())
 
         # abs_encoder_value = self.absolute_encoder.get_absolute_position(refresh=True)
         # self.abs_encoder_issue_publisher.set(not abs_encoder_value.status.is_ok())

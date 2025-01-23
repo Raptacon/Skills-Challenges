@@ -134,13 +134,13 @@ class SwerveDrivetrain(Subsystem):
         self.pose_estimator.update(self.current_heading(), self.current_module_positions())
         for swerve_module in self.swerve_modules:
             swerve_module.update_telemetry()
-        SmartDashboard.putNumber("Drivetrain Raw IMU Yaw", self.current_heading().degrees())
-        SmartDashboard.putNumber("Drivetrain Unadjusted IMU Yaw", self.gyroscope.getFusedHeading())
-        SmartDashboard.putNumber("Drivetrain Heading Offset", self.heading_offset)
-        SmartDashboard.putNumber("Starting angle", self.starting_pose.rotation().degrees() % 360.0)
-        SmartDashboard.putNumber("Odometry: X Pose", self.current_pose().X())
-        SmartDashboard.putNumber("Odometry: Y Pose", self.current_pose().Y())
-        SmartDashboard.putNumber("Odometry: Angle Pose", self.current_pose().rotation().degrees())
+        # SmartDashboard.putNumber("Drivetrain Raw IMU Yaw", self.current_heading().degrees())
+        # SmartDashboard.putNumber("Drivetrain Unadjusted IMU Yaw", self.gyroscope.getFusedHeading())
+        # SmartDashboard.putNumber("Drivetrain Heading Offset", self.heading_offset)
+        # SmartDashboard.putNumber("Starting angle", self.starting_pose.rotation().degrees() % 360.0)
+        # SmartDashboard.putNumber("Odometry: X Pose", self.current_pose().X())
+        # SmartDashboard.putNumber("Odometry: Y Pose", self.current_pose().Y())
+        # SmartDashboard.putNumber("Odometry: Angle Pose", self.current_pose().rotation().degrees())
 
     def reset_pose_estimator(
         self,

@@ -25,7 +25,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         self.driver_controller = wpilib.XboxController(0)
         self.mechController = wpilib.XboxController(1)
         self.auto_chooser = AutoBuilder.buildAutoChooser()
-        wpilib.SmartDashboard.putData("Select auto routine", self.auto_chooser)
+        #wpilib.SmartDashboard.putData("Select auto routine", self.auto_chooser)
 
         Trigger(self.isDisabled).debounce(3).onTrue(
             commands2.cmd.runOnce(
@@ -83,15 +83,27 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         pass
 
     def testInit(self):
-        self.intake.setDefaultCommand(Intake(
-            self.intake,
-            self.intakePivotController,
-            lambda: wpimath.applyDeadband(self.mechController.getLeftTriggerAxis(), 0.05),
-            lambda: self.mechController.getRightBumper(),
-            lambda: self.mechController.getAButtonPressed(),
-        ))
-        wpilib.SmartDashboard.putNumber("Pivot Angle:", 0.5)
+        # self.intake.setDefaultCommand(Intake(
+        #     self.intake,
+        #     self.intakePivotController,
+        #     lambda: wpimath.applyDeadband(self.mechController.getLeftTriggerAxis(), 0.05),
+        #     lambda: self.mechController.getRightBumper(),
+        #     lambda: self.mechController.getAButtonPressed(),
+        # ))
+        self.drivetrain.setDefaultCommand(
+            DefaultDrive(
+                self.drivetrain,
+                lambda: wpimath.applyDeadband(-1 * self.driver_controller.getLeftY(), 0.06),
+                lambda: wpimath.applyDeadband(-1 * self.driver_controller.getLeftX(), 0.06),
+                lambda: wpimath.applyDeadband(-1 * self.driver_controller.getRightX(), 0.1),
+                False
+            )
+        )
+        wpilib.SmartDashboard.putNumber("Pivot Angle:", 70)
+        wpilib.SmartDashboard.putNumber("Intake speed: ", -0.3)
 
     def testPeriodic(self):
-        pivotAngle = wpilib.SmartDashboard.getNumber("Pivot Angle:", 0.5) # noqa: E117,F841
+        pivotAngle = wpilib.SmartDashboard.getNumber("Pivot Angle:", 70) # noqa: E117,F841
         self.intakePivotController.setManipulator(pivotAngle)
+        intakeSpeed = wpilib.SmartDashboard.getNumber("Intake speed: ", -0.3)
+        self.intake.runIntake(intakeSpeed)
