@@ -47,12 +47,12 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         #path = PathPlannerPath.fromPathFile("3_angular_only")
         #self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
         #self.auto_command = PathPlannerAuto('11M_slalom_perpen_flip')
-        if self.auto_command:
-            self.auto_command.schedule()
+        # if self.auto_command:
+        #     self.auto_command.schedule()
 
-        # auto_routine = self.auto_chooser.getSelected()
-        # if auto_routine:
-        #     auto_routine.schedule()
+        auto_routine = self.auto_chooser.getSelected()
+        if auto_routine:
+            auto_routine.schedule()
 
     def autonomousPeriodic(self):
         pass
