@@ -13,7 +13,7 @@
       ]
     }
   },
-  "resetOdom": false,
-  "folder": "swerve_motion",
+  "resetOdom": true,
+  "folder": null,
   "choreoAuto": false
 }
