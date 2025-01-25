@@ -19,8 +19,8 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         self.drivetrain = SwerveDrivetrain()
         self.driver_controller = wpilib.XboxController(0)
         self.auto_command = None
-        #self.auto_chooser = AutoBuilder.buildAutoChooser()
-        #wpilib.SmartDashboard.putData("Select auto routine", self.auto_chooser)
+        self.auto_chooser = AutoBuilder.buildAutoChooser()
+        wpilib.SmartDashboard.putData("Select auto routine", self.auto_chooser)
 
         Trigger(self.isDisabled).debounce(3).onTrue(
             commands2.cmd.runOnce(
@@ -46,7 +46,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True, burn_flash=False)
         #path = PathPlannerPath.fromPathFile("3_angular_only")
         #self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
-        self.auto_command = PathPlannerAuto('11M_slalom_perpen_flip')
+        #self.auto_command = PathPlannerAuto('11M_slalom_perpen_flip')
         if self.auto_command:
             self.auto_command.schedule()
 
