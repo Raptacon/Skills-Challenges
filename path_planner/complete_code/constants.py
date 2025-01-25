@@ -55,7 +55,7 @@ class SwerveModuleMk4iConsts(SwerveDriveConsts):
     https://github.com/SwerveDriveSpecialties/swerve-lib/blob/develop/src/main/java/com/swervedrivespecialties/swervelib/ctre/Falcon500DriveControllerFactoryBuilder.java
     """
     kNominalVoltage: float = 12.0
-    kDriveCurrentLimit: int = 40
+    kDriveCurrentLimit: int = 50
     kSteerCurrentLimit: int = 20
     kRampRate: float = 0.25
     kTicksPerRotation: int = 1

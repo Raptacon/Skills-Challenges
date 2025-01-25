@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "3_angular_only"
+            "pathName": "pt"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "swerve_motion",
+  "folder": null,
   "choreoAuto": false
 }

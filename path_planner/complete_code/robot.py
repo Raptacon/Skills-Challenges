@@ -46,7 +46,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True, burn_flash=False)
         #path = PathPlannerPath.fromPathFile("3_angular_only")
         #self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
-        self.auto_command = PathPlannerAuto('1M_1D_translation')
+        self.auto_command = PathPlannerAuto('11M_slalom_perpen_flip')
         if self.auto_command:
             self.auto_command.schedule()
 
