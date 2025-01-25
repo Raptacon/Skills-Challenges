@@ -109,11 +109,11 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
         # Steer motor configuration
         self.instantiate_steer_config(invert_steer)
-        self.apply_motor_config(to_drive=False)
+        self.apply_motor_config(to_drive=False, burn_flash=True)
 
         # Drive motor configuration
         self.instantiate_drive_config(invert_drive)
-        self.apply_motor_config(to_drive=True)
+        self.apply_motor_config(to_drive=True, burn_flash=True)
 
         # Baseline relative encoders
         self.baseline_relative_encoders()
@@ -174,7 +174,7 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
             .velocityConversionFactor(self.constants.driveVelocityConversionFactor)
         )
 
-    def apply_motor_config(self, to_drive: bool) -> None:
+    def apply_motor_config(self, to_drive: bool, burn_flash: bool = False) -> None:
         """
         """
         motor_set = self.steer_motor
@@ -183,9 +183,13 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
             motor_set = self.drive_motor
             config_use = self.drive_motor_config
 
+        write_mode = rev.SparkBase.PersistMode.kNoPersistParameters
+        if burn_flash:
+            write_mode = rev.SparkBase.PersistMode.kPersistParameters
+
         motor_set.configure(
             config_use, rev.SparkBase.ResetMode.kNoResetSafeParameters,
-            rev.SparkBase.PersistMode.kPersistParameters
+            write_mode
         )
 
     def setup_smartdashboard(self, module_name: str) -> None:

@@ -18,12 +18,15 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
     def robotInit(self):
         self.drivetrain = SwerveDrivetrain()
         self.driver_controller = wpilib.XboxController(0)
+        self.auto_command = None
         #self.auto_chooser = AutoBuilder.buildAutoChooser()
         #wpilib.SmartDashboard.putData("Select auto routine", self.auto_chooser)
 
         Trigger(self.isDisabled).debounce(3).onTrue(
             commands2.cmd.runOnce(
-                self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=True, all_motor_override=True),
+                self.drivetrain.set_motor_stop_modes(
+                    to_drive=True, to_break=True, all_motor_override=True, burn_flash=True
+                ),
                 self.drivetrain
             )
         )
@@ -32,6 +35,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         commands2.CommandScheduler.getInstance().run()
 
     def disabledInit(self):
+        self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True, burn_flash=False)
         self.drivetrain.stop_driving()
         #self.drivetrain.reset_pose_estimator(self.drivetrain.current_pose())
 
@@ -39,11 +43,12 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         pass
 
     def autonomousInit(self):
-        #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True)
+        #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True, burn_flash=False)
         #path = PathPlannerPath.fromPathFile("3_angular_only")
         #self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
-
-        PathPlannerAuto('1M_1D_translation').schedule()
+        self.auto_command = PathPlannerAuto('1M_1D_translation')
+        if self.auto_command:
+            self.auto_command.schedule()
 
         # auto_routine = self.auto_chooser.getSelected()
         # if auto_routine:
@@ -53,6 +58,8 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         pass
 
     def teleopInit(self):
+        if self.auto_command:
+            self.auto_command.cancel()
         #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True)
         #self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False)
         self.drivetrain.setDefaultCommand(
