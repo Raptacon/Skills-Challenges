@@ -24,8 +24,6 @@ https://store.ctr-electronics.com/falcon-500-powered-by-talon-fx/
 and a
 https://store.ctr-electronics.com/cancoder/
 Other defaults may be added in future
-
-Constants used from https://github.com/SwerveDriveSpecialties/swerve-lib/tree/develop/src
 """
 
 
@@ -44,16 +42,27 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         swerve_level_constants: SwerveModuleMk4iConsts=SwerveModuleMk4iL2Consts()
     ) -> None:
         """
-        Creates a new swerve module at location in robot.
-        
-        Channels are defined as:
-            - channelBase = drive
-            - channelBase + 1 = steer
-            - channelBase + 2 = CANcoder
+        Creates a new swerve module at a given location in the robot.
 
-        Encoders are rotated by encoder_calibration.
-
-        Drivetrain location specifies the x and y coordinates of the module relative to the center of the drivetrain.
+        Args:
+            name: what the module should be called in any printouts
+            drivetrain_location: where the swerve module is located on the drivetrain relative to
+                the center of the drivetrain. Units should be in meters. The first coordinate is X (+ front-to-back -),
+                the second coordinate is Y (+ left-to-right -)
+            channel_base: the root of the CAN IDs for devices in the module. Channels are defined as:
+                - channelBase = drive
+                - channelBase + 1 = steer
+                - channelBase + 2 = absolute encoder
+            invert_drive: if True, flip the rotation direction that corresponds to the polarity of the drive motor input.
+                We want counter-clockwise rotation when facing the bevel to come from positive polarity
+            invert_steer: if True, flip the rotation direction that corresponds to the polarity of the steer motor input.
+                We want counter-clockwise rotation when looking down on the top of the robot to come from positive polarity
+            encoder_calibration: the starting position of the absolute encoder when the long orientation of the wheel
+                follows the X (front-to-back) axis and the bevel faces left
+            swerve_level_constants: physical constants that define properties of the swerve module
+            
+        Returns
+            None: class initialization executed upon construction
         """
         # Overall instantiation
         self.constants = swerve_level_constants
@@ -120,6 +129,14 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
     def instantiate_steer_config(self, invert: bool) -> None:
         """
+        Set a starting configuration for the SparkMax controlling the steer motor. This configuration
+        is applied once the robot is turned on and will be held through power cycles unless otherwise updated.
+
+        Args:
+            invert: if True, flip the rotation direction that corresponds to the polarity of the steer motor input
+
+        Returns:
+            None - internal steer configuration is updated in-place
         """
         configureSparkMaxCanRates(self.steer_motor_config, drive_motor_flag=False)
         (
@@ -150,6 +167,14 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
     def instantiate_drive_config(self, invert: bool) -> None:
         """
+        Set a starting configuration for the SparkMax controlling the drive motor. This configuration
+        is applied once the robot is turned on and will be held through power cycles unless otherwise updated.
+
+        Args:
+            invert: if True, flip the rotation direction that corresponds to the polarity of the drive motor input
+
+        Returns:
+            None - internal drive configuration is updated in-place
         """
         configureSparkMaxCanRates(self.drive_motor_config, drive_motor_flag=True)
         (
@@ -176,6 +201,17 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
     def apply_motor_config(self, to_drive: bool, burn_flash: bool = False) -> None:
         """
+        Push the current SparkMax configuration to the physical device. After this method is called,
+        the target SparkMax will reflect those configuration parameters.
+
+        Args:
+            to_drive: if True, push the drive motor's configuration to its SparkMax.
+                If False, push the steer motor's configuration to its SparkMax
+            burn_flash: if True, the configuration will be saved to memory that survives power cycles.
+                If False, the SparkMax will loose these configuration parameters once it looses power.
+
+        Returns:
+            None
         """
         motor_set = self.steer_motor
         config_use = self.steer_motor_config
@@ -194,6 +230,13 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
     def setup_smartdashboard(self, module_name: str) -> None:
         """
+        Create SmartDashboard publishers for presenting the module's telemetry data.
+
+        Args:
+            module_name: the display name of this swerve module. Must be unique from other modules.
+
+        Returns:
+            None
         """
         self.raw_absolute_angle_publisher = (
             NetworkTableInstance
@@ -246,17 +289,18 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
     def update_telemetry(self) -> None:
         """
+        Publish values representing the current state of the swerve module to SmartDashboard.
         """
         # TODO: JD move to telemetry
         # TODO: JD worth looking at putting some of these in cache?
         abs_encoder_value = self.absolute_encoder.get_absolute_position(refresh=True)
 
-        # SmartDashboard.putNumber(f"{self.name} Drive Value", self.drive_motor_encoder.getPosition())
-        # SmartDashboard.putNumber(f"{self.name} Adjusted Absolute Encoder Value", abs_encoder_value.value_as_double - self.constants.encoder_calibration)
-        # SmartDashboard.putNumber(f"{self.name} Raw Angle Value", self.steer_motor_encoder.getPosition())
-        # SmartDashboard.putBoolean(f"{self.name} Absolute Encoder Issue Publisher", not abs_encoder_value.status.is_ok())
-        # SmartDashboard.putNumber(f"{self.name} Raw Absolute Encoder Publisher", abs_encoder_value.value_as_double)
-        # SmartDashboard.putNumber(f"{self.name} Raw Drive Velocity Publisher", self.drive_motor_encoder.getVelocity())
+        SmartDashboard.putNumber(f"{self.name} Drive Value", self.drive_motor_encoder.getPosition())
+        SmartDashboard.putNumber(f"{self.name} Adjusted Absolute Encoder Value", abs_encoder_value.value_as_double - self.constants.encoder_calibration)
+        SmartDashboard.putNumber(f"{self.name} Raw Angle Value", self.steer_motor_encoder.getPosition())
+        SmartDashboard.putBoolean(f"{self.name} Absolute Encoder Issue Publisher", not abs_encoder_value.status.is_ok())
+        SmartDashboard.putNumber(f"{self.name} Raw Absolute Encoder Publisher", abs_encoder_value.value_as_double)
+        SmartDashboard.putNumber(f"{self.name} Raw Drive Velocity Publisher", self.drive_motor_encoder.getVelocity())
 
         # abs_encoder_value = self.absolute_encoder.get_absolute_position(refresh=True)
         # self.abs_encoder_issue_publisher.set(not abs_encoder_value.status.is_ok())
@@ -269,6 +313,10 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
     def baseline_relative_encoders(self) -> None:
         """
+        "Zero-out" the relative drive and steer relative encoders to ensure the robot starts from a clean slate.
+        The drive encoder is set to 0 because the robot is beginning from an origin position. The steer encoder is
+        set to the absolute encoder's position to ensure that the relative and absolute encoders are aligned upon
+        startup.
         """
         self.drive_motor_encoder.setPosition(0)
         current_absolute_rotation = self.absolute_encoder.get_absolute_position(refresh=True)
@@ -276,8 +324,14 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
             raise RuntimeError("Failed to retrieve starting absolute encoder position baselining relative encoders")
         self.steer_motor_encoder.setPosition((current_absolute_rotation.value_as_double * 360.0) % (360.0))
 
-    def current_raw_absolute_encoder_value(self) -> float:
+    def current_raw_absolute_encoder_value(self) -> float | None:
         """
+        Get the value from the absolute encoder. When the long orientation of the wheel is perfectly aligned
+        with the X (front-to-back) axis and the bevel is facing left, this value should be zero.
+
+        Returns:
+            The absolute encoder's value, in fractional rotations with domain [0, 1), if available.
+                If not available, return None
         """
         abs_value = self.absolute_encoder.get_absolute_position(refresh=True)
         if abs_value.status.is_ok():
@@ -286,6 +340,12 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
     def current_raw_absolute_steer_position(self) -> float:
         """
+        Get the value absolute value of the steer motor's rotation position. When the long orientation of
+        the wheel is perfectly aligned with the X (front-to-back) axis and the bevel is facing left, this
+        value should be zero.
+
+        Returns:
+            The steer motor's current absolute rotation position, in degrees with domain [0, 360).
         """
         # TODO: JD see if want to use absolute encoder at all here
         # steer_position = self.current_raw_absolute_encoder_value()
@@ -299,6 +359,11 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
     def current_position(self) -> SwerveModulePosition:
         """
+        Get the current position of the serve module. Position is defined as how far, in meters, the
+        drive motor has driven and the current absolute rotation angle, in degrees, of the steer motor.
+
+        Returns:
+            The combined drive and steer position of the module
         """
         drive_position = self.drive_motor_encoder.getPosition()
         steer_position = Rotation2d.fromDegrees(self.current_raw_absolute_steer_position())
@@ -306,6 +371,11 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
     def current_state(self) -> SwerveModuleState:
         """
+        Get the current state of the serve module. State is defined as the current velocity, in meters per second,
+        at which the drive motor is running and the current absolute rotation angle, in degrees, of the steer motor.
+
+        Returns:
+            The combined drive and steer state of the module
         """
         current_velocity = self.drive_motor_encoder.getVelocity()
         current_angle = Rotation2d.fromDegrees(self.current_raw_absolute_steer_position())
@@ -313,6 +383,15 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
 
     def set_state(self, state: SwerveModuleState) -> None:
         """
+        Change the state of the swerve module to the given new state, using closed-loop PID control to
+        transition from the current state to the new state. This is effectively how we tell our
+        drivetrain to drive.
+
+        Args:
+            state: the new state the swerve module should immediately transition to
+
+        Returns:
+            None - PID controllers are updated in-place with new setpoints
         """
         encoder_rotation = Rotation2d.fromDegrees(self.current_raw_absolute_steer_position())
         state.optimize(encoder_rotation)
@@ -325,14 +404,19 @@ class SwerveModuleMk4iSparkMaxFalconCanCoder:
         #     cosine_scaler = 1
         # state_speed *= cosine_scaler
 
-        self.steer_motor_pid.setReference(
-            state_degrees, # TODO: JD see if works without -> if not (abs(state_degrees) < 1e-3) else 0.0,
-            rev.SparkLowLevel.ControlType.kPosition, rev.ClosedLoopSlot.kSlot0
-        )
+        self.steer_motor_pid.setReference(state_degrees, rev.SparkLowLevel.ControlType.kPosition, rev.ClosedLoopSlot.kSlot0)
         self.drive_motor_pid.setReference(state_speed, rev.SparkLowLevel.ControlType.kVelocity, rev.ClosedLoopSlot.kSlot0)
 
     def set_motor_stop_mode(self, to_drive: bool, to_break: bool) -> None:
         """
+        Change whether the target motor should slow down in break or coast mode when told to slow to a stop.
+        This is more generally called the idle mode.
+
+        Args:
+            to_drive: if True, modify the idle mode for the drive motor.
+                If False, modify the idle mode for the steer motor
+            to_break: if True, set the idle mode to break (come to a stop as soon as possible).
+                If False, set the idel mode to coast (let friction determine when the motor comes to a stop)
         """
         motor_to_set = self.steer_motor_config
         if to_drive:
