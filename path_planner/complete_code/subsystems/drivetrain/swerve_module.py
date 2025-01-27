@@ -1,6 +1,4 @@
 # Native imports
-import math
-import logging as log
 from typing import Tuple
 
 # Internal imports

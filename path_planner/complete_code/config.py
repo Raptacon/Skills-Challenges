@@ -1,12 +1,6 @@
 # Native imports
 from typing import Tuple
 
-# Internal imports
-from constants import SwerveDriveConsts
-
-# Third-party imports
-from pathplannerlib.config import ModuleConfig, RobotConfig
-
 
 class OperatorRobotConfig:
     default_start_pose: Tuple[float] = (2.0, 7.0, 0.0) #(2.0, 7.0, 0.0) #(14.535, 1.0, 180.0)
