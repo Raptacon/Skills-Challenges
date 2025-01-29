@@ -68,7 +68,7 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
                 lambda: wpimath.applyDeadband(-1 * self.driver_controller.getLeftY(), 0.06),
                 lambda: wpimath.applyDeadband(-1 * self.driver_controller.getLeftX(), 0.06),
                 lambda: wpimath.applyDeadband(-1 * self.driver_controller.getRightX(), 0.1),
-                False
+                True
             )
         )
 
