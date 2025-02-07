@@ -10,7 +10,7 @@ import wpimath
 from commands2.button import Trigger
 from pathplannerlib.path import PathPlannerPath
 from pathplannerlib.auto import AutoBuilder, PathPlannerAuto
-
+from wpilib import SmartDashboard
 
 class PathPlannerRobot(commands2.TimedCommandRobot):
     def __init__(self) -> None:
@@ -30,33 +30,34 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
 
     def robotPeriodic(self):
         commands2.CommandScheduler.getInstance().run()
-        self.vision.getCamEstimate()
 
     def disabledInit(self):
         self.drivetrain.stop_driving()
-        #self.drivetrain.reset_pose_estimator(self.drivetrain.current_pose())
+        self.drivetrain.reset_pose_estimator(self.drivetrain.current_pose())
+        pass
 
     def disabledPeriodic(self):
         pass
 
     def autonomousInit(self):
-        #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True)
-        #path = PathPlannerPath.fromPathFile("3_angular_only")
-        #self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
+        self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True, all_motor_override=True)
+        path = PathPlannerPath.fromPathFile("3_angular_only")
+        self.drivetrain.setDefaultCommand(AutoBuilder.followPath(path))
 
         self.drivetrain.setDefaultCommand(PathPlannerAuto('1M_1D_translation'))
+        pass
 
 
-        # auto_routine = self.auto_chooser.getSelected()
-        # if auto_routine:
-        #     auto_routine.schedule()
+        auto_routine = self.auto_chooser.getSelected()
+        if auto_routine:
+             auto_routine.schedule()
 
     def autonomousPeriodic(self):
         pass
 
     def teleopInit(self):
-        #self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True)
-        #self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False)
+        self.drivetrain.set_motor_stop_modes(to_drive=True, to_break=True)
+        self.drivetrain.set_motor_stop_modes(to_drive=False, to_break=False)
         self.drivetrain.setDefaultCommand(
             DefaultDrive(
                 self.drivetrain,
@@ -68,7 +69,18 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         )
 
     def teleopPeriodic(self):
-        pass
+        self.vision.getCamEstimate()
+        bestTarget = self.vision.getBestTarget()
+        if bestTarget == None:
+            return
+        targetID, yaw, pitch, skew, areaPercent = self.vision.getTargetData(bestTarget)
+        SmartDashboard.putNumber(f"target id", targetID)
+        SmartDashboard.putNumber(f"target yaw", yaw)
+        SmartDashboard.putNumber(f"target pitch", pitch)
+        SmartDashboard.putNumber(f"target skew", skew)
+        SmartDashboard.putNumber(f"target area", areaPercent)
+
+
 
     def testInit(self):
         pass
