@@ -128,7 +128,7 @@ class SwerveDrivetrain(Subsystem):
         """
         """
         return self.pose_estimator.getEstimatedPosition()
-
+    
     def current_robot_relative_speed(self) -> ChassisSpeeds:
         """
         """
@@ -145,7 +145,7 @@ class SwerveDrivetrain(Subsystem):
         for i, module_state in enumerate(module_states):
             self.swerve_modules[i].set_state(module_state)
 
-    def addVisionPoseEstimate(self, pose: Pose3d, timestamp: float) -> None:
+    def addVisionPoseEstimate(self, pose: Pose2d, timestamp: float) -> None:
         self.pose_estimator.addVisionMeasurement(pose, timestamp)
 
     def update_pose_estimator(self) -> None:

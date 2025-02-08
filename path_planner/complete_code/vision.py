@@ -1,6 +1,7 @@
 from photonlibpy import PhotonCamera, PhotonPoseEstimator, PoseStrategy
 from photonlibpy.targeting.photonTrackedTarget import PhotonTrackedTarget
 from photonlibpy.targeting.photonPipelineResult import PhotonPipelineResult
+from wpimath.geometry import Pose2d
 from robotpy_apriltag import AprilTagField, AprilTagFieldLayout
 from config import OperatorRobotConfig
 from subsystems.drivetrain.drivetrain import SwerveDrivetrain
@@ -11,32 +12,31 @@ class Vision:
         self.drive = driveTrain
         self.camPoseEst = PhotonPoseEstimator(
             AprilTagFieldLayout.loadField(AprilTagField.k2025Reefscape),
-            PoseStrategy.AVERAGE_BEST_TARGETS,
+            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
             self.cam,
             OperatorRobotConfig.robotToCam,
         )
 
-    def getLatestResult(self) -> PhotonPipelineResult:
-        return self.cam.getLatestResult()
+    def getResults(self) -> list[PhotonPipelineResult]:
+        return self.cam.getAllUnreadResults()
     
     def getCamEstimate(self):
-        camEstPose = self.camPoseEst.update(self.getLatestResult())
-        print(camEstPose == None)
-        if camEstPose:
+        bestPipeline = self.cam.getLatestResult()
+        camEstPose = self.camPoseEst.update(bestPipeline)
+        if camEstPose != None:
             self.drive.addVisionPoseEstimate(
-                camEstPose.estimatedPose, camEstPose.timestampSeconds
+                camEstPose.estimatedPose.toPose2d(), camEstPose.timestampSeconds
             )
 
-    def getBestTarget(self) -> PhotonTrackedTarget:
-        bestTarget : PhotonTrackedTarget = None
+    def getBestPipeline(self) -> PhotonPipelineResult:
+        bestTarget : PhotonPipelineResult = None
         bestArea = 0
-
         results = self.cam.getAllUnreadResults()
         if len(results) > 0:
-            result = results[-1]
-            for target in result.getTargets():
-                if target.getArea() >= bestArea:
-                    bestTarget = target
+            for result in results:
+                if result.hasTargets():
+                    if(result.getBestTarget().getArea() > bestArea):
+                        bestTarget = result
         return bestTarget
     
     def getTargetData(self, target : PhotonTrackedTarget):

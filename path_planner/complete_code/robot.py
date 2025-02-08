@@ -47,7 +47,6 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
         self.drivetrain.setDefaultCommand(PathPlannerAuto('1M_1D_translation'))
         pass
 
-
         auto_routine = self.auto_chooser.getSelected()
         if auto_routine:
              auto_routine.schedule()
@@ -70,9 +69,10 @@ class PathPlannerRobot(commands2.TimedCommandRobot):
 
     def teleopPeriodic(self):
         self.vision.getCamEstimate()
-        bestTarget = self.vision.getBestTarget()
-        if bestTarget == None:
+        bestResult = self.vision.getBestPipeline()
+        if bestResult == None:
             return
+        bestTarget = bestResult.getBestTarget()
         targetID, yaw, pitch, skew, areaPercent = self.vision.getTargetData(bestTarget)
         SmartDashboard.putNumber(f"target id", targetID)
         SmartDashboard.putNumber(f"target yaw", yaw)
