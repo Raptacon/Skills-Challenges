@@ -1,5 +1,6 @@
 certifi==2024.6.2
-pyfrc == 2024.*
-pyntcore==2024.*
-robotpy[all]
+pyfrc == 2025.*
+pyntcore==2025.*
+robotpy[all]==2025.*
 robotpy-halsim-gui
+pynetworktables
