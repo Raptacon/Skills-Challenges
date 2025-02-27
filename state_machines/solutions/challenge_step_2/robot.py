@@ -15,19 +15,21 @@ class BreakBeam(StatefulAutonomous):
 
     @state(first=True)
     def idle_state(self):
-        self.smartdashboard.putBoolean("BreakBeam", self.breakbeam.get())
-        if self.breakbeam.get():
+        self.smartdashboard.putBoolean("BreakBeam", not self.breakbeam.get())
+        if not self.breakbeam.get():
             self.next_state("beam_broken")
+        else:
+            self.next_state("beam_not_broken")
 
     @state()
     def beam_broken(self):
         # Turn the LEDS red
         for led in self.led_data:
             led.setRGB(255, 0, 0)
+        
         self.led_strip.setData(self.led_data)
 
-        if not self.breakbeam.get():
-            self.next_state("idle_state")
+        self.next_state("idle_state")
 
     @state()
     def beam_not_broken(self):
