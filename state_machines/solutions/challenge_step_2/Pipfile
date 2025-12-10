@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+robotpy = "==2025.*"
+robotpy-rev = "==2025.*"
+raptacon3200 = "2025.1.0"
+pyfrc = "*"
+wpilib = "*"
+
+[dev-packages]
+pytest = "*"
+pytest-cov = "*"
+black = "*"
+pylint = "*"
+
+[requires]
+python_version = "3.13"
