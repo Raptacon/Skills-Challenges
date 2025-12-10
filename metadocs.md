@@ -1,5 +1,5 @@
 # Notation
-- Anything contained within angle brackets, <>, should be replaced with some actual, intended variable or value.
+- Anything contained within angle brackets, <>, should be replaced with some actual, intended variable or value. For example, if I had a robot named BreadBox, then I would replace \<robot_name\> with BreadBox.
 
 # Navigation
 - Within VSCode, we generally recommend that you right click on the .md file and select "Open Preview"
