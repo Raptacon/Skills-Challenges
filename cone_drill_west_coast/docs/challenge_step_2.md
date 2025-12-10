@@ -7,7 +7,7 @@
 
 Welcome to Challenge Step 2! Now that we've moved one side of the drivetrain by using the motors, let's expand upon this and actuate the other side of the drivetrain. By having control of both sides, we'll be able to drive the robot!
 
-We can now start to think about the whole drivetrain as a subsystem. Subsystems are an integrated set of components that work together to provide a focused range of functionality. For example, an arm subsystem may consist of three motors: one to raise the arm, one to extend it, and another to run a piece grabber Drivetrain subsystems are typically comprised of the drive motors and sensors that track the distance driven and the heading (direction) of the robot. 
+We can now start to think about the whole drivetrain as a subsystem. Subsystems are an integrated set of components that work together to provide a focused range of functionality. For example, an arm subsystem may consist of three motors: one to raise the arm, one to extend it, and another to run a piece grabber. Drivetrain subsystems are typically comprised of the drive motors and sensors that track the distance driven and the heading (direction) of the robot. 
 
 If you look at the package imports in our [robot.py](../challenge_step_2/robot.py) file, you'll notice that we import our own drivetrain class from our own subsystems folder. It is generally advised to organize Python code that either a) provides similar functionality, or b) operates temporally in a common part of the program's overall control flow, in the same folders/modules. Part of this step will require you to write code within the custom WestCoastDrivetrain class that is imported into robot.py.
 
@@ -17,7 +17,7 @@ If you look at the package imports in our [robot.py](../challenge_step_2/robot.p
 
 #### Description
 
-The first step in setting up the drivetrain subsystem is to store the motors as instance attributes. This will allow use to use them in other methods within this class and extract data from them at any time. We specifically use instance attributes because we want to be able to create our drivetrain using the specific motors that exist on our physical robot - we could use a different manufacturer's motors on a different robot.
+The first step in setting up the drivetrain subsystem is to store the motors as instance attributes. This will allow us to use them in other methods within this class and extract data from them at any time. We specifically use instance attributes because we want to be able to create our drivetrain using the specific motors that exist on our physical robot - we could use a different manufacturer's motors on a different robot.
 
 #### Preexisting Assets
 
