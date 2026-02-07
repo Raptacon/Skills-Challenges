@@ -1,44 +1,60 @@
-
 import wpilib
-from raptacon3200.utils.leds import Strip
+import ntcore
+import photonlibpy
+from robotpy_apriltag import AprilTagFieldLayout, AprilTagField
+from typing import Callable
+import wpimath
+import math
 
+nt = ntcore.NetworkTableInstance.getDefault()
 
 class MyRobot(wpilib.TimedRobot):
-    """Main robot class"""
-
-    def robotInit(self):
-        """Robot-wide initialization code should go here"""
-        self.breakbeam = wpilib.DigitalInput(-1)  # The DIO port 0-9 on the RIO. You will have to physically verify this.
-        self.kLEDBuffer = -1  # Count the number of LEDs on the bot. What happens if you get it wrong?
-        self.leds = wpilib.AddressableLED(-1)  # The PWM port 0-9 on the RIO. You will have to physically verify this.
-
-        self.ledData = [wpilib.AddressableLED.LEDData() for _ in range(self.kLEDBuffer)]
-        self.strip = Strip(self.ledData, "Whatever")
-        self.currentHue = 243   # Pick your favorite Hue
-        self.currentBright = 0  # Pick how bright you'd like the LEDs
-
-        self.leds.setLength(self.kLEDBuffer)
-        self.leds.setData(self.ledData)
-        self.leds.start()
-
-    def autonomousInit(self):
-        """Called when autonomous mode is enabled"""
-        pass
-
-    def autonomousPeriodic(self):
-        pass
+    def robotInit(self): 
+        self.counter = nt.getTable("MyRobot").getEntry("Counter")
+        self.counter.setInteger(0)
+        field = AprilTagFieldLayout.loadField(AprilTagField.kDefaultField)
+        kRobotToCam = wpimath.geometry.Transform3d(
+            wpimath.geometry.Translation3d(0.0, 0.0, 0.0),
+            wpimath.geometry.Rotation3d.fromDegrees(0.0, 0.0, 0.0),
+        )
+        self.camPoseEst = photonlibpy.PhotonPoseEstimator(field,kRobotToCam,)
+        print(nt.getTopics())
+        self.camera = photonlibpy.PhotonCamera("Arducam_OV9281_USB_Camera")
+        self.yawservo = wpilib.Servo(0)
+        self.pitchservo = wpilib.Servo(1)
+        self.yawservo_pos = 0.5
+        self.pitchservo_pos = 0.5
+        self.target_pose = wpimath.geometry.Pose3d(
+            wpimath.geometry.Translation3d(4.625594, 4.034663, 1.8288),
+            wpimath.geometry.Rotation3d.fromDegrees(0.0, 0.0, 0.0),
+        )
+        self.tag_pose = wpimath.geometry.Pose3d(
+            wpimath.geometry.Translation3d(5.23, 4.03, 1.12),
+            wpimath.geometry.Rotation3d.fromDegrees(0.0, 0.0, 0.0),
+        )
 
     def teleopPeriodic(self):
-        """Called when operation control mode is enabled"""
+        targetYaw = 0.0
+        targetPitch = 0.0
+        self.counter.setInteger(self.counter.getInteger(0) + 1)
+        results = self.camera.getAllUnreadResults()
+        if len(results) > 0: 
+            result = results[-1]  # take the most recent result the camera had
+            camEstPose = self.camPoseEst.estimateCoprocMultiTagPose(result)
+            if camEstPose is None:
+                camEstPose = self.camPoseEst.estimateLowestAmbiguityPose(result)
+            if camEstPose is not None:
+                target_pose = result.getTargets()[0].getBestCameraToTarget()
+                #print(target_pose)
+                targetYaw = math.atan(target_pose.Y()/target_pose.X()) / 2 /math.pi
+                print(targetYaw * 360)
 
-        # Create a Smart Dashboard Entry for displaying the value of the breakbeam
-
-        # Create some logic that checks to see if the breakbeam is broken an if so, do something with your LEDs
-
-        # If the breakbean is NOT broken do something else, stop the LEDS or change colors
-
-        # Don't forget to write a unit test for this!
-
-        # To test, and pass this challenge, deploy your code to a bot, and observe the LEDS are not doing anything
-        # when the beam is broken, observe the LEDS are flashing/moving/exit
-        # do this several times to ensure that your logic is correct and repeatable
+        if abs(targetYaw) < 0.005: #eliminates overcorrection
+            targetYaw = 0.0
+        if abs(targetPitch) < 0.005:
+            targetPitch = 0.0
+        
+        self.yawservo_pos += targetYaw
+        self.pitchservo_pos += targetPitch
+        self.yawservo.set(self.yawservo_pos)
+        self.pitchservo.set(self.pitchservo_pos)
