@@ -25,7 +25,7 @@ class MyRobot(wpilib.TimedRobot):
         self.camPoseEst = photonlibpy.PhotonPoseEstimator(field,kRobotToCam,)
         print(nt.getTopics())
         self.camera = photonlibpy.PhotonCamera("Arducam_OV9281_USB_Camera")
-        self.yawservo = rev.SparkMax(23,rev.SparkLowLevel.MotorType.kBrushless)
+        self.yawservo = wpilib.Servo(0)
         self.pitchservo = wpilib.Servo(1)
         self.yawservo_pos = 0.5
         self.pitchservo_pos = 0.5
@@ -64,7 +64,7 @@ class MyRobot(wpilib.TimedRobot):
                 target_pose = self.target_pose - camEstPose.estimatedPose
                 self.networkTargetX.setFloat(target_pose.X())
                 targetYaw = math.atan(target_pose.Y()/target_pose.X()) / 2 /math.pi #find it
-                targetYaw = targetYaw + self.cameraAngle - self.yawservo.getAbsoluteEncoder().getPosition()
+                targetYaw = targetYaw + self.cameraAngle - self.yawservo.get()
                 # self.field.setRobotPose(camEstPose) #eventually will be odometry pose. Camera for now is center of robot.
                 
         self.yawservo_pos += targetYaw
