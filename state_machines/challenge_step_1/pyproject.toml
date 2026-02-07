@@ -6,28 +6,33 @@
 [tool.robotpy]
 
 # Version of robotpy this project depends on
-robotpy_version = "2025.3.1.1"
+robotpy_version = "2026.2.1"
 
 # Which extra RobotPy components should be installed
 # -> equivalent to `pip install robotpy[extra1, ...]
-robotpy_extras = [
-    # "all",
-    # "apriltag",
-    "commands2",
-    # "cscore",
-    # "navx",
-    # "pathplannerlib",
-    "phoenix5",
+components = [
+    "all",
+    #"apriltag",
+    # "commands2",
+    #"cscore",
+    #"navx",
+    #"pathplannerlib",
+    #"phoenix5",
+    #"phoenix6",
+    #"playingwithfusion",
+    #"rev",
+    #"romi",
+    #"sim",
+]
+# Other pip packages to install
+# Must use python -m robotpy sync to install to cache
+requires = [
+    "numpy",
     "phoenix6",
-    # "photonvision",
-    # "playingwithfusion",
-    # "rev",
-    # "romi",
-    # "sim",
-    # "xrp",
+    "robotpy-rev",
+    "robotpy-navx",
+    "robotpy-pathplannerlib",
+    "photonlibpy==2026.1.1rc4"
 ]
 
-# Other pip packages to install
-requires = [
-    "raptacon3200 == 2025.1.0"
-]
+pyfrc.isolated = true

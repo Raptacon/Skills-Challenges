@@ -12,6 +12,7 @@ class MyRobot(wpilib.TimedRobot):
     def robotInit(self): 
         self.counter = nt.getTable("MyRobot").getEntry("Counter")
         self.counter.setInteger(0)
+        self.networkTargetX = nt.getTable("MyRobot").getEntry("targetX")
         field = AprilTagFieldLayout.loadField(AprilTagField.kDefaultField)
         kRobotToCam = wpimath.geometry.Transform3d(
             wpimath.geometry.Translation3d(0.0, 0.0, 0.0),
@@ -37,6 +38,7 @@ class MyRobot(wpilib.TimedRobot):
         targetYaw = 0.0
         targetPitch = 0.0
         self.counter.setInteger(self.counter.getInteger(0) + 1)
+        
         results = self.camera.getAllUnreadResults()
         if len(results) > 0: 
             result = results[-1]  # take the most recent result the camera had
@@ -44,15 +46,18 @@ class MyRobot(wpilib.TimedRobot):
             if camEstPose is None:
                 camEstPose = self.camPoseEst.estimateLowestAmbiguityPose(result)
             if camEstPose is not None:
-                target_pose = result.getTargets()[0].getBestCameraToTarget()
-                #print(target_pose)
+                target_pose = self.target_pose - camEstPose.estimatedPose
+                self.networkTargetX.setFloat(target_pose.X())
                 targetYaw = math.atan(target_pose.Y()/target_pose.X()) / 2 /math.pi
-                print(targetYaw * 360)
+                
+                #print(self.target_pose.Y())
+        #print("x =" + str(self.target_pose.X()))
+        #print("\n")
 
-        if abs(targetYaw) < 0.005: #eliminates overcorrection
-            targetYaw = 0.0
-        if abs(targetPitch) < 0.005:
-            targetPitch = 0.0
+        #if abs(targetYaw) < 0.007: #eliminates overcorrection
+        #   targetYaw = 0.0
+        #if abs(targetPitch) < 0.007:
+        #   targetPitch = 0.0
         
         self.yawservo_pos += targetYaw
         self.pitchservo_pos += targetPitch

@@ -1,6 +1,17 @@
-certifi==2024.6.2
-pyfrc == 2025.*
-pyntcore==2025.*
-robotpy[all]==2025.*
-robotpy-halsim-gui
-pynetworktables
+cryptography==44.0.1
+pyflakes
+py2app
+macholib
+modulegraph
+flake8
+coverage
+wheel
+# numpy
+robotpy[all]==2026.*
+robotpy-rev==2026.0.1
+robotpy-navx==2026.0.0
+robotpy-pathplannerlib==2026.1.1
+phoenix6==26.1.0
+photonlibpy==2026.1.1rc4
+# pyntcore==2025.*
+# raptacon3200>=2025.0.1
