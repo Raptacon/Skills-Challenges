@@ -7,6 +7,7 @@ from typing import Callable
 import wpimath
 from wpimath.geometry import Pose2d, Rotation2d
 import math
+import rev
 
 nt = ntcore.NetworkTableInstance.getDefault()
 
@@ -24,10 +25,11 @@ class MyRobot(wpilib.TimedRobot):
         self.camPoseEst = photonlibpy.PhotonPoseEstimator(field,kRobotToCam,)
         print(nt.getTopics())
         self.camera = photonlibpy.PhotonCamera("Arducam_OV9281_USB_Camera")
-        self.yawservo = wpilib.Servo(0)
+        self.yawservo = rev.SparkMax(23,rev.SparkLowLevel.MotorType.kBrushless)
         self.pitchservo = wpilib.Servo(1)
         self.yawservo_pos = 0.5
         self.pitchservo_pos = 0.5
+        self.cameraAngle = 0.5
         self.target_pose = wpimath.geometry.Pose3d(
             wpimath.geometry.Translation3d(4.625594, 4.034663, 1.8288),
             wpimath.geometry.Rotation3d.fromDegrees(0.0, 0.0, 0.0),
@@ -41,15 +43,13 @@ class MyRobot(wpilib.TimedRobot):
         self.field.getObject("Target").setPose(
             Pose2d(4.655, 4.019, 0.0)
         )
-        self.controller = wpilib.XboxController(0)
-        self.x = 0.0
-        self.y = 0.0
-        self.heading = 0.0
-        self.maxSpeed = 3.0      # m/s
-        self.maxTurn = 2.5       # rad/s
-        self.lastTime = wpilib.Timer.getFPGATimestamp()
+        # self.jordanMotor = rev.SparkMax(23, rev.SparkLowLevel.MotorType.kBrushless)
+        # self.jordanMotorEncoder = self.jordanMotor.getEncoder()
+
+
 
     def teleopPeriodic(self):
+        
         targetYaw = 0.0
         targetPitch = 0.0
         self.counter.setInteger(self.counter.getInteger(0) + 1)
@@ -63,24 +63,19 @@ class MyRobot(wpilib.TimedRobot):
             if camEstPose is not None:
                 target_pose = self.target_pose - camEstPose.estimatedPose
                 self.networkTargetX.setFloat(target_pose.X())
-                targetYaw = math.atan(target_pose.Y()/target_pose.X()) / 2 /math.pi
+                targetYaw = math.atan(target_pose.Y()/target_pose.X()) / 2 /math.pi #find it
+                targetYaw = targetYaw + self.cameraAngle - self.yawservo.getAbsoluteEncoder().getPosition()
+                # self.field.setRobotPose(camEstPose) #eventually will be odometry pose. Camera for now is center of robot.
                 
-        #print(self.target_pose.Y())
-        #print("x =" + str(self.target_pose.X()))
-        #print("\n")
-
-        #if abs(targetYaw) < 0.007: #eliminates overcorrection
-        #   targetYaw = 0.0
-        #if abs(targetPitch) < 0.007:
-        #   targetPitch = 0.0
-        
         self.yawservo_pos += targetYaw
         self.pitchservo_pos += targetPitch
         self.yawservo.set(self.yawservo_pos)
+        #self.yawservo.set()
         self.pitchservo.set(self.pitchservo_pos)
 
-        #field stuff
-        #self.field.setRobotPose(self.odometry.getPose())
+        #self.jordanMotor.set(0.3)
+
+        #field stuff -- where setrobotpose originally was
 
         # #controller stuff
         # now = wpilib.Timer.getFPGATimestamp()
