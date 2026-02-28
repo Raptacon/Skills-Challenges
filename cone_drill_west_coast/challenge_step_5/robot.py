@@ -37,7 +37,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # This lets us cleanly refer to the functionality in the timed robot class
         super().__init__()
 
-        addressableLEDs.__init__()
+        self.addressableLEDs = addressableLEDs()
 
     def disabledInit(self):
         """
@@ -99,7 +99,8 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         The "periodic" teleoperated method is often used perform specific manuevers
         with the drivetrain and/or to actuate our mechanisms.
         """
-        addressableLEDs.lightLEDs()
+        self.addressableLEDs.lightLEDs()
+
 
     def testInit(self):
         """
