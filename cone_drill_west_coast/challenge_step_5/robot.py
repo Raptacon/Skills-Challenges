@@ -2,7 +2,7 @@ import commands2
 # import phoenix5
 import wpilib
 
-
+from addressableLEDs import addressableLEDs
 
 
 class WestCoastRobot(commands2.TimedCommandRobot):
@@ -37,19 +37,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # This lets us cleanly refer to the functionality in the timed robot class
         super().__init__()
 
-        # ***
-        # FOR YOU (1.1)
-
-        # <your code here>
-
-        # ***
-
-        # ***
-        # FOR YOU (1.2)
-
-        # <your code here>
-
-        # ***
+        addressableLEDs.__init__()
 
     def disabledInit(self):
         """
@@ -111,15 +99,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         The "periodic" teleoperated method is often used perform specific manuevers
         with the drivetrain and/or to actuate our mechanisms.
         """
-        # ***
-        # FOR YOU (1.3)
-
-        # <your code here>
-
-        # Delete the "pass" when you have some code written above
-        pass
-
-        # ***
+        addressableLEDs.lightLEDs()
 
     def testInit(self):
         """
