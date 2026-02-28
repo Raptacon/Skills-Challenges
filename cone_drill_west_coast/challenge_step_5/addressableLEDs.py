@@ -1,11 +1,13 @@
 import wpilib
+import time
 
 class addressableLEDs:
     def __init__(self):
         #Ensure LEDs are connected to PWM, not DIO.
         self.lengthLED = 10
-        self.activatedLED = 1
+        self.activatedLED = 0
         self.movementLED = 1
+        self.speedLED = 0.1
         
         self.led = wpilib.AddressableLED(9)
         self.led.setLength(self.lengthLED)
@@ -29,3 +31,5 @@ class addressableLEDs:
         if self.activatedLED == 0 or self.activatedLED <= 0:
             self.movementLED = 1
         self.activatedLED += self.movementLED
+
+        time.sleep(self.speedLED)
