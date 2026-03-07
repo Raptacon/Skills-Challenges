@@ -89,8 +89,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         The "init" teleoperated method is often used to provide a standard
         instruction interface for a select choice of robot mechanisms.
         """
-        self.addressableLEDs.offset = 0
-        
+        pass
 
     def teleopPeriodic(self):
         """
@@ -101,7 +100,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         The "periodic" teleoperated method is often used perform specific manuevers
         with the drivetrain and/or to actuate our mechanisms.
         """
-        # self.addressableLEDs.lightLEDs()
+        self.addressableLEDs.lightLEDs()
         # self.addressableLEDs.lightMatrix(gridwidth = 18, gridlength = 10, LEDPattern=[
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -116,20 +115,6 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # ], deadspace=[0,8,8,9,8,8,8,8,8,9,0,0],
         # offset=[0,1,0,0,-1,0,-1,0,-1,-1,-1]
         # )
-        self.addressableLEDs.lightExtendedMatrix(gridextendedwidth = 36, gridwidth = 18, gridlength = 10, LEDPattern=[
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        ], deadspace=[0,8,8,9,8,8,8,8,8,9,0,0],
-        internaloffset=[0,1,0,0,-1,0,-1,0,-1,-1,-1]
-        )
 
 
     def testInit(self):
