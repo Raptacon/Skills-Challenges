@@ -13,6 +13,12 @@ class addressableLEDs:
         self.led.setLength(self.lengthLED)
         self.led_buffer = []
 
+        self.LEDPosition = 0
+
+        self.allactivateLEDs = []
+        self.gridLength = 0
+        self.gridWidth = 0
+
     def lightLEDs(self):
         self.led_buffer = []
         for i in range(self.lengthLED):
@@ -32,4 +38,24 @@ class addressableLEDs:
             self.movementLED = 1
         self.activatedLED += self.movementLED
 
-        time.sleep(self.speedLED)
+    def lightMatrix(self, LEDPattern):
+        self.led_buffer = []
+        for width in LEDPattern:
+            self.gridLength += 1
+            for length in len(LEDPattern[width]):
+                if LEDPattern[width][length] == 1:
+                    self.allactivateLEDs.append(self.determineLEDPosition(horizontal = width, vertical = length))
+
+        for i in self.allactivateLEDs:
+            led_data = wpilib.AddressableLED.LEDData()
+            if self.allactivateLEDs[i] != 0:
+                led_data.setLED(wpilib.Color.kAzure)
+            else:
+                led_data.setLED(wpilib.Color.kBlack)
+            self.led_buffer.append(led_data)
+        self.led.setData(self.led_buffer)
+        self.led.start()
+
+    def determineLEDPosition(self, horizontal, vertical):
+        self.LEDPosition = (self.gridLength(horizontal % 2) + (self.gridWidth + 1) + vertical)
+        return self.LEDPosition

@@ -99,7 +99,10 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         The "periodic" teleoperated method is often used perform specific manuevers
         with the drivetrain and/or to actuate our mechanisms.
         """
-        self.addressableLEDs.lightLEDs()
+        # self.addressableLEDs.lightLEDs()
+        self.addressableLEDs.lightGrid([0,0,0,1]
+                                       [1,0,0,0]
+                                       [1,0,0,0])
 
 
     def testInit(self):
