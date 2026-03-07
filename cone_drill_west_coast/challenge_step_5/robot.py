@@ -115,7 +115,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # ], deadspace=[0,8,8,9,8,8,8,8,8,9,0,0],
         # offset=[0,1,0,0,-1,0,-1,0,-1,-1,-1]
         # )
-        self.addressableLEDs.lightExtendedMatrix(gridextendedwidth = 36, gridwidth = 18, gridlength = 10, LEDPattern=[
+        self.addressableLEDs.lightExtendedMatrix(gridwidth = 18, gridlength = 10, LEDPattern=[
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
