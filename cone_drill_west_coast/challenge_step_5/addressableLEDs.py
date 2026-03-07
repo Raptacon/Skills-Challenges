@@ -1,5 +1,6 @@
 import wpilib
 import time
+import itertools
 
 class addressableLEDs:
     def __init__(self):
@@ -39,21 +40,21 @@ class addressableLEDs:
             self.movementLED = 1
         self.activatedLED += self.movementLED
 
-    def lightMatrix(self, gridwidth, gridlength, LEDPattern, deadspace):
+    def lightMatrix(self, gridwidth, gridlength, LEDPattern, deadspace, offset):
         self.led_buffer = []
         self.allactivateLEDs = []
         self.deadspace = []
         self.gridLength = gridlength
         self.gridWidth = gridwidth
 
-        for width in range(self.gridWidth):
-            for length in range(self.gridLength):
+        for length in range(self.gridLength):
+            for width in range(self.gridWidth):
                 if LEDPattern[length][width] == 1:
-                    self.allactivateLEDs.append(self.determineLEDPosition(horizontal = width, vertical = length, deadspace = deadspace))
+                    self.allactivateLEDs.append(self.determineLEDPosition(horizontal = width + 1, vertical = length, deadspace = deadspace, offset = offset))
 
-        for i in range(len(self.allactivateLEDs)):
+        for i in range(self.lengthLED):
             led_data = wpilib.AddressableLED.LEDData()
-            if self.allactivateLEDs[i] != 0:
+            if i in self.allactivateLEDs:
                 led_data.setLED(wpilib.Color.kAzure)
             else:
                 led_data.setLED(wpilib.Color.kBlack)
@@ -61,10 +62,9 @@ class addressableLEDs:
         self.led.setData(self.led_buffer)
         self.led.start()
 
-    def determineLEDPosition(self, horizontal, vertical, deadspace):
-        currentDeadspace = deadspace[vertical]
-        if horizontal % 2:
-            self.LEDPosition = (self.gridLength - horizontal) + (self.gridWidth + 1) * vertical + currentDeadspace
+    def determineLEDPosition(self, horizontal, vertical, deadspace, offset):
+        if vertical % 2 == 0:
+            self.LEDPosition = (self.gridWidth - horizontal) + (vertical * self.gridLength) + list(itertools.accumulate(deadspace))[vertical] * 2 + offset[vertical]
         else:
-            self.LEDPosition = horizontal + (self.gridWidth + 1) * vertical + currentDeadspace
+            self.LEDPosition = horizontal + (vertical * self.gridLength) + list(itertools.accumulate(deadspace))[vertical] * 2 + offset[vertical]
         return self.LEDPosition
