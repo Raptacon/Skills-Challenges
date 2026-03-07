@@ -46,8 +46,8 @@ class addressableLEDs:
         self.gridLength = gridlength
         self.gridWidth = gridwidth
 
-        for width in self.gridWidth:
-            for length in self.gridLength:
+        for width in range(self.gridWidth):
+            for length in range(self.gridLength):
                 if LEDPattern[width][length] == 1:
                     self.allactivateLEDs.append(self.determineLEDPosition(horizontal = width, vertical = length, deadspace = deadspace))
 
