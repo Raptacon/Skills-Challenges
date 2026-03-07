@@ -48,10 +48,10 @@ class addressableLEDs:
 
         for width in range(self.gridWidth):
             for length in range(self.gridLength):
-                if LEDPattern[width][length] == 1:
+                if LEDPattern[length][width] == 1:
                     self.allactivateLEDs.append(self.determineLEDPosition(horizontal = width, vertical = length, deadspace = deadspace))
 
-        for i in self.allactivateLEDs:
+        for i in range(len(self.allactivateLEDs)):
             led_data = wpilib.AddressableLED.LEDData()
             if self.allactivateLEDs[i] != 0:
                 led_data.setLED(wpilib.Color.kAzure)
@@ -62,8 +62,9 @@ class addressableLEDs:
         self.led.start()
 
     def determineLEDPosition(self, horizontal, vertical, deadspace):
+        currentDeadspace = deadspace[vertical]
         if horizontal % 2:
-            self.LEDPosition = ((self.gridLength - horizontal) + (self.gridWidth + 1) * vertical + deadspace[vertical])
+            self.LEDPosition = (self.gridLength - horizontal) + (self.gridWidth + 1) * vertical + currentDeadspace
         else:
-            self.LEDPosition = (horizontal + (self.gridWidth + 1) * vertical + deadspace[vertical])
+            self.LEDPosition = horizontal + (self.gridWidth + 1) * vertical + currentDeadspace
         return self.LEDPosition
