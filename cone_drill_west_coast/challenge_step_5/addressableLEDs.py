@@ -41,6 +41,10 @@ class addressableLEDs:
 
     def lightMatrix(self, LEDPattern, deadspace):
         self.led_buffer = []
+        self.allactivateLEDs = []
+        self.deadspace = []
+        self.gridLength = 0
+        self.gridWidth = 0
         for width in LEDPattern:
             self.gridLength += 1
             for length in LEDPattern:

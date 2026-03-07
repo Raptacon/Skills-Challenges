@@ -103,8 +103,8 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         # self.addressableLEDs.lightLEDs()
         self.addressableLEDs.lightMatrix(LEDPattern=[
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         ], deadspace=[[8,8,9,8,8,8,8,8,9]]
         )
 
