@@ -100,9 +100,9 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         with the drivetrain and/or to actuate our mechanisms.
         """
         # self.addressableLEDs.lightLEDs()
-        self.addressableLEDs.lightGrid([0,0,0,1]
-                                       [1,0,0,0]
-                                       [1,0,0,0])
+        self.addressableLEDs.lightMatrix([0,0,0,1]
+                                        [1,0,0,0]
+                                        [1,0,0,0])
 
 
     def testInit(self):
