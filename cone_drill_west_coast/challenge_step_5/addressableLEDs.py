@@ -65,7 +65,7 @@ class addressableLEDs:
                 self.led.setData(self.led_buffer)
                 self.led.start()
 
-    def lightExtendedMatrix(self, gridwidth, gridlength, LEDPattern, deadspace):
+    def lightExtendedMatrix(self, gridwidth, gridlength, LEDPattern, deadspace, internaloffset):
         self.led_buffer = []
         self.allactivateLEDs = []
         self.deadspace = []
@@ -75,7 +75,7 @@ class addressableLEDs:
         for width in range(self.gridWidth):
             for length in range(self.gridLength):
                 if LEDPattern[length][width+self.offset] == 1:
-                    self.allactivateLEDs.append(self.determineLEDPosition(horizontal = width, vertical = length, deadspace = deadspace))
+                    self.allactivateLEDs.append(self.determineLEDPosition(horizontal = width, vertical = length, deadspace = deadspace, offset=internaloffset))
 
         for i in range(self.lengthLED):
             led_data = wpilib.AddressableLED.LEDData()
