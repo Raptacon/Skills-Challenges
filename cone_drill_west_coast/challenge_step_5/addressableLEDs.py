@@ -39,16 +39,16 @@ class addressableLEDs:
             self.movementLED = 1
         self.activatedLED += self.movementLED
 
-    def lightMatrix(self, LEDPattern, deadspace):
+    def lightMatrix(self, gridwidth, gridlength, LEDPattern, deadspace):
         self.led_buffer = []
         self.allactivateLEDs = []
         self.deadspace = []
-        self.gridLength = 0
-        self.gridWidth = 0
-        for width in LEDPattern:
-            self.gridLength += 1
-            for length in LEDPattern:
-                if LEDPattern == 1:
+        self.gridLength = gridlength
+        self.gridWidth = gridwidth
+
+        for width in self.gridWidth:
+            for length in self.gridLength:
+                if LEDPattern[width][length] == 1:
                     self.allactivateLEDs.append(self.determineLEDPosition(horizontal = width, vertical = length, deadspace = deadspace))
 
         for i in self.allactivateLEDs:
