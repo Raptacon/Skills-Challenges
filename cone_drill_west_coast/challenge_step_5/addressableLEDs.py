@@ -9,7 +9,7 @@ class addressableLEDs:
         self.movementLED = 1
         self.speedLED = 0.1
         
-        self.led = wpilib.AddressableLED(9)
+        self.led = wpilib.AddressableLED(1)
         self.led.setLength(self.lengthLED)
         self.led_buffer = []
 
@@ -42,8 +42,8 @@ class addressableLEDs:
         self.led_buffer = []
         for width in LEDPattern:
             self.gridLength += 1
-            for length in len(LEDPattern[width]):
-                if LEDPattern[width][length] == 1:
+            for length in LEDPattern:
+                if LEDPattern == 1:
                     self.allactivateLEDs.append(self.determineLEDPosition(horizontal = width, vertical = length))
 
         for i in self.allactivateLEDs:

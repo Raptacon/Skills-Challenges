@@ -1,6 +1,7 @@
 import commands2
 # import phoenix5
 import wpilib
+import array as arr
 
 from addressableLEDs import addressableLEDs
 
@@ -100,9 +101,10 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         with the drivetrain and/or to actuate our mechanisms.
         """
         # self.addressableLEDs.lightLEDs()
-        self.addressableLEDs.lightMatrix([0,0,0,1],
-                                        [1,0,0,0],
-                                        [1,0,0,0])
+        self.addressableLEDs.lightMatrix([
+            [0,1,0,0],
+            [0,0,1,0]
+        ])
 
 
     def testInit(self):
