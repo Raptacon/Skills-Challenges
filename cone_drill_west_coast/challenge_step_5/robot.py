@@ -101,10 +101,12 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         with the drivetrain and/or to actuate our mechanisms.
         """
         # self.addressableLEDs.lightLEDs()
-        self.addressableLEDs.lightMatrix([
-            [0,1,0,0],
-            [0,0,1,0]
-        ])
+        self.addressableLEDs.lightMatrix(LEDPattern=[
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ], deadspace=[[8,8,9,8,8,8,8,8,9]]
+        )
 
 
     def testInit(self):
