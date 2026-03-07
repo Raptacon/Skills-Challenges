@@ -4,7 +4,7 @@ import time
 class addressableLEDs:
     def __init__(self):
         #Ensure LEDs are connected to PWM, not DIO.
-        self.lengthLED = 10
+        self.lengthLED = 255
         self.activatedLED = 0
         self.movementLED = 1
         self.speedLED = 0.1
