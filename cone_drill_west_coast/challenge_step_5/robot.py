@@ -2,6 +2,8 @@ import commands2
 # import phoenix5
 import wpilib
 import array as arr
+import time
+import os
 
 from addressableLEDs import addressableLEDs
 
@@ -39,6 +41,9 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         super().__init__()
 
         self.addressableLEDs = addressableLEDs()
+        self.pongController = wpilib.XboxController(0)
+
+        self.addressableLEDs.lightPongStart(gridlength=10, gridwidth=18)
 
     def disabledInit(self):
         """
@@ -89,7 +94,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         The "init" teleoperated method is often used to provide a standard
         instruction interface for a select choice of robot mechanisms.
         """
-        pass
+        self.addressableLEDs.lightPongStart(gridlength=10, gridwidth=18)      
 
     def teleopPeriodic(self):
         """
@@ -100,7 +105,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         The "periodic" teleoperated method is often used perform specific manuevers
         with the drivetrain and/or to actuate our mechanisms.
         """
-        self.addressableLEDs.lightLEDs()
+        # self.addressableLEDs.lightLEDs()
         # self.addressableLEDs.lightMatrix(gridwidth = 18, gridlength = 10, LEDPattern=[
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -112,23 +117,31 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        # ], deadspace=[0,8,8,9,8,8,8,8,8,9,0,0],
-        # offset=[0,1,0,0,-1,0,-1,0,-1,-1,-1]
-        # )
-        self.addressableLEDs.lightExtendedMatrix(gridwidth = 18, gridlength = 10, LEDPattern=[
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        ], deadspace=[0,8,8,9,8,8,8,8,8,9,0,0],
-        internaloffset=[0,1,0,0,-1,0,-1,0,-1,-1,-1]
-        )
+        # ])
+        # self.addressableLEDs.lightExtendedMatrix(gridwidth = 18, gridlength = 10, LEDPattern=[
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        # ])
+        if self.addressableLEDs.lightPongPeriodic(self.pongController.getLeftY(), self.pongController.getRightY()) is not None:
+            if self.addressableLEDs.lightPongPeriodic(self.pongController.getLeftY(), self.pongController.getRightY()) == "left":
+                self.addressableLEDs.rightscore += 1
+            elif self.addressableLEDs.lightPongPeriodic(self.pongController.getLeftY(), self.pongController.getRightY()) == "right":
+                self.addressableLEDs.leftscore += 1
+            self.addressableLEDs.lightPongStart(gridlength=10, gridwidth=18)
+        if self.addressableLEDs.leftscore >= 10 or self.addressableLEDs.rightscore >= 10:
+            print("Game Over!")
+            self.addressableLEDs.lightLEDs(wpilib.Color.kAzure)
+            time.sleep(2.5)
+            self.addressableLEDs.lightLEDs(wpilib.Color.kBlack)
+            os._exit(1)
 
     def testInit(self):
         """
