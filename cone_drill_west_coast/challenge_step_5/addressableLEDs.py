@@ -116,9 +116,9 @@ class addressableLEDs:
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = 0, vertical = self.leftpongposition))
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = 0, vertical = self.leftpongposition + 1))
         
-        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridLength, vertical = self.rightpongposition - 1))
-        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridLength, vertical = self.rightpongposition))
-        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridLength, vertical = self.rightpongposition + 1))
+        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridWidth - 1, vertical = self.rightpongposition - 1))
+        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridWidth - 1, vertical = self.rightpongposition))
+        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridWidth - 1, vertical = self.rightpongposition + 1))
 
     def lightPongPeriodic(self, xControllerPosition, yControllerPosition):
         self.led_buffer = []
@@ -170,9 +170,9 @@ class addressableLEDs:
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = 0, vertical = self.leftpongposition))
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = 0, vertical = self.leftpongposition + 1))
         
-        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridLength, vertical = self.rightpongposition - 1))
-        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridLength, vertical = self.rightpongposition))
-        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridLength, vertical = self.rightpongposition + 1))
+        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridWidth - 1, vertical = self.rightpongposition - 1))
+        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridWidth - 1, vertical = self.rightpongposition))
+        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridWidth - 1, vertical = self.rightpongposition + 1))
         
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.ballx, vertical = self.bally))
         
