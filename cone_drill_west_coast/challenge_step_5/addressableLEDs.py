@@ -2,6 +2,7 @@ import wpilib
 import time
 import itertools
 import random
+import math
 
 class addressableLEDs:
     def __init__(self):
@@ -16,11 +17,11 @@ class addressableLEDs:
         self.led_buffer = []
 
         self.LEDPosition = 0
-        self.controllerSensitivity = 0.5
+        self.controllerSensitivity = 0.51
 
         self.allactivateLEDs = []
-        self.deadspace = [0,8,8,9,8,8,8,8,8,9,0,0,0]
-        self.internaloffset = [0,1,0,0,-1,0,-1,0,-1,-1,-1]
+        self.deadspace = [0,8,8,9,8,8,8,8,8,9,0,0,0,0]
+        self.internaloffset = [0,1,0,0,-1,0,-1,0,-1,-1,-1,0]
         self.gridLength = 0
         self.gridWidth = 0
 
@@ -60,7 +61,7 @@ class addressableLEDs:
                 if LEDPattern[length][width] == 1:
                     self.allactivateLEDs.append(self.determineLEDPosition(horizontal = width + 1, vertical = length))
 
-        for i in range(len(self.allactivateLEDs)):
+        for i in range(self.lengthLED):
                 led_data = wpilib.AddressableLED.LEDData()
                 if self.allactivateLEDs[i] != 0:
                     led_data.setLED(wpilib.Color.kAzure)
@@ -103,14 +104,14 @@ class addressableLEDs:
         self.leftpongposition = 5
         self.rightpongposition = 5
         
-        self.ballx = 0
-        self.bally = 0
-        self.ballvelocityY = round(random.uniform(-1.0,1.0))
+        self.ballx = 9
+        self.bally = 5
+        self.ballvelocityY = 0.25
 
         if random.randint(1,2) == 1:
-            self.ballvelocityX = 1
+            self.ballvelocityX = 0.1
         else:
-            self.ballvelocityX = -1
+            self.ballvelocityX = -0.1
 
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = 0, vertical = self.leftpongposition - 1))
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = 0, vertical = self.leftpongposition))
@@ -120,21 +121,27 @@ class addressableLEDs:
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridWidth - 1, vertical = self.rightpongposition))
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridWidth - 1, vertical = self.rightpongposition + 1))
 
+        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.ballx, vertical = self.bally))
+
     def lightPongPeriodic(self, xControllerPosition, yControllerPosition):
         self.led_buffer = []
         self.allactivateLEDs = []
 
-        if self.ballx == 1:
+        if self.ballx <= 1:
             if (self.bally == self.leftpongposition 
                 or self.bally == self.leftpongposition - 1 
-                or self.bally == self.leftpongposition + 1):
+                or self.bally == self.leftpongposition + 1
+                or (self.bally == self.leftpongposition - 2 and self.ballx == -1)
+                or self.bally == self.leftpongposition + 2 and self.ballx == -1):
                     self.ballvelocityX *= -1
             else:
                 return("left")
-        elif self.ballx == self.gridWidth - 1:
+        elif self.ballx >= self.gridWidth - 1:
             if (self.bally == self.rightpongposition
                 or self.bally == self.rightpongposition - 1
-                or self.bally == self.rightpongposition + 1):
+                or self.bally == self.rightpongposition + 1
+                or self.bally == self.rightpongposition - 2 and self.ballx == self.gridWidth
+                or self.bally == self.rightpongposition + 2 and self.ballx == self.gridWidth):
                     self.ballvelocityX *= -1
             else:
                 return("right")
@@ -142,28 +149,24 @@ class addressableLEDs:
             print("Scores: " + str(self.leftscore) + "-" + str(self.rightscore))
 
         if self.leftpongposition >= 9:
-            self.leftpongposition = 9
-        else:
-            self.leftpongposition += xControllerPosition * self.controllerSensitivity
-        if self.leftpongposition <= 1:
-            self.leftpongposition = 1
+            self.leftpongposition = 8
+        elif self.leftpongposition <= 1:
+            self.leftpongposition = 2
         else:       
-            self.leftpongposition += xControllerPosition * self.controllerSensitivity       
+            self.leftpongposition += round(xControllerPosition * self.controllerSensitivity)
         if self.rightpongposition >= 9:
-            self.rightpongposition = 9
+            self.rightpongposition = 8
+        elif self.rightpongposition <= 1:
+            self.rightpongposition = 2
         else:
-            self.rightpongposition += yControllerPosition * self.controllerSensitivity
-        if self.rightpongposition <= 1:
-            self.rightpongposition = 1
-        else:
-            self.rightpongposition += yControllerPosition * self.controllerSensitivity
+            self.rightpongposition += round(yControllerPosition * self.controllerSensitivity)
 
         self.ballx += self.ballvelocityX
         self.bally += self.ballvelocityY
 
-        if self.bally == 0:
+        if self.bally <= 0:
             self.ballvelocityY *= -1
-        if self.bally == self.gridWidth:
+        if self.bally >= self.gridLength - 2:
             self.ballvelocityY *= -1
 
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = 0, vertical = self.leftpongposition - 1))
@@ -174,7 +177,7 @@ class addressableLEDs:
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridWidth - 1, vertical = self.rightpongposition))
         self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.gridWidth - 1, vertical = self.rightpongposition + 1))
         
-        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = self.ballx, vertical = self.bally))
+        self.allactivateLEDs.append(self.determineLEDPosition(horizontal = int(round(self.ballx)), vertical = int(round(self.bally))))
         
         for i in range(self.lengthLED):
             led_data = wpilib.AddressableLED.LEDData()
@@ -187,14 +190,15 @@ class addressableLEDs:
         self.led.start()
 
         print("Pong Positions: " + str(self.leftpongposition) + "-" + str(self.rightpongposition))
+        print("Ball Position: " + str(self.ballx) + ", " + str(self.bally))
 
         return None
 
     def determineLEDPosition(self, horizontal, vertical):
-        # if abs(horizontal) >= self.gridWidth:
-        #     return 0
-        # if abs(vertical) >= self.gridLength:
-        #     return 0
+        if abs(horizontal) >= self.gridWidth:
+            return 0
+        if abs(vertical) >= self.gridLength:
+            return 0
 
         if vertical % 2 == 0:
             self.LEDPosition = (self.gridWidth - horizontal) + (vertical * self.gridLength) + list(itertools.accumulate(self.deadspace))[int(vertical)] * 2 + self.internaloffset[int(vertical)]

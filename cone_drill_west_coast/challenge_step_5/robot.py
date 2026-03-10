@@ -94,7 +94,8 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         The "init" teleoperated method is often used to provide a standard
         instruction interface for a select choice of robot mechanisms.
         """
-        self.addressableLEDs.lightPongStart(gridlength=10, gridwidth=18)      
+        self.addressableLEDs.lightPongStart(gridlength=10, gridwidth=18)
+        time.sleep(1)
 
     def teleopPeriodic(self):
         """
@@ -135,10 +136,25 @@ class WestCoastRobot(commands2.TimedCommandRobot):
                 self.addressableLEDs.rightscore += 1
             elif self.addressableLEDs.lightPongPeriodic(self.pongController.getLeftY(), self.pongController.getRightY()) == "right":
                 self.addressableLEDs.leftscore += 1
+            time.sleep(0.5)
+            self.addressableLEDs.lightLEDs(wpilib.Color.kBlack)
+            time.sleep(1.0)
             self.addressableLEDs.lightPongStart(gridlength=10, gridwidth=18)
         if self.addressableLEDs.leftscore >= 10 or self.addressableLEDs.rightscore >= 10:
             print("Game Over!")
             self.addressableLEDs.lightLEDs(wpilib.Color.kAzure)
+            # self.addressableLEDs.lightMatrix(gridwidth = 18, gridlength = 10, LEDPattern=[
+            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            # ])
             time.sleep(2.5)
             self.addressableLEDs.lightLEDs(wpilib.Color.kBlack)
             os._exit(1)
