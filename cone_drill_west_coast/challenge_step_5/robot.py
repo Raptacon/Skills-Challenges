@@ -43,7 +43,12 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         self.addressableLEDs = addressableLEDs()
         self.pongController = wpilib.XboxController(0)
 
-        self.addressableLEDs.lightPongStart(gridlength=10, gridwidth=18)
+        # self.gridlength = 16
+        # self.gridwidth = 16
+        self.gridlength = 10
+        self.gridwidth = 18
+
+        self.addressableLEDs.lightPongStart(gridlength=self.gridlength, gridwidth=self.gridwidth)
 
     def disabledInit(self):
         """
@@ -51,7 +56,6 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         state. When the robot is disabled, it should stop functioning and do
         nothing. This state is often used to ensure safety.
         """
-        # "pass" is a Python keyword saying that we are doing nothing in this method
         pass
 
     def disabledPeriodic(self):
@@ -60,7 +64,8 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         disabled state. You can think of this as a time-spaced "while" loop that
         keeps running until the robot exists the disabled state. 
         """
-        pass
+        self.lightPong(True, True)
+
 
     def autonomousInit(self):
         """
@@ -94,8 +99,10 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         The "init" teleoperated method is often used to provide a standard
         instruction interface for a select choice of robot mechanisms.
         """
-        self.addressableLEDs.lightPongStart(gridlength=10, gridwidth=18)
+        self.addressableLEDs.lightPongStart(gridlength=self.gridlength, gridwidth=self.gridwidth)
+
         time.sleep(1)
+
 
     def teleopPeriodic(self):
         """
@@ -106,7 +113,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         The "periodic" teleoperated method is often used perform specific manuevers
         with the drivetrain and/or to actuate our mechanisms.
         """
-        # self.addressableLEDs.lightLEDs()
+        # self.addressableLEDs.lightLEDs(wpilib.Color.kAzure)
         # self.addressableLEDs.lightMatrix(gridwidth = 18, gridlength = 10, LEDPattern=[
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -120,44 +127,19 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         # ])
         # self.addressableLEDs.lightExtendedMatrix(gridwidth = 18, gridlength = 10, LEDPattern=[
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        # #   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]                                                                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,1,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,1,0,0,1,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,1,1,1,1,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         # ])
-        if self.addressableLEDs.lightPongPeriodic(self.pongController.getLeftY(), self.pongController.getRightY()) is not None:
-            if self.addressableLEDs.lightPongPeriodic(self.pongController.getLeftY(), self.pongController.getRightY()) == "left":
-                self.addressableLEDs.rightscore += 1
-            elif self.addressableLEDs.lightPongPeriodic(self.pongController.getLeftY(), self.pongController.getRightY()) == "right":
-                self.addressableLEDs.leftscore += 1
-            time.sleep(0.5)
-            self.addressableLEDs.lightLEDs(wpilib.Color.kBlack)
-            time.sleep(1.0)
-            self.addressableLEDs.lightPongStart(gridlength=10, gridwidth=18)
-        if self.addressableLEDs.leftscore >= 10 or self.addressableLEDs.rightscore >= 10:
-            print("Game Over!")
-            self.addressableLEDs.lightLEDs(wpilib.Color.kAzure)
-            # self.addressableLEDs.lightMatrix(gridwidth = 18, gridlength = 10, LEDPattern=[
-            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            #     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            # ])
-            time.sleep(2.5)
-            self.addressableLEDs.lightLEDs(wpilib.Color.kBlack)
-            os._exit(1)
+        self.lightPong(False, False)
 
     def testInit(self):
         """
@@ -174,6 +156,25 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         with the existing code in the other state methods.
         """
         pass
+
+    def lightPong(self, leftauto, rightauto):
+        leftauto = leftauto
+        rightauto = rightauto
+        if self.addressableLEDs.lightPongPeriodic(self.pongController.getLeftY(), self.pongController.getRightY(), leftauto, rightauto) is not None:
+            if self.addressableLEDs.lightPongPeriodic(self.pongController.getLeftY(), self.pongController.getRightY(), leftauto, rightauto) == "left":
+                self.addressableLEDs.rightscore += 1
+            elif self.addressableLEDs.lightPongPeriodic(self.pongController.getLeftY(), self.pongController.getRightY(), leftauto, rightauto) == "right":
+                self.addressableLEDs.leftscore += 1
+            time.sleep(0.5)
+            self.addressableLEDs.lightLEDs(wpilib.Color.kBlack)
+            time.sleep(1.0)
+            self.addressableLEDs.lightPongStart(gridlength=self.gridlength, gridwidth=self.gridwidth)
+        if self.addressableLEDs.leftscore >= 10 or self.addressableLEDs.rightscore >= 10:
+            print("Game Over!")
+            self.addressableLEDs.lightLEDs(wpilib.Color.kAzure)
+            time.sleep(10)
+            self.addressableLEDs.lightLEDs(wpilib.Color.kBlack)
+            os._exit(1)
 
 
 # This is fancy Python syntax telling the interpreter to run the indented code block
