@@ -4,6 +4,7 @@ import wpilib
 import array as arr
 import time
 import os
+import pygame
 
 from addressableLEDs import addressableLEDs
 
@@ -49,6 +50,10 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         self.gridwidth = 18
 
         self.addressableLEDs.lightPongStart(gridlength=self.gridlength, gridwidth=self.gridwidth)
+        
+        pygame.mixer.init()
+        self.imdisabled = pygame.mixer.Sound('im disabled-Audio (High).ogg')
+        self.imdisabled.set_volume(1.0)
 
     def disabledInit(self):
         """
@@ -56,7 +61,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         state. When the robot is disabled, it should stop functioning and do
         nothing. This state is often used to ensure safety.
         """
-        pass
+        self.imdisabled.play()
 
     def disabledPeriodic(self):
         """
